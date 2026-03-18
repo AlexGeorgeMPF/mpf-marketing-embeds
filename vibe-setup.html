@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+@keyframes vsa-fade-in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes vsa-fade-out{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-12px)}}
+@keyframes vsa-pop{0%{transform:scale(0.92);opacity:0}60%{transform:scale(1.04)}100%{transform:scale(1);opacity:1}}
+@keyframes vsa-tag-pop{0%{transform:scale(0.8);opacity:0}60%{transform:scale(1.06)}100%{transform:scale(1);opacity:1}}
+@keyframes vsa-check-pop{0%{transform:scale(0)}60%{transform:scale(1.3)}100%{transform:scale(1)}}
+@keyframes vsa-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes vsa-score-pop{0%{transform:scale(0);opacity:0}50%{transform:scale(1.2)}100%{transform:scale(1);opacity:1}}
+@keyframes vsa-dot-pulse{0%,100%{opacity:0.3}50%{opacity:1}}
+@keyframes vsa-shimmer{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+body{display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(145deg,#f8f6ff 0%,#ede9fe 30%,#e8e0ff 60%,#f3eeff 100%);padding:20px}
+</style>
+</head><body>
+<div id="vsaRoot" style="width:440px;height:580px;border-radius:20px;overflow:hidden;box-shadow:0 25px 50px rgba(91,33,182,0.2),0 12px 24px rgba(0,0,0,0.1);background:#fff;display:flex;flex-direction:column">
+  <div style="background:linear-gradient(135deg,#6d28d9 0%,#4c1d95 50%,#1a0a3e 100%);padding:1.75rem 1.75rem 1.25rem;text-align:center;position:relative;overflow:hidden;flex-shrink:0">
+    <div style="position:absolute;top:-60%;right:-20%;width:300px;height:300px;background:radial-gradient(circle,rgba(186,103,239,0.2) 0%,transparent 70%);pointer-events:none"></div>
+    <div style="width:48px;height:48px;border-radius:14px;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;color:#fff;margin:0 auto 0.75rem;font-size:1.25rem">⚡</div>
+    <h4 style="font-size:1.35rem;font-weight:700;color:#fff;margin:0 0 0.3rem;position:relative;z-index:1">Set Up Your Vibe Score</h4>
+    <p style="font-size:0.88rem;color:rgba(255,255,255,0.65);margin:0 0 1rem;position:relative;z-index:1">Tell us what matters to you so we can match you with roles that fit your lifestyle</p>
+    <div id="vsaDots" style="display:flex;gap:6px;justify-content:center;position:relative;z-index:1"></div>
+  </div>
+  <div id="vsaBody" style="flex:1;overflow:hidden"></div>
+  <div id="vsaFoot" style="flex-shrink:0"></div>
+</div>
+<script>
+(function(){
+var steps=[
+  {title:'Where do you want to work?',sub:'Add one or more cities, areas, or \u201cRemote anywhere\u201d',type:'location',sels:['London','Remote anywhere']},
+  {title:'How often do you want to be in the office?',sub:'Select all working patterns you would be happy with',type:'list',opts:[
+    {v:'full-time-office',l:'Full-time in the office',i:'\uD83C\uDFE2'},
+    {v:'hybrid-3',l:'Hybrid \u2014 3 days office, 2 remote',i:'\uD83D\uDCCA'},
+    {v:'hybrid-2',l:'Hybrid \u2014 2 days office, 3 remote',i:'\uD83C\uDFE0'},
+    {v:'hybrid-flex',l:'Hybrid \u2014 flexible split',i:'\uD83D\uDD04'},
+    {v:'mostly-remote',l:'Mostly remote, occasional office',i:'\uD83D\uDCBB'},
+    {v:'fully-remote',l:'Fully remote',i:'\uD83C\uDF0D'}],sels:['hybrid-2']},
+  {title:'What kind of environment suits you?',sub:'Select one or more that match your ideal workplace',type:'grid',opts:[
+    {v:'quiet',l:'Quiet & focused',d:'Heads-down, deep work environment'},
+    {v:'social',l:'Social & collaborative',d:'Open plan, team-oriented culture'},
+    {v:'academic',l:'Academic & research-led',d:'Research-driven, analytical setting'},
+    {v:'fast-paced',l:'Fast-paced & high-energy',d:'Startup energy, rapid iteration'}],sels:['social']},
+  {title:'What dress code do you prefer?',sub:'Pick one or more that suit your style',type:'list',opts:[
+    {v:'corporate',l:'Corporate',d:'Suits, formal attire',i:'\uD83D\uDC54'},
+    {v:'smart-casual',l:'Smart casual',d:'Professional but relaxed',i:'\uD83D\uDC55'},
+    {v:'casual',l:'Casual',d:'Whatever you feel comfortable in',i:'\uD83D\uDC5F'}],sels:['smart-casual']},
+  {title:'What size company appeals to you?',sub:'Select one or more that match your ideal workplace',type:'list',opts:[
+    {v:'startup',l:'Startup',d:'Small team, wear many hats',i:'\uD83D\uDE80'},
+    {v:'small',l:'Small company',d:'10\u201350 people, close-knit',i:'\uD83C\uDFE0'},
+    {v:'mid',l:'Mid-size',d:'50\u2013500 people, structured growth',i:'\uD83C\uDFE2'},
+    {v:'large',l:'Large organisation',d:'500+ people, clear departments',i:'\uD83C\uDFDB\uFE0F'}],sels:['small']},
+  {title:'What work pace suits you best?',sub:'Pick one or more that match your ideal rhythm',type:'grid',opts:[
+    {v:'relaxed',l:'Relaxed',d:'Steady workflow, low pressure'},
+    {v:'steady',l:'Steady',d:'Consistent pace, good balance'},
+    {v:'moderate',l:'Moderate',d:'Balanced with busy periods'},
+    {v:'intense',l:'Intense',d:'Fast-moving, deadline-driven'}],sels:['moderate']}
+];
+var dotsEl=document.getElementById('vsaDots');
+var bodyEl=document.getElementById('vsaBody');
+var footEl=document.getElementById('vsaFoot');
+var chkSvg='<svg style="animation:vsa-check-pop 0.3s ease both;color:#8b5cf6;flex-shrink:0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+var chkSm='<svg style="animation:vsa-check-pop 0.3s ease both;color:#8b5cf6" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+
+function renderDots(cur){
+  var h='';
+  for(var i=0;i<steps.length;i++){
+    var bg=i<cur?'#a78bfa':i===cur?'rgba(255,255,255,0.8)':'rgba(255,255,255,0.2)';
+    h+='<div style="width:32px;height:4px;border-radius:100px;background:'+bg+';transition:all 0.3s ease"></div>';
+  }
+  dotsEl.innerHTML=h;
+}
+
+function renderStep(cur,sel,visible){
+  var s=steps[cur];
+  var anim=visible?'animation:vsa-fade-in 0.4s ease both':'animation:vsa-fade-out 0.3s ease both';
+  var h='<div style="padding:1.5rem 1.75rem;flex:1;overflow:hidden;'+anim+'">';
+  h+='<h5 style="font-size:1.1rem;font-weight:700;color:#161c52;margin:0 0 0.25rem">'+s.title+'</h5>';
+  h+='<p style="font-size:0.85rem;color:#94a3b8;margin:0 0 1.25rem">'+s.sub+'</p>';
+
+  if(s.type==='location'){
+    var hasSel=sel.length>0;
+    h+='<div style="display:flex;align-items:flex-start;gap:0.5rem;padding:0.65rem 0.85rem;border-radius:12px;border:1.5px solid '+(hasSel?'#8b5cf6':'#e9e0fd')+';background:'+(hasSel?'#fff':'#faf8ff')+';min-height:48px;transition:all 0.2s ease;box-shadow:'+(hasSel?'0 0 0 3px rgba(139,92,246,0.12)':'none')+';flex-wrap:wrap">';
+    h+='<span style="color:#8b5cf6;font-size:1.1rem;flex-shrink:0;margin-top:2px">\uD83D\uDCCD</span>';
+    h+='<div style="display:flex;flex-wrap:wrap;gap:6px;flex:1;align-items:center">';
+    if(sel.length===0){
+      h+='<span style="font-size:0.92rem;color:#b8b0d4">e.g. Manchester, London, Remote anywhere</span>';
+    }else{
+      for(var i=0;i<sel.length;i++){
+        h+='<span style="display:inline-flex;align-items:center;gap:4px;background:linear-gradient(135deg,#ede9fe,#ddd6fe);color:#5b21b6;font-size:0.82rem;font-weight:600;padding:3px 10px;border-radius:8px;white-space:nowrap;animation:vsa-tag-pop 0.35s ease both;animation-delay:'+(i*0.1)+'s">'+sel[i]+'</span>';
+      }
+    }
+    h+='</div></div>';
+    h+='<p style="font-size:0.78rem;color:#94a3b8;font-style:italic;margin:0.75rem 0 0">This helps match you to jobs in your preferred areas</p>';
+  }
+
+  if(s.type==='list'&&s.opts){
+    h+='<div style="display:flex;flex-direction:column;gap:0.5rem">';
+    for(var i=0;i<s.opts.length;i++){
+      var o=s.opts[i];var isSel=sel.indexOf(o.v)!==-1;
+      h+='<div style="display:flex;align-items:center;gap:0.75rem;padding:0.85rem 1rem;border-radius:12px;border:1.5px solid '+(isSel?'#8b5cf6':'#eee8fd')+';background:'+(isSel?'linear-gradient(135deg,#f5f3ff,#ede9fe)':'#faf8ff')+';box-shadow:'+(isSel?'0 0 0 3px rgba(139,92,246,0.1)':'none')+';transition:all 0.25s ease;'+(isSel?'animation:vsa-pop 0.35s ease both':'')+'">';
+      h+='<span style="font-size:1.25rem;width:32px;text-align:center;flex-shrink:0">'+o.i+'</span>';
+      h+='<div style="flex:1"><span style="font-size:0.92rem;font-weight:600;color:#1e1b4b;display:block">'+o.l+'</span>';
+      if(o.d){h+='<span style="font-size:0.78rem;color:#94a3b8;display:block;margin-top:1px">'+o.d+'</span>';}
+      h+='</div>';
+      if(isSel){h+=chkSvg;}
+      h+='</div>';
+    }
+    h+='</div>';
+  }
+
+  if(s.type==='grid'&&s.opts){
+    h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.65rem">';
+    for(var i=0;i<s.opts.length;i++){
+      var o=s.opts[i];var isSel=sel.indexOf(o.v)!==-1;
+      h+='<div style="display:flex;flex-direction:column;gap:0.35rem;padding:1rem;border-radius:14px;border:1.5px solid '+(isSel?'#8b5cf6':'#eee8fd')+';background:'+(isSel?'linear-gradient(135deg,#f5f3ff,#ede9fe)':'#faf8ff')+';box-shadow:'+(isSel?'0 0 0 3px rgba(139,92,246,0.1)':'none')+';transition:all 0.25s ease;'+(isSel?'animation:vsa-pop 0.35s ease both':'')+'">';
+      h+='<div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:0.9rem;font-weight:700;color:#1e1b4b">'+o.l+'</span>';
+      if(isSel){h+=chkSm;}
+      h+='</div>';
+      if(o.d){h+='<span style="font-size:0.78rem;color:#94a3b8;line-height:1.35">'+o.d+'</span>';}
+      h+='</div>';
+    }
+    h+='</div>';
+  }
+
+  h+='</div>';
+  bodyEl.innerHTML=h;
+}
+
+function renderCalc(){
+  bodyEl.innerHTML='<div style="padding:3rem 1.75rem;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;animation:vsa-fade-in 0.5s ease both"><div style="width:64px;height:64px;border-radius:50%;border:3px solid #ede9fe;border-top-color:#8b5cf6;animation:vsa-spin 0.8s linear infinite;margin-bottom:1.5rem"></div><p style="font-size:1.05rem;font-weight:700;color:#1e1b4b;margin:0 0 0.5rem">Calculating your vibe score</p><div style="display:flex;gap:4px;align-items:center"><span style="width:6px;height:6px;border-radius:50%;background:#8b5cf6;animation:vsa-dot-pulse 1s ease-in-out 0s infinite"></span><span style="width:6px;height:6px;border-radius:50%;background:#8b5cf6;animation:vsa-dot-pulse 1s ease-in-out 0.2s infinite"></span><span style="width:6px;height:6px;border-radius:50%;background:#8b5cf6;animation:vsa-dot-pulse 1s ease-in-out 0.4s infinite"></span></div></div>';
+  footEl.innerHTML='';
+}
+
+function renderDone(){
+  bodyEl.innerHTML='<div style="padding:3rem 1.75rem;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;animation:vsa-fade-in 0.5s ease both"><div style="width:80px;height:80px;border-radius:50%;position:relative;animation:vsa-score-pop 0.5s ease both;margin-bottom:1rem"><div style="position:absolute;inset:0;border-radius:50%;padding:3px;background:conic-gradient(from 0deg,#f0abfc,#d946ef,#a855f7,#7c3aed,#a855f7,#d946ef,#f0abfc);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:vsa-spin 1.5s linear infinite"></div><span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:1.6rem;font-weight:900;background-image:linear-gradient(135deg,#fff,#f0abfc,#d946ef,#a855f7);background-size:200% 200%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:vsa-shimmer 2s ease-in-out infinite;filter:drop-shadow(0 0 10px rgba(217,70,239,0.8)) drop-shadow(0 0 20px rgba(168,85,247,0.5))">95</span></div><p style="font-size:1.1rem;font-weight:700;color:#1e1b4b;margin:0 0 0.25rem">Your vibe is set!</p><p style="font-size:0.85rem;color:#94a3b8;margin:0">We\'ll match you with roles that fit your lifestyle</p></div>';
+  footEl.innerHTML='';
+}
+
+function renderFoot(cur,sel){
+  var isLast=cur===steps.length-1;
+  var h='<div style="display:flex;align-items:center;padding:1rem 1.75rem 1.5rem;gap:0.75rem">';
+  if(cur>0){h+='<div style="padding:0.65rem 1.25rem;border-radius:10px;border:1.5px solid #e9e0fd;background:#fff;color:#6b7280;font-weight:600;font-size:0.9rem">Back</div>';}
+  h+='<div style="flex:1"></div>';
+  h+='<div style="padding:0.65rem 1.75rem;border-radius:10px;border:none;background:'+(isLast?'linear-gradient(135deg,#BA67EF,#8b5cf6)':'linear-gradient(135deg,#8b5cf6,#7c3aed)')+';color:#fff;font-weight:600;font-size:0.92rem;display:flex;align-items:center;gap:0.5rem;opacity:'+(sel.length>0?'1':'0.5')+';transition:opacity 0.2s ease">'+(isLast?'Start Matching':'Next')+' <span style="font-size:0.9rem">'+(isLast?'\u26A1':'\u2728')+'</span></div></div>';
+  footEl.innerHTML=h;
+}
+
+function runAnimation(){
+  var cur=0, sel=[], selIdx=0;
+
+  function doStep(){
+    renderDots(cur);
+    renderStep(cur,sel,true);
+    renderFoot(cur,sel);
+
+    // Start selecting after entering delay
+    setTimeout(function selectNext(){
+      var s=steps[cur];
+      if(selIdx<s.sels.length){
+        sel.push(s.sels[selIdx]);
+        selIdx++;
+        renderStep(cur,sel,true);
+        renderFoot(cur,sel);
+        setTimeout(selectNext,600);
+      }else{
+        // Selected state - wait then move on
+        setTimeout(function(){
+          if(cur<steps.length-1){
+            // Exit animation
+            renderStep(cur,sel,false);
+            setTimeout(function(){
+              cur++;
+              sel=[];
+              selIdx=0;
+              doStep();
+            },400);
+          }else{
+            // Last step -> calculating
+            renderDots(cur);
+            renderCalc();
+            setTimeout(function(){
+              renderDone();
+              setTimeout(function(){
+                runAnimation();
+              },1500);
+            },2500);
+          }
+        },1200);
+      }
+    },800);
+  }
+
+  doStep();
+}
+
+runAnimation();
+})();
+</script>
+</body></html>

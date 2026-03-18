@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+@keyframes cdi-fade-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes cdi-highlight{0%,100%{background:rgba(139,92,246,0.25)}50%{background:rgba(139,92,246,0.45)}}
+@keyframes cdi-popover-in{from{opacity:0;transform:translateY(6px) scale(0.95)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes cdi-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+@keyframes cdi-flash{0%{background:#ede9fe}100%{background:transparent}}
+@keyframes cdi-toast-in{0%{opacity:0;transform:translateX(-50%) translateY(10px)}100%{opacity:1;transform:translateX(-50%) translateY(0)}}
+@keyframes cdi-btn-glow{0%,100%{box-shadow:0 0 0 0 rgba(139,92,246,0.3)}50%{box-shadow:0 0 0 4px rgba(139,92,246,0.15)}}
+body{display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:transparent;padding:20px}
+</style>
+</head><body>
+<div id="cdiRoot" style="width:900px;height:560px;border-radius:16px;overflow:hidden;box-shadow:0 25px 60px rgba(91,33,182,0.18),0 8px 24px rgba(0,0,0,0.08);background:#fff;display:flex;flex-direction:column">
+  <div style="background:linear-gradient(135deg,#6d28d9,#4c1d95);padding:0.6rem 1.25rem;display:flex;align-items:center;gap:0.75rem;flex-shrink:0">
+    <div style="width:30px;height:30px;border-radius:8px;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-size:0.9rem">📄</div>
+    <span style="font-size:0.92rem;font-weight:700;color:#fff">Alex's Tech Management CV</span>
+    <div style="flex:1"></div>
+    <span style="font-size:0.68rem;font-weight:600;color:rgba(255,255,255,0.6);padding:3px 10px;border-radius:6px;background:rgba(255,255,255,0.1)">Auto-saved</span>
+  </div>
+  <div style="display:flex;flex:1;overflow:hidden">
+    <div id="cdiSidebar" style="width:62px;flex-shrink:0;border-right:1px solid #f0ebfa;background:#faf8ff;display:flex;flex-direction:column;padding-top:0.5rem"></div>
+    <div style="width:290px;flex-shrink:0;border-right:1px solid #f0ebfa;background:#fdfcff;display:flex;flex-direction:column;overflow:hidden">
+      <div style="padding:0.85rem;overflow:hidden;flex:1" id="cdiEditor"></div>
+    </div>
+    <div style="flex:1;background:#f3f0f8;display:flex;flex-direction:column;position:relative;overflow:hidden">
+      <div id="cdiToolbar" style="padding:0.4rem 0.85rem;display:flex;align-items:center;gap:0.5rem;border-bottom:1px solid #e9e0fd;background:#faf8ff;flex-shrink:0"></div>
+      <div id="cdiBanner" style="overflow:hidden;flex-shrink:0;display:flex;align-items:center;gap:0.4rem;transition:all 300ms ease;max-height:0;opacity:0;padding:0"></div>
+      <div style="flex:1;overflow:hidden;padding:0.85rem;display:flex;justify-content:center" id="cdiCv"></div>
+      <div id="cdiToast" style="display:none;position:absolute;bottom:14px;left:50%;background:linear-gradient(135deg,#6d28d9,#4c1d95);color:#fff;padding:0.5rem 1.25rem;border-radius:10px;font-size:0.72rem;font-weight:600;align-items:center;gap:0.5rem;box-shadow:0 8px 24px rgba(91,33,182,0.3);z-index:30;white-space:nowrap"></div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+var ORIG='Led cross-functional delivery of a £2.4M digital transformation programme across 3 business units';
+var IMPROVED='Spearheaded end-to-end delivery of a £2.4M enterprise digital transformation, coordinating 3 cross-functional business units and 42 team members to achieve on-time, on-budget completion';
+var B2='Reduced project delivery timelines by 28% through Agile methodology adoption and sprint planning';
+var B3='Managed stakeholder relationships across C-suite, achieving 96% client satisfaction rating';
+var BAE1='Coordinated IT infrastructure rollout across 4 UK defence sites, delivering £1.2M programme on schedule';
+var BAE2='Streamlined vendor management processes, reducing procurement cycle time by 35%';
+var SKILLS='Agile  •  PRINCE2  •  Stakeholder Management  •  Digital Transformation  •  Jira  •  Confluence  •  Risk Management  •  Budgeting  •  Scrum  •  Azure DevOps';
+var sidebarSteps=[
+  {icon:'👤',label:'Personal',active:false},{icon:'💼',label:'Employment',active:true},
+  {icon:'🎓',label:'Education',active:false},{icon:'⚡',label:'Skills',active:false},
+  {icon:'🌍',label:'Languages',active:false},{icon:'🎯',label:'Hobbies',active:false},
+  {icon:'✏️',label:'Custom',active:false},{icon:'🎨',label:'Design',active:false}
+];
+var sb=document.getElementById('cdiSidebar');
+var ed=document.getElementById('cdiEditor');
+var tb=document.getElementById('cdiToolbar');
+var bn=document.getElementById('cdiBanner');
+var cv=document.getElementById('cdiCv');
+var to=document.getElementById('cdiToast');
+var phase='static',applied=false;
+
+// Sidebar - render once
+var sh='<div style="margin:0 0.5rem 0.65rem;height:3px;border-radius:100px;background:#ede9fe;overflow:hidden"><div style="width:35%;height:100%;border-radius:100px;background:linear-gradient(90deg,#8b5cf6,#a78bfa)"></div></div>';
+for(var i=0;i<sidebarSteps.length;i++){
+  var s=sidebarSteps[i];
+  sh+='<div style="display:flex;flex-direction:column;align-items:center;padding:0.45rem 0.25rem;gap:2px;border-radius:8px;margin:0 0.25rem 0.15rem;background:'+(s.active?'#f5f3ff':'transparent')+';border:1px solid '+(s.active?'#e9e0fd':'transparent')+'">';
+  sh+='<span style="font-size:0.75rem">'+s.icon+'</span>';
+  sh+='<span style="font-size:0.48rem;font-weight:'+(s.active?'700':'500')+';color:'+(s.active?'#7c3aed':'#94a3b8')+';text-align:center;line-height:1.2">'+s.label+'</span></div>';
+}
+sb.innerHTML=sh;
+
+function render(){
+  // Toolbar
+  var improveOn=phase!=='static';
+  var h='';
+  var tabs=['Preview','Templates'];
+  for(var i=0;i<tabs.length;i++){
+    h+='<span style="font-size:0.62rem;font-weight:'+(i===0?'600':'500')+';color:'+(i===0?'#7c3aed':'#94a3b8')+';padding:3px 8px;border-radius:5px;background:'+(i===0?'#f5f3ff':'transparent')+';border:1px solid '+(i===0?'#e9e0fd':'transparent')+'">'+tabs[i]+'</span>';
+  }
+  h+='<div style="flex:1"></div>';
+  h+='<span style="font-size:0.58rem;color:#94a3b8;padding:2px 6px;border-radius:4px;background:#f3f4f6">ATS Clean</span>';
+  var btnBg=improveOn?'linear-gradient(135deg,#8b5cf6,#7c3aed)':'#fff';
+  var btnBrd=improveOn?'#8b5cf6':'#e9e0fd';
+  var btnCol=improveOn?'#fff':'#7c3aed';
+  var btnAn=phase==='improve-on'?'animation:cdi-btn-glow 0.6s ease;':'';
+  h+='<div style="display:flex;align-items:center;gap:4px;padding:4px 10px;border-radius:6px;background:'+btnBg+';border:1.5px solid '+btnBrd+';font-size:0.62rem;font-weight:600;color:'+btnCol+';transition:all 0.3s ease;'+btnAn+'">⚡ Improve</div>';
+  tb.innerHTML=h;
+
+  // Banner
+  var showBn=improveOn&&!applied;
+  bn.style.padding=showBn?'0.45rem 0.85rem':'0';
+  bn.style.maxHeight=showBn?'50px':'0';
+  bn.style.opacity=showBn?'1':'0';
+  bn.style.background=showBn?'linear-gradient(90deg,#f5f0ff,#ede5ff)':'transparent';
+  bn.style.borderBottom=showBn?'1px solid #ddd6fe':'none';
+  bn.innerHTML=showBn?'<span style="font-size:0.7rem">⚡</span><span style="font-size:0.6rem;font-weight:600;color:#5b21b6">Highlight any text on your CV to get AI-powered wording suggestions</span>':'';
+
+  // Editor
+  var b1=applied?IMPROVED:ORIG;
+  var eh='<div style="display:flex;align-items:center;gap:0.4rem;margin-bottom:0.75rem">';
+  eh+='<span style="font-size:0.85rem">💼</span>';
+  eh+='<span style="font-size:0.82rem;font-weight:700;color:#1e1b4b">Employment History</span>';
+  eh+='<span style="margin-left:auto;font-size:0.58rem;font-weight:600;color:#8b5cf6;background:#f5f3ff;padding:2px 6px;border-radius:4px">2 roles</span></div>';
+  eh+='<div style="border:1.5px solid #e9e0fd;border-radius:12px;background:#fff;margin-bottom:0.6rem;overflow:hidden">';
+  eh+='<div style="padding:0.65rem 0.75rem;display:flex;align-items:flex-start;gap:0.5rem;border-bottom:1px solid #f5f0fa"><div style="width:6px;height:6px;border-radius:50%;background:#8b5cf6;margin-top:5px;flex-shrink:0"></div><div style="flex:1"><p style="font-size:0.75rem;font-weight:700;color:#1e1b4b;margin:0">Technical Project Manager</p><p style="font-size:0.62rem;color:#6b7280;margin:0">Capgemini UK · Jan 2022 – Present</p></div></div>';
+  eh+='<div style="padding:0.6rem 0.75rem"><label style="font-size:0.58rem;font-weight:600;color:#94a3b8;display:block;margin-bottom:0.4rem;text-transform:uppercase;letter-spacing:0.04em">Key Achievements</label><div style="display:flex;flex-direction:column;gap:0.35rem">';
+  var buls=[b1,B2,B3];
+  for(var i=0;i<buls.length;i++){
+    var fl=i===0&&applied?'animation:cdi-flash 0.6s ease;':'';
+    eh+='<div style="display:flex;align-items:flex-start;gap:0.35rem;'+fl+'"><span style="color:#8b5cf6;font-weight:700;font-size:0.68rem;margin-top:1px">•</span><span style="font-size:0.6rem;color:#374151;line-height:1.45">'+buls[i]+'</span></div>';
+  }
+  eh+='</div></div></div>';
+  eh+='<div style="border:1.5px solid #f0ebfa;border-radius:12px;background:#fdfcff;padding:0.65rem 0.75rem;display:flex;align-items:center;gap:0.5rem;opacity:0.5"><div style="width:6px;height:6px;border-radius:50%;background:#c4b5fd;flex-shrink:0"></div><div><p style="font-size:0.68rem;font-weight:600;color:#1e1b4b;margin:0">IT Programme Coordinator</p><p style="font-size:0.56rem;color:#94a3b8;margin:0">BAE Systems · Sep 2019 – Dec 2021</p></div></div>';
+  ed.innerHTML=eh;
+
+  // CV Preview
+  var isHL=phase==='highlight'||phase==='popover'||phase==='apply';
+  var showPop=phase==='popover'||(phase==='apply'&&!applied);
+  var ch='<div style="width:100%;max-width:480px;background:#fff;border-radius:4px;box-shadow:0 2px 12px rgba(0,0,0,0.08);padding:1.5rem 1.25rem;font-size:0.65rem;color:#1e1b4b;line-height:1.5;position:relative">';
+  ch+='<h2 style="font-size:1.1rem;font-weight:800;color:#1e1b4b;margin:0 0 0.15rem;text-transform:uppercase;letter-spacing:0.06em">ALEX THOMPSON</h2>';
+  ch+='<p style="font-size:0.6rem;color:#6b7280;margin:0 0 0.6rem;display:flex;gap:0.5rem;flex-wrap:wrap"><span>alex.thompson@gmail.com</span><span>•</span><span>+44 7700 123456</span><span>•</span><span>London, UK</span><span>•</span><span style="color:#8b5cf6">linkedin.com/in/alexthompson</span></p>';
+  ch+='<div style="height:1px;background:#e5e7eb;margin:0 0 0.6rem"></div>';
+  ch+='<h3 style="font-size:0.68rem;font-weight:700;color:#1e1b4b;margin:0 0 0.3rem;text-transform:uppercase;letter-spacing:0.05em">Professional Profile</h3>';
+  ch+='<p style="font-size:0.6rem;color:#374151;margin:0 0 0.6rem;line-height:1.55">Results-driven Technical Project Manager with 6+ years of experience delivering complex digital transformation programmes across enterprise environments.</p>';
+  ch+='<div style="height:1px;background:#e5e7eb;margin:0 0 0.6rem"></div>';
+  ch+='<h3 style="font-size:0.68rem;font-weight:700;color:#1e1b4b;margin:0 0 0.45rem;text-transform:uppercase;letter-spacing:0.05em">Work Experience</h3>';
+  ch+='<div style="margin-bottom:0.65rem"><div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.15rem"><span style="font-size:0.64rem;font-weight:700;color:#1e1b4b">Technical Project Manager</span><span style="font-size:0.56rem;color:#94a3b8">Jan 2022 – Present</span></div>';
+  ch+='<p style="font-size:0.6rem;font-weight:600;color:#6b7280;margin:0 0 0.3rem">Capgemini UK, London</p>';
+  ch+='<ul style="margin:0;padding-left:1rem;list-style:disc">';
+  var hlA=isHL?'animation:cdi-highlight 1.5s ease-in-out infinite;':'';
+  var apA=applied&&!isHL?'animation:cdi-flash 0.8s ease both;':'';
+  ch+='<li style="font-size:0.58rem;color:#374151;margin-bottom:0.2rem;line-height:1.5;padding:1px 2px;border-radius:2px;'+hlA+apA+'">'+b1+'</li>';
+  ch+='<li style="font-size:0.58rem;color:#374151;margin-bottom:0.2rem;line-height:1.5">'+B2+'</li>';
+  ch+='<li style="font-size:0.58rem;color:#374151;margin-bottom:0.2rem;line-height:1.5">'+B3+'</li></ul></div>';
+  ch+='<div style="margin-bottom:0.65rem"><div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.15rem"><span style="font-size:0.64rem;font-weight:700;color:#1e1b4b">IT Programme Coordinator</span><span style="font-size:0.56rem;color:#94a3b8">Sep 2019 – Dec 2021</span></div>';
+  ch+='<p style="font-size:0.6rem;font-weight:600;color:#6b7280;margin:0 0 0.3rem">BAE Systems, Preston</p>';
+  ch+='<ul style="margin:0;padding-left:1rem;list-style:disc"><li style="font-size:0.58rem;color:#374151;margin-bottom:0.2rem;line-height:1.5">'+BAE1+'</li><li style="font-size:0.58rem;color:#374151;margin-bottom:0.2rem;line-height:1.5">'+BAE2+'</li></ul></div>';
+  ch+='<div style="height:1px;background:#e5e7eb;margin:0 0 0.6rem"></div>';
+  ch+='<h3 style="font-size:0.68rem;font-weight:700;color:#1e1b4b;margin:0 0 0.3rem;text-transform:uppercase;letter-spacing:0.05em">Skills</h3>';
+  ch+='<p style="font-size:0.58rem;color:#374151;margin:0">'+SKILLS+'</p>';
+
+  if(showPop){
+    ch+='<div style="position:absolute;top:155px;left:50%;transform:translateX(-50%);width:88%;max-width:260px;background:#fff;border-radius:12px;border:2px solid #c4b5fd;box-shadow:0 12px 32px rgba(91,33,182,0.2),0 4px 12px rgba(0,0,0,0.1);z-index:20;overflow:hidden;animation:cdi-popover-in 0.4s ease both">';
+    ch+='<div style="background:linear-gradient(135deg,#6d28d9,#4c1d95);padding:0.45rem 0.7rem;display:flex;align-items:center;gap:0.35rem"><span style="font-size:0.7rem">⚡</span><span style="font-size:0.68rem;font-weight:700;color:#fff">AI Suggestion</span><span style="margin-left:auto;color:rgba(255,255,255,0.5);font-size:0.6rem">✕</span></div>';
+    ch+='<div style="padding:0.6rem 0.7rem">';
+    ch+='<p style="font-size:0.55rem;font-weight:600;color:#94a3b8;margin:0 0 0.25rem;text-transform:uppercase;letter-spacing:0.04em">Selected text</p>';
+    ch+='<p style="font-size:0.56rem;color:#6b7280;margin:0 0 0.5rem;font-style:italic;padding:0.3rem 0.45rem;background:#f9fafb;border-radius:4px;border-left:2px solid #e5e7eb;line-height:1.45">'+ORIG+'</p>';
+    ch+='<p style="font-size:0.55rem;font-weight:600;color:#8b5cf6;margin:0 0 0.25rem;text-transform:uppercase;letter-spacing:0.04em">Improved version</p>';
+    ch+='<p style="font-size:0.56rem;color:#1e1b4b;margin:0 0 0.5rem;font-weight:600;padding:0.3rem 0.45rem;background:#faf8ff;border-radius:4px;border-left:2px solid #8b5cf6;line-height:1.45;animation:cdi-fade-in 0.5s ease 0.3s both">'+IMPROVED+'</p>';
+    ch+='<div style="display:flex;gap:0.35rem;justify-content:flex-end">';
+    ch+='<span style="padding:3px 8px;border-radius:6px;border:1px solid #e9e0fd;font-size:0.58rem;font-weight:600;color:#6b7280;background:#fff">↻ Retry</span>';
+    var pu=phase==='apply'?'animation:cdi-pulse 0.5s ease;':'';
+    ch+='<span style="padding:3px 8px;border-radius:6px;border:none;background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff;font-size:0.58rem;font-weight:600;'+pu+'">Replace</span>';
+    ch+='</div></div></div>';
+  }
+  ch+='</div>';
+  cv.innerHTML=ch;
+
+  // Toast
+  if(phase==='saved'){
+    to.style.display='flex';
+    to.style.animation='cdi-toast-in 0.4s ease both';
+    to.innerHTML='<span style="color:#a5f3fc">✓</span> Improvement applied successfully';
+  }else{
+    to.style.display='none';
+    to.style.animation='';
+  }
+}
+
+function run(){
+  phase='static'; applied=false; render();
+  setTimeout(function(){
+    phase='improve-on'; render();
+    setTimeout(function(){
+      phase='highlight'; render();
+      setTimeout(function(){
+        phase='popover'; render();
+        setTimeout(function(){
+          phase='apply'; render();
+          setTimeout(function(){
+            applied=true; render();
+            setTimeout(function(){
+              phase='saved'; render();
+              setTimeout(function(){
+                to.style.display='none';
+                setTimeout(run, 1800);
+              }, 2000);
+            }, 800);
+          }, 500);
+        }, 3000);
+      }, 1800);
+    }, 1200);
+  }, 2000);
+}
+run();
+})();
+</script>
+</body></html>

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+@keyframes cvb-drop{0%{opacity:0;transform:translateY(-30px) scale(0.9)}60%{transform:translateY(4px) scale(1.02)}100%{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes cvb-progress{from{width:0%}to{width:100%}}
+@keyframes cvb-highlight-pulse{0%,100%{box-shadow:0 0 0 2px rgba(139,92,246,0.3)}50%{box-shadow:0 0 0 4px rgba(139,92,246,0.5)}}
+@keyframes cvb-popover-in{from{opacity:0;transform:translateY(8px) scale(0.92)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes cvb-pulse-btn{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+@keyframes cvb-swap{0%{opacity:0;transform:translateY(-4px)}100%{opacity:1;transform:translateY(0)}}
+@keyframes cvb-toast-in{0%{opacity:0;transform:translate(-50%,10px)}100%{opacity:1;transform:translate(-50%,0)}}
+@keyframes cvb-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes cvb-check-pop{0%{transform:scale(0)}60%{transform:scale(1.3)}100%{transform:scale(1)}}
+@keyframes cvb-flash{0%{background:#ede9fe}100%{background:transparent}}
+body{display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(145deg,#f8f6ff 0%,#ede9fe 30%,#e8e0ff 60%,#f3eeff 100%);padding:20px}
+</style>
+</head><body>
+<div id="cvbRoot" style="width:480px;height:560px;border-radius:20px;overflow:hidden;box-shadow:0 25px 50px rgba(91,33,182,0.2),0 12px 24px rgba(0,0,0,0.1);background:#fff;position:relative;display:flex;flex-direction:column">
+  <div style="background:linear-gradient(135deg,#6d28d9 0%,#4c1d95 50%,#1a0a3e 100%);padding:1rem 1.5rem;display:flex;align-items:center;gap:0.75rem;position:relative;overflow:hidden;flex-shrink:0">
+    <div style="position:absolute;top:-60%;right:-20%;width:250px;height:250px;background:radial-gradient(circle,rgba(186,103,239,0.2) 0%,transparent 70%);pointer-events:none"></div>
+    <div style="width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-size:1rem">📄</div>
+    <div style="position:relative;z-index:1">
+      <h4 style="font-size:1.1rem;font-weight:700;color:#fff;margin:0">CV Builder</h4>
+      <p id="cvbSub" style="font-size:0.75rem;color:rgba(255,255,255,0.6);margin:0">Upload & Parse</p>
+    </div>
+    <div id="cvbTabs" style="margin-left:auto;display:flex;gap:6px;position:relative;z-index:1;opacity:0;transform:translateY(-8px);transition:opacity 400ms ease,transform 400ms ease"></div>
+  </div>
+  <div style="flex:1;position:relative;overflow:hidden">
+    <!-- Upload Phase -->
+    <div id="cvbUpload" style="position:absolute;inset:0;padding:2rem 1.75rem;opacity:1;transition:opacity 400ms ease">
+      <div id="cvbDropZone" style="border:2px dashed #ddd6fe;border-radius:16px;padding:2rem;text-align:center;background:#faf8ff;transition:all 300ms ease;margin-bottom:1.25rem;position:relative;overflow:hidden;min-height:140px;display:flex;align-items:center;justify-content:center">
+        <div id="cvbIdle" style="display:flex;flex-direction:column;align-items:center;justify-content:center">
+          <div style="font-size:2.5rem;margin-bottom:0.75rem">📁</div>
+          <p style="font-size:0.92rem;font-weight:600;color:#1e1b4b;margin:0 0 0.25rem">Drop your CV here</p>
+          <p style="font-size:0.78rem;color:#94a3b8;margin:0">PDF, DOC, DOCX, RTF or ODT</p>
+        </div>
+        <div id="cvbDrop" style="display:none;flex-direction:column;align-items:center;justify-content:center">
+          <div style="font-size:2.5rem;margin-bottom:0.75rem">📄</div>
+          <p style="font-size:0.88rem;font-weight:600;color:#7c3aed;margin:0">Alex_Tech_Management_CV.pdf</p>
+        </div>
+        <div id="cvbAttached" style="display:none;align-items:center;gap:0.75rem;justify-content:center">
+          <div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#ede9fe,#ddd6fe);display:flex;align-items:center;justify-content:center;font-size:1.2rem">📄</div>
+          <div style="text-align:left"><p style="font-size:0.88rem;font-weight:600;color:#1e1b4b;margin:0">Alex_Tech_Management_CV.pdf</p><p style="font-size:0.72rem;color:#94a3b8;margin:0">142 KB</p></div>
+          <span style="color:#22c55e;font-size:1.1rem;animation:cvb-check-pop 0.3s ease both">✓</span>
+        </div>
+      </div>
+      <div id="cvbStyle" style="opacity:0;max-height:0;overflow:hidden;transition:opacity 300ms ease 200ms,max-height 300ms ease 200ms;margin-bottom:1.25rem">
+        <label style="font-size:0.82rem;font-weight:600;color:#1e1b4b;display:block;margin-bottom:0.5rem">Writing Style</label>
+        <div style="display:flex;gap:0.5rem">
+          <span style="padding:0.5rem 1rem;border-radius:10px;font-size:0.82rem;font-weight:600;border:1.5px solid #8b5cf6;background:linear-gradient(135deg,#f5f3ff,#ede9fe);color:#7c3aed;box-shadow:0 0 0 3px rgba(139,92,246,0.1)">Professional</span>
+          <span style="padding:0.5rem 1rem;border-radius:10px;font-size:0.82rem;font-weight:600;border:1.5px solid #eee8fd;background:#faf8ff;color:#6b7280">Creative</span>
+          <span style="padding:0.5rem 1rem;border-radius:10px;font-size:0.82rem;font-weight:600;border:1.5px solid #eee8fd;background:#faf8ff;color:#6b7280">Academic</span>
+        </div>
+      </div>
+      <div id="cvbParsing" style="opacity:0;max-height:0;overflow:hidden;transition:opacity 300ms ease,max-height 300ms ease">
+        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem">
+          <div id="cvbSpinner" style="width:20px;height:20px;border:2.5px solid #ede9fe;border-top-color:#8b5cf6;border-radius:50%"></div>
+          <span style="font-size:0.88rem;font-weight:600;color:#1e1b4b">Analysing your CV...</span>
+        </div>
+        <div style="height:6px;border-radius:100px;background:#ede9fe;overflow:hidden">
+          <div id="cvbBar" style="height:100%;border-radius:100px;background:linear-gradient(90deg,#8b5cf6,#d946ef);width:0%"></div>
+        </div>
+      </div>
+    </div>
+    <!-- Editor Phase -->
+    <div id="cvbEditor" style="position:absolute;inset:0;padding:1.25rem 1.5rem;opacity:0;transition:opacity 400ms ease;overflow:hidden">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
+        <div style="display:flex;align-items:center;gap:0.5rem"><span style="font-size:1rem">💼</span><h5 style="font-size:1rem;font-weight:700;color:#1e1b4b;margin:0">Employment History</h5></div>
+        <span style="font-size:0.7rem;font-weight:600;color:#8b5cf6;background:#f5f3ff;padding:3px 8px;border-radius:6px">2 roles</span>
+      </div>
+      <div style="border:1.5px solid #e9e0fd;border-radius:14px;overflow:hidden;background:#faf8ff">
+        <div id="cvbRoleHdr" style="padding:1rem 1.25rem;display:flex;align-items:flex-start;gap:0.75rem">
+          <div style="width:8px;height:8px;border-radius:50%;background:#8b5cf6;margin-top:6px;flex-shrink:0"></div>
+          <div style="flex:1">
+            <p style="font-size:0.95rem;font-weight:700;color:#1e1b4b;margin:0 0 2px">Technical Project Manager</p>
+            <p style="font-size:0.82rem;color:#6b7280;margin:0 0 2px">Capgemini UK</p>
+            <p style="font-size:0.72rem;color:#94a3b8;margin:0">Jan 2022 – Present</p>
+          </div>
+          <span style="font-size:0.7rem;font-weight:600;color:#8b5cf6;padding:3px 8px;border-radius:6px;background:#f5f3ff;white-space:nowrap">Editing</span>
+        </div>
+        <div id="cvbExpanded" style="max-height:0;opacity:0;overflow:hidden;transition:max-height 400ms ease,opacity 400ms ease">
+          <div style="padding:1rem 1.25rem">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1rem">
+              <div><label style="font-size:0.72rem;font-weight:600;color:#6b7280;display:block;margin-bottom:4px">Job Title</label><div style="padding:0.5rem 0.75rem;border-radius:8px;border:1.5px solid #e9e0fd;background:#fff;font-size:0.82rem;color:#1e1b4b;font-weight:500">Technical Project Manager</div></div>
+              <div><label style="font-size:0.72rem;font-weight:600;color:#6b7280;display:block;margin-bottom:4px">Company</label><div style="padding:0.5rem 0.75rem;border-radius:8px;border:1.5px solid #e9e0fd;background:#fff;font-size:0.82rem;color:#1e1b4b;font-weight:500">Capgemini UK</div></div>
+            </div>
+            <div style="margin-bottom:1rem"><label style="font-size:0.72rem;font-weight:600;color:#6b7280;display:block;margin-bottom:4px">Role Description</label><div style="padding:0.5rem 0.75rem;border-radius:8px;border:1.5px solid #e9e0fd;background:#fff;font-size:0.78rem;color:#1e1b4b;line-height:1.5">Leading enterprise-scale digital transformation and technology delivery programmes for FTSE 250 clients.</div></div>
+            <div>
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.65rem">
+                <label style="font-size:0.78rem;font-weight:700;color:#1e1b4b">Key Achievements</label>
+                <span style="font-size:0.68rem;font-weight:600;color:#8b5cf6;display:flex;align-items:center;gap:3px">+ Add</span>
+              </div>
+              <div id="cvbBullets" style="display:flex;flex-direction:column;gap:0.5rem"></div>
+            </div>
+            <div style="display:flex;gap:0.5rem;margin-top:1rem;justify-content:flex-end">
+              <span style="padding:0.45rem 1rem;border-radius:8px;border:1.5px solid #e9e0fd;background:#fff;color:#6b7280;font-weight:600;font-size:0.78rem">Cancel</span>
+              <span style="padding:0.45rem 1rem;border-radius:8px;border:none;background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff;font-weight:600;font-size:0.78rem">Save Changes</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="cvbTailor" style="border-radius:10px;background:linear-gradient(135deg,#f5f3ff,#ede9fe);border:1.5px solid #ddd6fe;display:flex;align-items:center;gap:0.6rem;opacity:0;max-height:0;padding:0 1rem;margin-top:0;overflow:hidden;transition:opacity 400ms ease,max-height 400ms ease,padding 400ms ease,margin 400ms ease"></div>
+      <div id="cvbPopover" style="position:absolute;bottom:80px;left:1.5rem;right:1.5rem;background:#fff;border-radius:14px;border:1.5px solid #ddd6fe;box-shadow:0 12px 32px rgba(91,33,182,0.15),0 4px 12px rgba(0,0,0,0.08);z-index:10;overflow:hidden;opacity:0;transform:translateY(8px) scale(0.92);transition:opacity 400ms ease,transform 400ms ease;pointer-events:none"></div>
+      <div id="cvbToast" style="position:absolute;bottom:16px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#6d28d9,#4c1d95);color:#fff;padding:0.5rem 1.25rem;border-radius:10px;font-size:0.82rem;font-weight:600;display:flex;align-items:center;gap:0.5rem;box-shadow:0 8px 24px rgba(91,33,182,0.3);z-index:20;white-space:nowrap;opacity:0;transition:opacity 400ms ease,transform 400ms ease;pointer-events:none"></div>
+      <div style="margin-top:0.75rem;padding:0.85rem 1.25rem;border:1.5px solid #f0ebfa;border-radius:14px;background:#fdfcff;display:flex;align-items:center;gap:0.75rem;opacity:0.6">
+        <div style="width:8px;height:8px;border-radius:50%;background:#c4b5fd;flex-shrink:0"></div>
+        <div><p style="font-size:0.85rem;font-weight:600;color:#1e1b4b;margin:0 0 1px">IT Programme Coordinator</p><p style="font-size:0.72rem;color:#94a3b8;margin:0">BAE Systems · Sep 2019 – Dec 2021</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+var ORIG='Led cross-functional delivery of a £2.4M digital transformation programme across 3 business units';
+var IMPROVED='Spearheaded end-to-end delivery of a £2.4M enterprise digital transformation, coordinating 3 cross-functional business units and 42 team members to achieve on-time, on-budget completion';
+var sub=document.getElementById('cvbSub');
+var tabs=document.getElementById('cvbTabs');
+var upload=document.getElementById('cvbUpload');
+var editor=document.getElementById('cvbEditor');
+var idle=document.getElementById('cvbIdle');
+var drop=document.getElementById('cvbDrop');
+var att=document.getElementById('cvbAttached');
+var dz=document.getElementById('cvbDropZone');
+var sty=document.getElementById('cvbStyle');
+var parsing=document.getElementById('cvbParsing');
+var spinner=document.getElementById('cvbSpinner');
+var bar=document.getElementById('cvbBar');
+var expanded=document.getElementById('cvbExpanded');
+var bullets=document.getElementById('cvbBullets');
+var tailor=document.getElementById('cvbTailor');
+var popover=document.getElementById('cvbPopover');
+var toast=document.getElementById('cvbToast');
+var roleHdr=document.getElementById('cvbRoleHdr');
+
+var tabNames=['Personal','Experience','Education','Skills'];
+var th='';
+for(var i=0;i<tabNames.length;i++){
+  th+='<span style="font-size:0.65rem;font-weight:'+(i===1?'700':'500')+';color:'+(i===1?'#fff':'rgba(255,255,255,0.5)')+';padding:4px 8px;border-radius:6px;background:'+(i===1?'rgba(255,255,255,0.15)':'transparent')+'">'+tabNames[i]+'</span>';
+}
+tabs.innerHTML=th;
+
+function showUploadState(which){
+  idle.style.display=which==='idle'?'flex':'none';
+  drop.style.display=which==='drop'?'flex':'none';
+  att.style.display=which==='attached'?'flex':'none';
+}
+
+function run(){
+  var bulletShown=false, bulletApplied=false;
+  // Reset
+  sub.textContent='Upload & Parse';
+  tabs.style.opacity='0'; tabs.style.transform='translateY(-8px)';
+  upload.style.opacity='1'; editor.style.opacity='0';
+  showUploadState('idle');
+  dz.style.borderColor='#ddd6fe'; dz.style.background='#faf8ff';
+  sty.style.opacity='0'; sty.style.maxHeight='0';
+  parsing.style.opacity='0'; parsing.style.maxHeight='0';
+  expanded.style.maxHeight='0'; expanded.style.opacity='0';
+  roleHdr.style.borderBottom='none';
+  bullets.innerHTML='';
+  tailor.style.opacity='0'; tailor.style.maxHeight='0'; tailor.style.padding='0 1rem'; tailor.style.marginTop='0'; tailor.innerHTML='';
+  popover.style.opacity='0'; popover.style.transform='translateY(8px) scale(0.92)'; popover.style.pointerEvents='none'; popover.innerHTML='';
+  toast.style.opacity='0'; toast.innerHTML='';
+
+  // Phase 1: upload-idle -> upload-drop (1200ms)
+  setTimeout(function(){
+    showUploadState('drop');
+    drop.querySelector('div').style.animation='cvb-drop 0.6s ease both';
+    dz.style.borderColor='#8b5cf6'; dz.style.background='#f5f3ff';
+
+    // Phase 2: upload-drop -> upload-attached (800ms)
+    setTimeout(function(){
+      showUploadState('attached');
+      dz.style.borderColor='#ddd6fe'; dz.style.background='#faf8ff';
+      sty.style.opacity='1'; sty.style.maxHeight='100px';
+
+      // Phase 3: upload-attached -> upload-parsing (1000ms)
+      setTimeout(function(){
+        parsing.style.opacity='1'; parsing.style.maxHeight='60px';
+        spinner.style.animation='cvb-spin 0.8s linear infinite';
+        bar.style.transition='none'; bar.style.width='0%';
+        setTimeout(function(){ bar.style.transition='width 2s ease'; bar.style.width='100%'; },50);
+
+        // Phase 4: upload-parsing -> editor-enter (2200ms)
+        setTimeout(function(){
+          sub.textContent='Edit & Improve';
+          tabs.style.opacity='1'; tabs.style.transform='translateY(0)';
+          upload.style.opacity='0'; editor.style.opacity='1';
+          spinner.style.animation='';
+
+          // Phase 5: editor-enter -> editor-expand (1200ms)
+          setTimeout(function(){
+            roleHdr.style.borderBottom='1px solid #f0ebfa';
+            expanded.style.maxHeight='500px'; expanded.style.opacity='1';
+
+            // Phase 6: editor-expand -> editor-bullets (800ms)
+            setTimeout(function(){
+              // Show bullet
+              setTimeout(function(){
+                bulletShown=true;
+                bullets.innerHTML='<div style="display:flex;align-items:flex-start;gap:0.5rem"><span style="color:#8b5cf6;font-weight:700;font-size:0.9rem;margin-top:1px;flex-shrink:0">•</span><div id="cvbBulletText" style="flex:1;padding:0.4rem 0.6rem;border-radius:8px;border:1.5px solid #eee8fd;background:#fff;font-size:0.78rem;color:#1e1b4b;line-height:1.45;transition:all 300ms ease">'+ORIG+'</div><span style="color:#d1d5db;font-size:0.75rem;margin-top:5px;flex-shrink:0">🗑</span></div>';
+
+                // Phase 7: editor-bullets -> editor-tailor (600ms)
+                setTimeout(function(){
+                  tailor.style.opacity='1'; tailor.style.maxHeight='60px';
+                  tailor.style.padding='0.75rem 1rem'; tailor.style.marginTop='1rem';
+                  tailor.innerHTML='<span style="font-size:1rem">🎯</span><div><p style="font-size:0.78rem;font-weight:700;color:#7c3aed;margin:0 0 1px">Tailored to Job</p><p style="font-size:0.72rem;color:#6b7280;margin:0">Senior Programme Manager — Deloitte</p></div><span style="margin-left:auto;color:#22c55e;font-size:0.9rem;animation:cvb-check-pop 0.3s ease 0.3s both">✓</span>';
+
+                  // Phase 8: editor-tailor -> improve-highlight (2000ms)
+                  setTimeout(function(){
+                    tailor.style.opacity='0'; tailor.style.maxHeight='0'; tailor.style.padding='0 1rem'; tailor.style.marginTop='0';
+                    var bt=document.getElementById('cvbBulletText');
+                    if(bt){ bt.style.borderColor='#8b5cf6'; bt.style.background='linear-gradient(135deg,#f5f3ff,#ede9fe)'; bt.style.boxShadow='0 0 0 3px rgba(139,92,246,0.12)'; bt.style.animation='cvb-highlight-pulse 1.2s ease-in-out infinite'; }
+
+                    // Phase 9: improve-highlight -> improve-popover (1000ms)
+                    setTimeout(function(){
+                      popover.innerHTML='<div style="background:linear-gradient(135deg,#6d28d9,#4c1d95);padding:0.6rem 1rem;display:flex;align-items:center;gap:0.5rem"><span style="font-size:0.85rem">⚡</span><span style="font-size:0.82rem;font-weight:700;color:#fff">AI Suggestion</span><span style="margin-left:auto;color:rgba(255,255,255,0.5);font-size:0.75rem">✕</span></div><div style="padding:0.85rem 1rem"><p style="font-size:0.68rem;font-weight:600;color:#94a3b8;margin:0 0 0.35rem;text-transform:uppercase;letter-spacing:0.04em">Original</p><p style="font-size:0.75rem;color:#6b7280;margin:0 0 0.85rem;padding:0.4rem 0.6rem;background:#f9fafb;border-radius:6px;border-left:3px solid #e5e7eb;line-height:1.45">'+ORIG+'</p><p style="font-size:0.68rem;font-weight:600;color:#8b5cf6;margin:0 0 0.35rem;text-transform:uppercase;letter-spacing:0.04em">Improved</p><p style="font-size:0.75rem;color:#1e1b4b;margin:0 0 0.85rem;font-weight:500;padding:0.4rem 0.6rem;background:#f5f3ff;border-radius:6px;border-left:3px solid #8b5cf6;line-height:1.45">'+IMPROVED+'</p><div style="display:flex;gap:0.5rem;justify-content:flex-end"><span style="padding:0.4rem 0.85rem;border-radius:8px;border:1.5px solid #e9e0fd;font-size:0.75rem;font-weight:600;color:#6b7280;background:#fff;display:flex;align-items:center;gap:4px">↻ Regenerate</span><span style="padding:0.4rem 0.85rem;border-radius:8px;border:none;background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff;font-size:0.75rem;font-weight:600;display:flex;align-items:center;gap:4px;animation:cvb-pulse-btn 0.5s ease">+ Add</span></div></div>';
+                      popover.style.opacity='1'; popover.style.transform='translateY(0) scale(1)'; popover.style.pointerEvents='auto';
+
+                      // Phase 10: improve-popover -> improve-apply (2000ms)
+                      setTimeout(function(){
+                        // Apply
+                        setTimeout(function(){
+                          bulletApplied=true;
+                          var bt2=document.getElementById('cvbBulletText');
+                          if(bt2){ bt2.textContent=IMPROVED; bt2.style.borderColor='#eee8fd'; bt2.style.background='#fff'; bt2.style.boxShadow='none'; bt2.style.animation='cvb-swap 0.4s ease both'; }
+                          popover.style.opacity='0'; popover.style.transform='translateY(8px) scale(0.92)'; popover.style.pointerEvents='none';
+
+                          // Phase 11: improve-apply -> improve-saved (600ms)
+                          setTimeout(function(){
+                            toast.innerHTML='<span style="color:#a5f3fc;animation:cvb-check-pop 0.3s ease both">✓</span> Improvement applied successfully';
+                            toast.style.opacity='1'; toast.style.transform='translateX(-50%)';
+
+                            // Phase 12: improve-saved -> pause (1500ms)
+                            setTimeout(function(){
+                              toast.style.opacity='0';
+                              // Pause then restart (1800ms)
+                              setTimeout(run, 1800);
+                            }, 1500);
+                          }, 600);
+                        }, 400);
+                      }, 2000);
+                    }, 1000);
+                  }, 2000);
+                }, 600);
+              }, 700);
+            }, 800);
+          }, 1200);
+        }, 2200);
+      }, 1000);
+    }, 800);
+  }, 1200);
+}
+run();
+})();
+</script>
+</body></html>
