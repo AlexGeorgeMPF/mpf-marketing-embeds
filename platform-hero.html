@@ -3,13 +3,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Figtree:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
+
 @keyframes ph-fade-in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 @keyframes ph-fade-out{from{opacity:1}to{opacity:0}}
 @keyframes ph-slide-up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 @keyframes ph-slide-r{from{opacity:0;transform:translateX(24px)}to{opacity:1;transform:translateX(0)}}
 @keyframes ph-pop{0%{opacity:0;transform:scale(0.88)}60%{opacity:1;transform:scale(1.04)}100%{transform:scale(1)}}
 @keyframes ph-highlight{0%,100%{background:rgba(139,92,246,0.12)}50%{background:rgba(139,92,246,0.35)}}
-@keyframes ph-flash{0%{background:#ede9fe}100%{background:transparent}}
 @keyframes ph-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
 @keyframes ph-ring-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 @keyframes ph-shimmer{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
@@ -18,518 +18,589 @@
 @keyframes ph-badge-in{from{opacity:0;transform:translateY(10px) scale(0.92)}to{opacity:1;transform:translateY(0) scale(1)}}
 @keyframes ph-check{0%{transform:scale(0)}60%{transform:scale(1.25)}100%{transform:scale(1)}}
 @keyframes ph-popover-in{from{opacity:0;transform:translateY(10px) scale(0.94)}to{opacity:1;transform:translateY(0) scale(1)}}
-@keyframes ph-breathe{0%,100%{opacity:0.6}50%{opacity:1}}
-@keyframes ph-score-fill{from{stroke-dashoffset:var(--ph-circ)}to{stroke-dashoffset:var(--ph-offset)}}
-@keyframes ph-bar-fill{from{width:0}to{width:var(--ph-bar-w)}}
-@keyframes ph-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
-body{display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:transparent;padding:12px}
+@keyframes ph-float{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-6px) scale(1.08)}}
+@keyframes ph-sparkle{0%,100%{opacity:0;transform:scale(0) rotate(0deg)}50%{opacity:1;transform:scale(1) rotate(180deg)}}
+@keyframes ph-score-fill{from{stroke-dashoffset:var(--circ)}to{stroke-dashoffset:var(--offset)}}
+@keyframes ph-bar-grow{from{width:0}to{width:var(--bar-w)}}
+@keyframes ph-hot-pulse{0%,100%{transform:scale(1);filter:drop-shadow(0 0 8px rgba(217,70,239,0.6))}50%{transform:scale(1.07);filter:drop-shadow(0 0 16px rgba(217,70,239,0.9))}}
+@keyframes ph-zoom-in{0%{transform:scale(1);transform-origin:var(--zoom-origin)}40%{transform:scale(var(--zoom-scale));transform-origin:var(--zoom-origin)}60%{transform:scale(var(--zoom-scale));transform-origin:var(--zoom-origin)}100%{transform:scale(1);transform-origin:var(--zoom-origin)}}
+@keyframes ph-connector-draw{from{height:0}to{height:var(--h)}}
+@keyframes ph-activity-in{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:translateX(0)}}
+
+.ph-canvas{width:1100px;height:680px;border-radius:18px;overflow:hidden;background:#f8f7fc;font-family:'Inter',sans-serif;position:relative;display:flex;flex-direction:column}
+.ph-top-bar{height:48px;background:#fff;border-bottom:1px solid #e9e5f5;display:flex;align-items:center;padding:0 16px;flex-shrink:0;z-index:10}
+.ph-logo{height:28px;margin-right:12px}
+.ph-top-nav{display:flex;gap:2px;margin-left:auto}
+.ph-top-link{font-size:11px;font-weight:600;color:#64617a;padding:6px 10px;border-radius:6px;display:flex;align-items:center;gap:4px;text-decoration:none;transition:background 0.15s}
+.ph-top-link:hover,.ph-top-link.active{background:#f5f3ff;color:#6d28d9}
+.ph-body{display:flex;flex:1;overflow:hidden}
+.ph-sidebar{width:60px;background:#fff;border-right:1px solid #e9e5f5;display:flex;flex-direction:column;padding:12px 0;flex-shrink:0;align-items:center;gap:4px;overflow-y:auto}
+.ph-sb-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#64617a;transition:all 0.15s;cursor:pointer;flex-shrink:0}
+.ph-sb-icon:hover{background:#f5f3ff;color:#6d28d9}
+.ph-sb-icon.active{background:#6d28d9;color:#fff}
+.ph-sb-sep{width:28px;height:1px;background:#e9e5f5;margin:6px 0;flex-shrink:0}
+.ph-content{flex:1;overflow:hidden;padding:16px 20px;position:relative}
+.ph-scene{position:absolute;inset:0;padding:16px 20px;opacity:0;pointer-events:none;transition:opacity 0.5s ease}
+.ph-scene.active{opacity:1;pointer-events:auto}
+
+.ph-hero-banner{border-radius:14px;background:linear-gradient(135deg,#4c1d95 0%,#6d28d9 40%,#7c3aed 70%,#a78bfa 100%);padding:18px 22px;position:relative;overflow:hidden;margin-bottom:14px}
+.ph-hero-banner .orb1{position:absolute;top:-35px;right:-35px;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,0.04)}
+.ph-hero-banner .orb2{position:absolute;bottom:-25px;left:40%;width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,0.03)}
+.ph-hero-title{font-size:1.3rem;font-weight:700;color:#fff;font-family:'Figtree',sans-serif}
+.ph-hero-title .dot{color:#a78bfa}
+.ph-plan-badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:999px;font-size:0.62rem;font-weight:700;background:#ede9fe;color:#6d28d9;border:1px solid #c4b5fd;margin-left:8px;letter-spacing:0.03em;vertical-align:middle}
+.ph-hero-nudge{display:flex;align-items:center;gap:6px;margin-top:6px}
+.ph-hero-nudge svg{color:#c4b5fd;flex-shrink:0}
+.ph-hero-nudge p{font-size:0.78rem;color:#ddd6fe;line-height:1.45;font-weight:400}
+
+.ph-feature-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}
+.ph-fcard{border-radius:14px;background:#fff;border:1px solid rgba(139,92,246,0.08);box-shadow:0 2px 12px rgba(91,33,182,0.06);overflow:hidden;position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;padding:18px 12px 14px}
+.ph-fcard-border{position:absolute;top:0;left:0;right:0;height:4px}
+.ph-fcard-icon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;position:relative}
+.ph-fcard-icon.floating{animation:ph-float 2s ease-in-out infinite}
+.ph-fcard-count{position:absolute;top:-5px;right:-8px;background:#7c3aed;color:#fff;font-size:0.55rem;font-weight:700;min-width:18px;height:18px;border-radius:999px;display:flex;align-items:center;justify-content:center;padding:0 4px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.15)}
+.ph-fcard h4{font-size:0.82rem;font-weight:700;color:#1e1b4b;margin-bottom:4px;font-family:'Figtree',sans-serif}
+.ph-fcard p{font-size:0.72rem;color:#64617a;line-height:1.55;margin-bottom:10px;flex:1}
+.ph-fcard-btn{display:flex;align-items:center;justify-content:center;gap:4px;width:100%;padding:7px 8px;border-radius:8px;color:#fff;font-weight:600;font-size:0.72rem;text-decoration:none;border:none}
+
+.ph-bottom-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.ph-panel{border-radius:14px;background:#fff;border:1px solid #e9e5f5;box-shadow:0 2px 8px rgba(91,33,182,0.06);overflow:hidden}
+.ph-panel-hdr{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid #eee8f8;background:#faf8ff}
+.ph-panel-hdr h3{font-size:0.82rem;font-weight:700;color:#1e1b4b}
+
+.ph-stats-row{display:flex;gap:8px;padding:10px 14px}
+.ph-stat-card{flex:1;padding:8px 6px;border-radius:10px;text-align:center}
+.ph-stat-card svg.stat-icon{margin-bottom:2px}
+.ph-stat-val{font-size:1.05rem;font-weight:700;line-height:1.15}
+.ph-stat-label{font-size:0.58rem;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;margin-top:2px}
+.ph-sparkline{display:flex;justify-content:center;margin-top:3px}
+
+.ph-activity-list{padding:12px 16px}
+.ph-activity-item{display:flex;gap:10px;position:relative;padding-bottom:14px}
+.ph-activity-item:last-child{padding-bottom:0}
+.ph-activity-icon-col{display:flex;flex-direction:column;align-items:center;width:30px;flex-shrink:0}
+.ph-activity-icon{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ph-activity-connector{width:2px;flex:1;background:#e9e5f5;margin-top:4px}
+.ph-activity-text{flex:1;padding-top:2px}
+.ph-activity-text p{font-size:0.76rem;font-weight:600;color:#1e1b4b;line-height:1.4}
+.ph-activity-text .link{font-size:0.68rem;font-weight:600;color:#6d28d9;margin-top:2px;display:inline-block}
+.ph-activity-text .time{font-size:0.62rem;color:#6b7280;font-weight:500;margin-top:2px;display:flex;align-items:center;gap:3px}
+
+.ph-cv-page{background:#fff;border-radius:12px;border:1px solid #e0dce8;box-shadow:0 4px 20px rgba(0,0,0,0.08);padding:20px 24px;max-width:560px;margin:0 auto}
+.ph-cv-section{margin-bottom:12px}
+.ph-cv-section h3{font-size:0.75rem;font-weight:700;color:#4c1d95;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px;border-bottom:2px solid #7c3aed;display:inline-block;padding-bottom:2px}
+.ph-cv-line{height:7px;background:#f0ecf9;border-radius:4px;margin-bottom:5px}
+.ph-cv-line.filled{background:linear-gradient(90deg,#e9e5f5,#ddd6fe)}
+.ph-cv-name{font-size:1.2rem;font-weight:800;color:#1e1b4b;font-family:'Figtree',sans-serif;margin-bottom:2px}
+.ph-cv-subtitle{font-size:0.72rem;color:#64617a;margin-bottom:10px}
+.ph-cv-bullet{display:flex;align-items:flex-start;gap:6px;margin-bottom:4px}
+.ph-cv-bullet .dot{width:5px;height:5px;border-radius:50%;background:#7c3aed;margin-top:4px;flex-shrink:0}
+.ph-cv-bullet span{font-size:0.68rem;color:#374151;line-height:1.4}
+
+.ph-ai-popover{position:absolute;background:#fff;border-radius:12px;box-shadow:0 8px 30px rgba(91,33,182,0.18);border:1px solid #e9e5f5;padding:12px 14px;width:200px;z-index:5}
+.ph-ai-popover::before{content:'';position:absolute;top:-6px;left:20px;width:12px;height:12px;background:#fff;border:1px solid #e9e5f5;border-right:none;border-bottom:none;transform:rotate(45deg)}
+.ph-ai-tag{display:inline-flex;align-items:center;gap:4px;background:#ede9fe;color:#6d28d9;font-size:0.58rem;font-weight:700;padding:3px 8px;border-radius:6px;margin-bottom:6px}
+.ph-ai-suggestion{font-size:0.66rem;color:#374151;line-height:1.5;margin-bottom:6px}
+.ph-ai-accept{display:inline-flex;align-items:center;gap:3px;background:linear-gradient(135deg,#7c3aed,#5b21b6);color:#fff;font-size:0.6rem;font-weight:600;padding:4px 10px;border-radius:6px;border:none;cursor:pointer}
+
+.ph-job-card{background:#fff;border-radius:14px;border:1px solid #e9e5f5;box-shadow:0 2px 16px rgba(91,33,182,0.08);padding:16px;display:flex;gap:14px;align-items:flex-start;margin-bottom:10px;position:relative}
+.ph-job-logo{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:800;color:#fff;flex-shrink:0}
+.ph-job-info{flex:1;min-width:0}
+.ph-job-title{font-size:0.85rem;font-weight:700;color:#1e1b4b;margin-bottom:2px}
+.ph-job-company{font-size:0.72rem;color:#64617a;margin-bottom:4px}
+.ph-job-meta{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px}
+.ph-job-tag{font-size:0.58rem;font-weight:600;padding:2px 7px;border-radius:5px;background:#f5f3ff;color:#6d28d9;border:1px solid #e9e5f5}
+.ph-job-salary{font-size:0.58rem;font-weight:700;padding:2px 7px;border-radius:5px;background:#ecfdf5;color:#059669;border:1px solid #a7f3d0}
+.ph-vibe-ring{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative;flex-shrink:0}
+.ph-vibe-ring::before{content:'';position:absolute;inset:0;border-radius:50%;padding:2px;mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask-composite:exclude;-webkit-mask-composite:xor}
+.ph-vibe-ring.hot::before{padding:2.5px;background:conic-gradient(from 0deg,#f0abfc,#d946ef,#a855f7,#7c3aed,#a855f7,#d946ef,#f0abfc);animation:ph-ring-spin 1.5s linear infinite}
+.ph-vibe-ring.hot{animation:ph-hot-pulse 1.8s ease-in-out infinite}
+.ph-vibe-ring.hot .vn{background-image:linear-gradient(135deg,#fff,#f0abfc,#d946ef,#a855f7);background-size:200% 200%;animation:ph-shimmer 2s ease-in-out infinite;filter:drop-shadow(0 0 10px rgba(217,70,239,0.8)) drop-shadow(0 0 20px rgba(168,85,247,0.5))}
+.ph-vibe-ring.warm::before{background:conic-gradient(from 0deg,#c4b5fd,#a78bfa,#8b5cf6,#a78bfa,#c4b5fd);animation:ph-ring-spin 5s linear infinite}
+.ph-vibe-ring.warm .vn{background-image:linear-gradient(135deg,#c084fc,#a855f7,#8b5cf6);filter:drop-shadow(0 0 6px rgba(168,85,247,0.5))}
+.ph-vibe-ring.cool::before{background:conic-gradient(from 0deg,rgba(199,210,254,0.25),rgba(165,180,252,0.15),rgba(199,210,254,0.25));animation:ph-ring-spin 8s linear infinite}
+.ph-vibe-ring.cool .vn{background-image:linear-gradient(135deg,#a5b4fc,#c7d2fe)}
+.vn{font-size:1.1rem;font-weight:900;line-height:1;background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;position:relative;z-index:1}
+
+.ph-interview-layout{display:flex;gap:16px;height:100%}
+.ph-interview-left{flex:1;display:flex;flex-direction:column;gap:12px}
+.ph-interview-right{width:280px;flex-shrink:0}
+.ph-q-card{background:#fff;border-radius:14px;border:1px solid #e9e5f5;padding:16px;box-shadow:0 2px 12px rgba(91,33,182,0.06)}
+.ph-q-label{font-size:0.6rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#6d28d9;margin-bottom:6px}
+.ph-q-text{font-size:0.82rem;font-weight:600;color:#1e1b4b;line-height:1.5;margin-bottom:10px}
+.ph-framework-badge{display:inline-flex;align-items:center;gap:4px;background:#ede9fe;color:#6d28d9;font-size:0.58rem;font-weight:700;padding:4px 10px;border-radius:6px}
+.ph-voice-area{background:#fff;border-radius:14px;border:1px solid #e9e5f5;padding:14px;text-align:center;box-shadow:0 2px 12px rgba(91,33,182,0.06);flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ph-voice-bars{display:flex;gap:3px;align-items:end;height:32px;margin-bottom:8px}
+.ph-voice-bars .bar{width:4px;border-radius:2px;background:linear-gradient(to top,#7c3aed,#a78bfa)}
+.ph-voice-label{font-size:0.68rem;color:#64617a;font-weight:500}
+.ph-score-panel{background:#fff;border-radius:14px;border:1px solid #e9e5f5;padding:16px;box-shadow:0 2px 12px rgba(91,33,182,0.06);display:flex;flex-direction:column;align-items:center;height:100%}
+.ph-score-ring-wrap{position:relative;margin-bottom:10px}
+.ph-score-ring-text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
+.ph-score-number{font-size:1.6rem;font-weight:800;display:block}
+.ph-score-level{font-size:0.58rem;font-weight:700;text-transform:uppercase;letter-spacing:0.04em}
+.ph-star-bars{width:100%;margin-top:6px}
+.ph-star-bar{display:flex;align-items:center;gap:6px;margin-bottom:5px}
+.ph-star-bar .label{font-size:0.6rem;font-weight:600;color:#64617a;width:70px;text-align:right}
+.ph-star-bar .track{flex:1;height:6px;background:#f0ecf9;border-radius:3px;overflow:hidden}
+.ph-star-bar .fill{height:100%;border-radius:3px}
+.ph-star-bar .val{font-size:0.58rem;font-weight:700;width:28px}
+
+.ph-zoom-container{transition:transform 1s cubic-bezier(0.34,1.56,0.64,1)}
+
+.ph-scene-indicator{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:20}
+.ph-dot{width:8px;height:8px;border-radius:50%;background:#ddd6fe;transition:all 0.3s}
+.ph-dot.active{background:#6d28d9;width:20px;border-radius:4px}
 </style>
-</head><body>
-<div id="phRoot" style="width:1100px;height:680px;border-radius:18px;overflow:hidden;box-shadow:0 30px 80px rgba(76,29,149,0.15),0 10px 30px rgba(0,0,0,0.07);background:#fff;display:flex;flex-direction:column;border:1px solid rgba(139,92,246,0.08)">
-  <div style="background:#fff;padding:0 1.25rem;display:flex;align-items:center;height:46px;border-bottom:1px solid #f0ebfa;flex-shrink:0">
-    <div style="display:flex;align-items:center;gap:0.35rem;margin-right:2rem">
-      <span style="font-size:1rem;color:#7c3aed;font-weight:800;font-style:italic;font-family:'Figtree',sans-serif;letter-spacing:-0.03em">my</span>
-      <span style="font-size:1.05rem;font-weight:800;color:#1e1b4b;font-family:'Figtree',sans-serif;letter-spacing:-0.03em">Pathfinder</span>
-    </div>
-    <div id="phTopNav" style="display:flex;align-items:center;gap:1.5rem;flex:1"></div>
-    <div style="display:flex;align-items:center;gap:0.75rem">
-      <div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#a78bfa,#7c3aed);display:flex;align-items:center;justify-content:center;font-size:0.58rem;font-weight:700;color:#fff">AT</div>
+</head>
+<body style="margin:0;display:flex;justify-content:center;align-items:center;min-height:100vh;background:transparent">
+<div class="ph-canvas" id="canvas">
+
+<div class="ph-top-bar">
+  <img class="ph-logo" src="data:image/png;base64,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CVIAAACZBCkAAIBMghQAAEAmQQoAACCTIAUAAJBJkAIAAMgkSAEAAGQSpAAAADIJUgAAAJkEKQAAgEyCFAAAQCZBCgAAIJMgBQAAkEmQAgAAyCRIAQAAZBKkAAAAMglSAAAAmQQpAACATIIUAABAJkEKAAAgkyAFAACQSZACAADIJEgBAABkEqQAAAAyCVIAAACZBCkAAIBMghQAAEAmQQoAACCTIAUAAJBJkAIAAMgkSAEAAGQSpAAAADIJUgAAAJkEKQAAgEyCFAAAQCZBCgAAIJMgBQAAkEmQAgAAyCRIAQAAZBKkAAAAMglSAAAAmQQpAACATIIUAABAJkEKAAAgkyAFAACQSZACAADIJEgBAABkEqQAAAAyCVIAAACZBCkAAIBMghQAAEAmQQoAACCTIAUAAJBJkAIAAMgkSAEAAGQSpAAAADIJUgAAAJkEKQAAgEyCFAAAQCZBCgAAIJMgBQAAkEmQAgAAyCRIAQAAZBKkAAAAMglSAAAAmQQpAACATIIUAABAJkEKAAAgkyAFAACQSZACAADIJEgBAABkEqQAAAAyCVIAAACZBCkAAIBMghQAAEAmQQoAACCTIAUAAJBJkAIAAMgkSAEAAGQSpAAAADIJUgAAAJkEKQAAgEyCFAAAQCZBCgAAIJMgBQAAkEmQAgAAyCRIAQAAZBKkAAAAMglSAAAAmQQpAACATIIUAABAJkEKAAAgkyAFAACQSZACAADIJEgBAABkEqQAAAAyCVIAAACZBCkAAIBMghQAAEAmQQoAACCTIAUAAJBJkAIAAMgkSAEAAGQSpAAAADIJUgAAAJkEKQAAgEyCFAAAQCZBCgAAIJMgBQAAkEmQAgAAyCRIAQAAZBKkAAAAMglSAAAAmQQpAACATIIUAABAJkEKAAAgkyAFAACQSZACAADIJEgBAABkEqQAAAAyCVIAAACZBCkAAIBMghQAAEAmQQoAACCTIAUAAJBJkAIAAMgkSAEAAGQSpAAAADIJUgAAAJkEKQAAgEyCFAAAQCZBCgAAIJMgBQAAkEmQAgAAyPT/AYY42o8c1nxRAAAAAElFTkSuQmCC" alt="MyPathfinder">
+  <div class="ph-top-nav">
+    <a class="ph-top-link active" id="tn-dash"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg> Dashboard</a>
+    <a class="ph-top-link" id="tn-cv"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> CV Builder</a>
+    <a class="ph-top-link" id="tn-jobs"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Job Search</a>
+    <a class="ph-top-link" id="tn-interview"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg> Interview</a>
+    <a class="ph-top-link"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg> Tracker</a>
+  </div>
+</div>
+
+<div class="ph-body">
+<div class="ph-sidebar">
+  <div class="ph-sb-icon active" title="Dashboard"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div>
+  <div class="ph-sb-icon" title="CV Builder"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+  <div class="ph-sb-icon" title="Job Search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+  <div class="ph-sb-icon" title="Interview"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg></div>
+  <div class="ph-sb-icon" title="Tracker"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg></div>
+  <div class="ph-sb-sep"></div>
+  <div class="ph-sb-icon" title="Career Advice"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+  <div class="ph-sb-icon" title="Plans"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></div>
+  <div class="ph-sb-sep"></div>
+  <div class="ph-sb-icon" title="Sign Out"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></div>
+</div>
+
+<div class="ph-content">
+
+<!-- SCENE 0: DASHBOARD -->
+<div class="ph-scene active" id="scene-dash">
+<div class="ph-zoom-container" id="zoom-dash">
+
+  <div class="ph-hero-banner" style="animation:ph-fade-in 0.6s ease both">
+    <div class="orb1"></div><div class="orb2"></div>
+    <div style="position:relative;z-index:1">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;flex-wrap:wrap">
+        <span class="ph-hero-title">Welcome back, Alex<span class="dot">.</span></span>
+        <span class="ph-plan-badge">Sprint Pass</span>
+      </div>
+      <div class="ph-hero-nudge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+        <p>Your scores are up 12% recently — great momentum!</p>
+      </div>
     </div>
   </div>
-  <div style="display:flex;flex:1;overflow:hidden">
-    <div id="phSidebar" style="width:200px;flex-shrink:0;border-right:1px solid #f0ebfa;background:#fff;display:flex;flex-direction:column;padding:0.75rem 0;overflow:hidden"></div>
-    <div style="flex:1;position:relative;overflow:hidden;background:#f5f3ff">
-      <div id="phContent" style="position:absolute;inset:0;overflow:hidden"></div>
-      <div id="phBadge" style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);z-index:30;opacity:0;transition:opacity 0.4s ease"></div>
+
+  <div class="ph-feature-grid" style="animation:ph-fade-in 0.6s 0.2s ease both">
+    <div class="ph-fcard" id="fcard-cv">
+      <div class="ph-fcard-border" style="background:linear-gradient(135deg,#7c3aed,#5b21b6)"></div>
+      <div class="ph-fcard-icon floating" style="background:#ede9fe">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        <span class="ph-fcard-count">4</span>
+      </div>
+      <h4>CV Builder</h4>
+      <p>Share a job description to create your perfect CV in seconds.</p>
+      <div class="ph-fcard-btn" style="background:linear-gradient(135deg,#7c3aed,#5b21b6)">Launch CV Builder →</div>
+    </div>
+    <div class="ph-fcard" id="fcard-interview">
+      <div class="ph-fcard-border" style="background:linear-gradient(135deg,#c026d3,#86198f)"></div>
+      <div class="ph-fcard-icon floating" style="background:#fae8ff;animation-delay:0.3s">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c026d3" stroke-width="2.2" stroke-linecap="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+        <span class="ph-fcard-count" style="background:#c026d3">3</span>
+      </div>
+      <h4>Interview Simulator</h4>
+      <p>Get real-world feedback for any interview question.</p>
+      <div class="ph-fcard-btn" style="background:linear-gradient(135deg,#c026d3,#86198f)">Practise an Interview →</div>
+    </div>
+    <div class="ph-fcard">
+      <div class="ph-fcard-border" style="background:linear-gradient(135deg,#4f46e5,#312e81)"></div>
+      <div class="ph-fcard-icon floating" style="background:#e0e7ff;animation-delay:0.6s">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span class="ph-fcard-count" style="background:#4f46e5">12</span>
+      </div>
+      <h4>Job Search</h4>
+      <p>Discover roles matched to your skills, values and vibe.</p>
+      <div class="ph-fcard-btn" style="background:linear-gradient(135deg,#4f46e5,#312e81)">Browse Vacancies →</div>
+    </div>
+    <div class="ph-fcard">
+      <div class="ph-fcard-border" style="background:linear-gradient(135deg,#d946ef,#a21caf)"></div>
+      <div class="ph-fcard-icon floating" style="background:#fdf4ff;animation-delay:0.9s">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d946ef" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        <span class="ph-fcard-count" style="background:#d946ef">7</span>
+      </div>
+      <h4>Application Tracker</h4>
+      <p>One view, zero missed opportunities.</p>
+      <div class="ph-fcard-btn" style="background:linear-gradient(135deg,#d946ef,#a21caf)">View Progress →</div>
+    </div>
+  </div>
+
+  <div class="ph-bottom-row" style="animation:ph-fade-in 0.6s 0.4s ease both">
+    <div class="ph-panel">
+      <div class="ph-panel-hdr"><h3>Interview Feedback</h3></div>
+      <div class="ph-stats-row">
+        <div class="ph-stat-card" style="background:#ede9fe;border:1px solid #ddd6fe">
+          <svg class="stat-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="2" stroke-linecap="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+          <div class="ph-stat-val" style="color:#5b21b6">73%</div>
+          <div class="ph-stat-label" style="color:#5b21b6">Avg Score</div>
+          <div class="ph-sparkline"><svg width="50" height="18"><defs><linearGradient id="sp1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#6d28d9" stop-opacity="0.25"/><stop offset="100%" stop-color="#6d28d9" stop-opacity="0"/></linearGradient></defs><polygon points="2,16 8,12 16,14 24,8 32,10 40,6 48,4 48,16" fill="url(#sp1)"/><polyline points="2,16 8,12 16,14 24,8 32,10 40,6 48,4" fill="none" stroke="#6d28d9" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        </div>
+        <div class="ph-stat-card" style="background:#dbeafe;border:1px solid #bfdbfe">
+          <svg class="stat-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1d4ed8" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <div class="ph-stat-val" style="color:#1e40af">18</div>
+          <div class="ph-stat-label" style="color:#1e40af">Interviews</div>
+          <div class="ph-sparkline"><svg width="50" height="18"><defs><linearGradient id="sp2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1d4ed8" stop-opacity="0.25"/><stop offset="100%" stop-color="#1d4ed8" stop-opacity="0"/></linearGradient></defs><polygon points="2,16 12,12 24,9 36,6 48,3 48,16" fill="url(#sp2)"/><polyline points="2,16 12,12 24,9 36,6 48,3" fill="none" stroke="#1d4ed8" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        </div>
+        <div class="ph-stat-card" style="background:#fef3c7;border:1px solid #fde68a">
+          <svg class="stat-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#92400e" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+          <div class="ph-stat-val" style="color:#92400e">78%</div>
+          <div class="ph-stat-label" style="color:#92400e">Pass Rate</div>
+          <div class="ph-sparkline"><svg width="50" height="18"><defs><linearGradient id="sp3" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#92400e" stop-opacity="0.25"/><stop offset="100%" stop-color="#92400e" stop-opacity="0"/></linearGradient></defs><polygon points="2,14 12,10 24,12 36,6 48,4 48,16" fill="url(#sp3)"/><polyline points="2,14 12,10 24,12 36,6 48,4" fill="none" stroke="#92400e" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ph-panel">
+      <div class="ph-panel-hdr"><h3>Recent Activity</h3></div>
+      <div class="ph-activity-list">
+        <div class="ph-activity-item" style="animation:ph-activity-in 0.4s 0.5s ease both">
+          <div class="ph-activity-icon-col">
+            <div class="ph-activity-icon" style="background:#ede9fe;border:1px solid #ddd6fe"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/></svg></div>
+            <div class="ph-activity-connector"></div>
+          </div>
+          <div class="ph-activity-text"><p>Scored 82% in interview practice</p><span class="link">Practice Again →</span><span class="time"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>2h ago</span></div>
+        </div>
+        <div class="ph-activity-item" style="animation:ph-activity-in 0.4s 0.7s ease both">
+          <div class="ph-activity-icon-col">
+            <div class="ph-activity-icon" style="background:#e0e7ff;border:1px solid #c7d2fe"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+            <div class="ph-activity-connector"></div>
+          </div>
+          <div class="ph-activity-text"><p>Created CV: Product Manager CV</p><span class="link">View in CV Builder →</span><span class="time"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>5h ago</span></div>
+        </div>
+        <div class="ph-activity-item" style="animation:ph-activity-in 0.4s 0.9s ease both">
+          <div class="ph-activity-icon-col">
+            <div class="ph-activity-icon" style="background:#d1fae5;border:1px solid #a7f3d0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a4 4 0 0 0-8 0v2"/></svg></div>
+            <div class="ph-activity-connector"></div>
+          </div>
+          <div class="ph-activity-text"><p>Applied to UX Designer at Spotify</p><span class="link">View Applications →</span><span class="time"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>1d ago</span></div>
+        </div>
+        <div class="ph-activity-item" style="animation:ph-activity-in 0.4s 1.1s ease both">
+          <div class="ph-activity-icon-col">
+            <div class="ph-activity-icon" style="background:#ede9fe;border:1px solid #ddd6fe"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="2" stroke-linecap="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></div>
+          </div>
+          <div class="ph-activity-text"><p>Scored 75% — Elise Mock Interview</p><span class="link">View Results →</span><span class="time"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>2d ago</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- SCENE 1: CV BUILDER -->
+<div class="ph-scene" id="scene-cv">
+<div class="ph-zoom-container" id="zoom-cv">
+  <div style="display:flex;gap:16px;height:100%">
+    <div style="flex:1;display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;gap:8px;animation:ph-fade-in 0.5s ease both">
+        <div style="padding:6px 12px;border-radius:8px;background:#6d28d9;color:#fff;font-size:0.68rem;font-weight:600">AI Generated</div>
+        <div style="padding:6px 12px;border-radius:8px;background:#f5f3ff;color:#6d28d9;font-size:0.68rem;font-weight:600;border:1px solid #e9e5f5">ATS Optimised</div>
+        <div style="padding:6px 12px;border-radius:8px;background:#ecfdf5;color:#059669;font-size:0.68rem;font-weight:600;border:1px solid #a7f3d0">Score: 94%</div>
+      </div>
+      <div class="ph-cv-page" style="animation:ph-slide-up 0.6s 0.2s ease both;flex:1;overflow:hidden;position:relative" id="cv-page-area">
+        <div class="ph-cv-name">Alex Thompson</div>
+        <div class="ph-cv-subtitle">Product Manager · London, UK · alex.thompson@email.com</div>
+        <div class="ph-cv-section">
+          <h3>Professional Summary</h3>
+          <div class="ph-cv-line filled" style="width:100%"></div>
+          <div class="ph-cv-line filled" style="width:92%"></div>
+          <div class="ph-cv-line filled" style="width:78%"></div>
+        </div>
+        <div class="ph-cv-section">
+          <h3>Experience</h3>
+          <div style="margin-bottom:8px">
+            <div style="font-size:0.72rem;font-weight:700;color:#1e1b4b">Senior Product Manager — TechCorp</div>
+            <div style="font-size:0.6rem;color:#6b7280;margin-bottom:3px">Jan 2023 – Present · London</div>
+            <div class="ph-cv-bullet"><span class="dot"></span><span>Led cross-functional team of 12 to deliver enterprise SaaS platform</span></div>
+            <div class="ph-cv-bullet"><span class="dot"></span><span>Increased user retention by 34% through data-driven feature prioritisation</span></div>
+            <div class="ph-cv-bullet"><span class="dot"></span><span>Managed £2.4M annual product budget across 3 product lines</span></div>
+          </div>
+          <div>
+            <div style="font-size:0.72rem;font-weight:700;color:#1e1b4b">Product Manager — StartupXYZ</div>
+            <div style="font-size:0.6rem;color:#6b7280;margin-bottom:3px">Mar 2020 – Dec 2022 · Remote</div>
+            <div class="ph-cv-bullet"><span class="dot"></span><span>Launched MVP in 8 weeks, acquiring 5,000 users in first quarter</span></div>
+            <div class="ph-cv-bullet"><span class="dot"></span><span>Implemented agile workflows reducing sprint cycle time by 40%</span></div>
+          </div>
+        </div>
+        <div class="ph-cv-section">
+          <h3>Skills</h3>
+          <div style="display:flex;flex-wrap:wrap;gap:4px">
+            <span style="font-size:0.6rem;padding:3px 8px;border-radius:5px;background:#f5f3ff;color:#6d28d9;font-weight:600">Product Strategy</span>
+            <span style="font-size:0.6rem;padding:3px 8px;border-radius:5px;background:#f5f3ff;color:#6d28d9;font-weight:600">Agile / Scrum</span>
+            <span style="font-size:0.6rem;padding:3px 8px;border-radius:5px;background:#f5f3ff;color:#6d28d9;font-weight:600">Data Analytics</span>
+            <span style="font-size:0.6rem;padding:3px 8px;border-radius:5px;background:#f5f3ff;color:#6d28d9;font-weight:600">Stakeholder Mgmt</span>
+            <span style="font-size:0.6rem;padding:3px 8px;border-radius:5px;background:#f5f3ff;color:#6d28d9;font-weight:600">SQL</span>
+            <span style="font-size:0.6rem;padding:3px 8px;border-radius:5px;background:#f5f3ff;color:#6d28d9;font-weight:600">Figma</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="width:200px;flex-shrink:0;display:flex;flex-direction:column;gap:10px;padding-top:38px;position:relative">
+      <div class="ph-ai-popover" id="ai-popover" style="animation:ph-popover-in 0.5s 1.2s ease both;opacity:0;top:20px;left:0">
+        <div class="ph-ai-tag"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg> AI Suggestion</div>
+        <div class="ph-ai-suggestion">Consider adding quantifiable metrics to strengthen your impact statements. For example: "Reduced onboarding time by 45%"</div>
+        <button class="ph-ai-accept"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Accept</button>
+      </div>
+      <div style="animation:ph-fade-in 0.5s 2s ease both;opacity:0;margin-top:140px">
+        <div style="background:#fff;border-radius:12px;border:1px solid #e9e5f5;padding:12px;box-shadow:0 2px 12px rgba(91,33,182,0.06)">
+          <div style="font-size:0.68rem;font-weight:700;color:#1e1b4b;margin-bottom:6px">ATS Compatibility</div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div style="flex:1;height:6px;background:#f0ecf9;border-radius:3px;overflow:hidden"><div style="width:94%;height:100%;background:linear-gradient(90deg,#7c3aed,#a78bfa);border-radius:3px"></div></div>
+            <span style="font-size:0.68rem;font-weight:700;color:#166534">94%</span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
+</div>
+
+<!-- SCENE 2: JOB SEARCH -->
+<div class="ph-scene" id="scene-jobs">
+<div class="ph-zoom-container" id="zoom-jobs">
+  <div style="animation:ph-fade-in 0.5s ease both">
+    <div style="display:flex;gap:10px;margin-bottom:14px;align-items:center">
+      <div style="flex:1;background:#fff;border-radius:10px;border:1px solid #e9e5f5;padding:8px 14px;display:flex;align-items:center;gap:8px">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span style="font-size:0.78rem;color:#6b7280">Product Manager, London...</span>
+      </div>
+      <div style="padding:8px 14px;background:linear-gradient(135deg,#7c3aed,#5b21b6);color:#fff;border-radius:10px;font-size:0.72rem;font-weight:600">Search</div>
+    </div>
+    <div style="display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap">
+      <span style="font-size:0.6rem;padding:4px 10px;border-radius:6px;background:#ede9fe;color:#6d28d9;font-weight:600">Remote</span>
+      <span style="font-size:0.6rem;padding:4px 10px;border-radius:6px;background:#ede9fe;color:#6d28d9;font-weight:600">£60k+</span>
+      <span style="font-size:0.6rem;padding:4px 10px;border-radius:6px;background:#f5f3ff;color:#6d28d9;font-weight:600;border:1px solid #e9e5f5">Full-time</span>
+      <span style="font-size:0.6rem;padding:4px 10px;border-radius:6px;background:#f5f3ff;color:#6d28d9;font-weight:600;border:1px solid #e9e5f5">Last 7 days</span>
+    </div>
+  </div>
+
+  <div class="ph-job-card" style="animation:ph-slide-up 0.5s 0.3s ease both;opacity:0" id="job-card-hot">
+    <div class="ph-job-logo" style="background:linear-gradient(135deg,#1DB954,#158a3e)">S</div>
+    <div class="ph-job-info">
+      <div class="ph-job-title">Senior Product Manager</div>
+      <div class="ph-job-company">Spotify · London, UK</div>
+      <div class="ph-job-meta">
+        <span class="ph-job-tag">Full-time</span>
+        <span class="ph-job-tag">Remote</span>
+        <span class="ph-job-salary">£85,000 – £110,000</span>
+      </div>
+    </div>
+    <div class="ph-vibe-ring hot" id="vibe-hot"><span class="vn">94</span></div>
+  </div>
+
+  <div class="ph-job-card" style="animation:ph-slide-up 0.5s 0.5s ease both;opacity:0">
+    <div class="ph-job-logo" style="background:linear-gradient(135deg,#4285f4,#1a73e8)">G</div>
+    <div class="ph-job-info">
+      <div class="ph-job-title">Product Manager, Cloud AI</div>
+      <div class="ph-job-company">Google · London, UK</div>
+      <div class="ph-job-meta">
+        <span class="ph-job-tag">Full-time</span>
+        <span class="ph-job-tag">Hybrid</span>
+        <span class="ph-job-salary">£95,000 – £130,000</span>
+      </div>
+    </div>
+    <div class="ph-vibe-ring warm"><span class="vn">82</span></div>
+  </div>
+
+  <div class="ph-job-card" style="animation:ph-slide-up 0.5s 0.7s ease both;opacity:0">
+    <div class="ph-job-logo" style="background:linear-gradient(135deg,#0a66c2,#004182)">L</div>
+    <div class="ph-job-info">
+      <div class="ph-job-title">Growth Product Lead</div>
+      <div class="ph-job-company">LinkedIn · London, UK</div>
+      <div class="ph-job-meta">
+        <span class="ph-job-tag">Full-time</span>
+        <span class="ph-job-tag">Hybrid</span>
+        <span class="ph-job-salary">£75,000 – £95,000</span>
+      </div>
+    </div>
+    <div class="ph-vibe-ring cool"><span class="vn">68</span></div>
+  </div>
+
+  <div class="ph-job-card" style="animation:ph-slide-up 0.5s 0.9s ease both;opacity:0">
+    <div class="ph-job-logo" style="background:linear-gradient(135deg,#ff9900,#c77600)">A</div>
+    <div class="ph-job-info">
+      <div class="ph-job-title">Technical Product Manager</div>
+      <div class="ph-job-company">Amazon · Cambridge, UK</div>
+      <div class="ph-job-meta">
+        <span class="ph-job-tag">Full-time</span>
+        <span class="ph-job-tag">On-site</span>
+        <span class="ph-job-salary">£80,000 – £105,000</span>
+      </div>
+    </div>
+    <div class="ph-vibe-ring warm"><span class="vn">85</span></div>
+  </div>
+</div>
+</div>
+
+<!-- SCENE 3: INTERVIEW SIMULATOR -->
+<div class="ph-scene" id="scene-interview">
+<div class="ph-zoom-container" id="zoom-interview">
+  <div class="ph-interview-layout">
+    <div class="ph-interview-left">
+      <div class="ph-q-card" style="animation:ph-fade-in 0.5s ease both">
+        <div class="ph-q-label">Interview Question</div>
+        <div class="ph-q-text">Tell me about a time you had to manage competing priorities from multiple stakeholders. How did you approach it?</div>
+        <div style="display:flex;gap:6px;align-items:center">
+          <div class="ph-framework-badge"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> STAR Framework</div>
+          <span style="font-size:0.58rem;color:#64617a;font-weight:500">Competency-based</span>
+        </div>
+      </div>
+      <div class="ph-voice-area" style="animation:ph-fade-in 0.5s 0.3s ease both">
+        <div class="ph-voice-bars" id="voice-bars">
+          <div class="bar" style="height:6px;animation:ph-wave 1.2s ease-in-out 0s infinite"></div>
+          <div class="bar" style="height:14px;animation:ph-wave 1.2s ease-in-out 0.15s infinite"></div>
+          <div class="bar" style="height:20px;animation:ph-wave 1.2s ease-in-out 0.3s infinite"></div>
+          <div class="bar" style="height:10px;animation:ph-wave 1.2s ease-in-out 0.45s infinite"></div>
+          <div class="bar" style="height:24px;animation:ph-wave 1.2s ease-in-out 0.6s infinite"></div>
+          <div class="bar" style="height:8px;animation:ph-wave 1.2s ease-in-out 0.75s infinite"></div>
+          <div class="bar" style="height:18px;animation:ph-wave 1.2s ease-in-out 0.9s infinite"></div>
+          <div class="bar" style="height:12px;animation:ph-wave 1.2s ease-in-out 1.05s infinite"></div>
+          <div class="bar" style="height:22px;animation:ph-wave 1.2s ease-in-out 1.2s infinite"></div>
+          <div class="bar" style="height:6px;animation:ph-wave 1.2s ease-in-out 1.35s infinite"></div>
+        </div>
+        <div class="ph-voice-label">Recording your answer...</div>
+        <div style="margin-top:8px;display:flex;gap:8px">
+          <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#5b21b6);display:flex;align-items:center;justify-content:center;cursor:pointer">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>
+          </div>
+          <div style="width:36px;height:36px;border-radius:50%;background:#fee2e2;display:flex;align-items:center;justify-content:center;cursor:pointer">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#991b1b" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ph-interview-right">
+      <div class="ph-score-panel" id="score-panel" style="animation:ph-slide-r 0.6s 0.6s ease both;opacity:0">
+        <div style="font-size:0.68rem;font-weight:700;color:#1e1b4b;margin-bottom:8px;align-self:flex-start">Your Score</div>
+        <div class="ph-score-ring-wrap">
+          <svg width="110" height="110" viewBox="0 0 110 110">
+            <circle cx="55" cy="55" r="48" fill="none" stroke="#e9e5f5" stroke-width="9"/>
+            <circle cx="55" cy="55" r="48" fill="none" stroke="#166534" stroke-width="9" stroke-linecap="round" stroke-dasharray="301.6" stroke-dashoffset="72.4" transform="rotate(-90 55 55)" style="--circ:301.6;--offset:72.4;animation:ph-score-fill 1.2s 1s ease-out both"/>
+          </svg>
+          <div class="ph-score-ring-text">
+            <span class="ph-score-number" style="color:#166534">76%</span>
+            <span class="ph-score-level" style="color:#166534">Excellent</span>
+          </div>
+        </div>
+        <div class="ph-star-bars" id="star-bars">
+          <div class="ph-star-bar"><span class="label">Situation</span><div class="track"><div class="fill" style="background:#166534;--bar-w:82%;animation:ph-bar-grow 0.8s 1.3s ease both;width:0"></div></div><span class="val" style="color:#166534">82%</span></div>
+          <div class="ph-star-bar"><span class="label">Task</span><div class="track"><div class="fill" style="background:#5b21b6;--bar-w:71%;animation:ph-bar-grow 0.8s 1.5s ease both;width:0"></div></div><span class="val" style="color:#5b21b6">71%</span></div>
+          <div class="ph-star-bar"><span class="label">Action</span><div class="track"><div class="fill" style="background:#166534;--bar-w:78%;animation:ph-bar-grow 0.8s 1.7s ease both;width:0"></div></div><span class="val" style="color:#166534">78%</span></div>
+          <div class="ph-star-bar"><span class="label">Result</span><div class="track"><div class="fill" style="background:#5b21b6;--bar-w:68%;animation:ph-bar-grow 0.8s 1.9s ease both;width:0"></div></div><span class="val" style="color:#5b21b6">68%</span></div>
+          <div class="ph-star-bar" style="margin-top:4px;padding-top:4px;border-top:1px solid #f0ecf9"><span class="label" style="font-weight:700;color:#1e1b4b">Overall</span><div class="track"><div class="fill" style="background:linear-gradient(90deg,#166534,#059669);--bar-w:76%;animation:ph-bar-grow 0.8s 2.1s ease both;width:0"></div></div><span class="val" style="color:#166534;font-weight:800">76%</span></div>
+        </div>
+        <div style="margin-top:auto;padding-top:10px;width:100%">
+          <div style="display:flex;gap:6px">
+            <div style="flex:1;padding:6px;border-radius:8px;background:linear-gradient(135deg,#7c3aed,#5b21b6);color:#fff;font-size:0.62rem;font-weight:600;text-align:center;cursor:pointer">Try Again</div>
+            <div style="flex:1;padding:6px;border-radius:8px;background:#f5f3ff;color:#6d28d9;font-size:0.62rem;font-weight:600;text-align:center;border:1px solid #e9e5f5;cursor:pointer">View Tips</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="ph-scene-indicator" id="scene-dots">
+  <div class="ph-dot active" data-scene="0"></div>
+  <div class="ph-dot" data-scene="1"></div>
+  <div class="ph-dot" data-scene="2"></div>
+  <div class="ph-dot" data-scene="3"></div>
+</div>
+
+</div>
+
 <script>
 (function(){
-var sb=document.getElementById('phSidebar');
-var ct=document.getElementById('phContent');
-var bg=document.getElementById('phBadge');
-var tn=document.getElementById('phTopNav');
-
-var navItems=[
-  {label:'Dashboard',key:'dashboard',svg:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9 9 9 0 0 1 9 9z"/><path d="M9 12h6"/><path d="M12 9v6"/></svg>'},
-  {label:'CV Builder',key:'cv',svg:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"/><line x1="9" y1="9" x2="10" y2="9"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg>'},
-  {label:'Job Search',key:'jobs',svg:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>'},
-  {label:'Interview Simulator',key:'interview',svg:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>'},
-  {label:'Application Tracker',key:'tracker',svg:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>'}
-];
-
-var supportItems=[
-  {label:'Career Advice',svg:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>'},
-  {label:'Payment Plans',svg:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>'}
-];
-
-function renderTopNav(activeKey){
-  var topLabels={dashboard:'Dashboard',cv:'CV Builder',jobs:'Job Search',interview:'Interview Simulator',tracker:'Application Tracker'};
-  var h='';
-  for(var k in topLabels){
-    var isA=k===activeKey;
-    h+='<span style="font-size:0.78rem;font-weight:'+(isA?'600':'500')+';color:'+(isA?'#7c3aed':'#6b7280')+';letter-spacing:-0.01em;transition:color 0.3s ease">'+topLabels[k]+'</span>';
-  }
-  tn.innerHTML=h;
-}
-
-function renderSidebar(activeKey){
-  var h='<div style="padding:0 0.75rem 0.4rem"><span style="font-size:0.6rem;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.08em">Navigation</span></div>';
-  h+='<div style="height:1px;background:#f0ebfa;margin:0 0.75rem 0.3rem"></div>';
-  for(var i=0;i<navItems.length;i++){
-    var n=navItems[i];
-    var isA=n.key===activeKey;
-    h+='<a style="display:flex;align-items:center;gap:0.55rem;padding:0.45rem 0.75rem;margin:0.05rem 0.5rem;border-radius:8px;text-decoration:none;transition:all 0.25s ease;background:'+(isA?'#f5f3ff':'transparent')+';color:'+(isA?'#7c3aed':'#6b7280')+'">';
-    h+='<span style="display:flex;align-items:center;color:'+(isA?'#7c3aed':'#9ca3af')+'">'+n.svg+'</span>';
-    h+='<span style="font-size:0.78rem;font-weight:'+(isA?'600':'500')+'">'+n.label+'</span></a>';
-  }
-  h+='<div style="padding:0.6rem 0.75rem 0.35rem;margin-top:0.5rem"><span style="font-size:0.6rem;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.08em">Support</span></div>';
-  h+='<div style="height:1px;background:#f0ebfa;margin:0 0.75rem 0.3rem"></div>';
-  for(var j=0;j<supportItems.length;j++){
-    var s=supportItems[j];
-    h+='<a style="display:flex;align-items:center;gap:0.55rem;padding:0.45rem 0.75rem;margin:0.05rem 0.5rem;border-radius:8px;text-decoration:none;color:#6b7280">';
-    h+='<span style="display:flex;align-items:center;color:#9ca3af">'+s.svg+'</span>';
-    h+='<span style="font-size:0.78rem;font-weight:500">'+s.label+'</span></a>';
-  }
-  sb.innerHTML=h;
-}
-
-function showBadge(text,delay){
-  bg.style.opacity='0';
-  setTimeout(function(){
-    bg.innerHTML='<div style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:100px;background:rgba(30,27,75,0.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:#fff;font-size:0.75rem;font-weight:600;box-shadow:0 12px 40px rgba(0,0,0,0.15),0 0 0 1px rgba(139,92,246,0.15);animation:ph-badge-in 0.5s cubic-bezier(0.34,1.56,0.64,1) both;white-space:nowrap;letter-spacing:-0.01em">'+text+'</div>';
-    bg.style.opacity='1';
-  },delay);
-}
-
-function hideBadge(){bg.style.opacity='0';}
-
-function transition(onDone){
-  hideBadge();
-  ct.style.animation='ph-fade-out 0.3s ease both';
-  setTimeout(function(){
-    ct.style.animation='none';
-    void ct.offsetWidth;
-    onDone();
-  },350);
-}
-
-// ============ SCENE 1: CV BUILDER ============
-function sceneCv(onDone){
-  renderSidebar('cv');
-  renderTopNav('cv');
-  ct.style.animation='none';
-  void ct.offsetWidth;
-
-  var ORIG='Led cross-functional delivery of a £2.4M digital transformation programme across 3 business units';
-  var IMPROVED='Spearheaded end-to-end delivery of a £2.4M enterprise digital transformation, coordinating 3 cross-functional business units and 42 team members to achieve on-time, on-budget completion';
-  var B2='Reduced project delivery timelines by 28% through Agile methodology adoption and sprint planning';
-  var B3='Managed stakeholder relationships across C-suite, achieving 96% client satisfaction rating';
-
-  var h='<div style="display:flex;height:100%;animation:ph-fade-in 0.5s ease both">';
-
-  // Left panel: CV editor sidebar
-  h+='<div style="width:240px;flex-shrink:0;border-right:1px solid #e9ecef;background:#fff;display:flex;flex-direction:column;overflow:hidden">';
-  h+='<div style="padding:0.85rem 1rem 0.65rem;border-bottom:1px solid #f0f0f0">';
-  h+='<p style="font-size:0.58rem;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.08em;margin:0 0 0.5rem">Sections</p>';
-  h+='<div style="height:6px;background:#f0f0f0;border-radius:3px;overflow:hidden"><div style="height:100%;width:75%;background:linear-gradient(135deg,#8b5cf6,#BA67EF);border-radius:3px"></div></div>';
-  h+='<div style="display:flex;justify-content:space-between;margin-top:4px"><span style="font-size:0.52rem;color:#6b7280">Progress</span><span style="font-size:0.52rem;font-weight:700;color:#8b5cf6">75%</span></div>';
-  h+='</div>';
-  var steps=[{e:'👤',l:'Personal',a:false},{e:'💼',l:'Employment',a:true},{e:'🎓',l:'Education',a:false},{e:'⚡',l:'Skills',a:false},{e:'🌍',l:'Languages',a:false},{e:'🎯',l:'Hobbies',a:false},{e:'✏️',l:'Custom',a:false},{e:'🎨',l:'Design',a:false}];
-  h+='<div style="flex:1;overflow:hidden;padding:0.5rem 0">';
-  for(var i=0;i<steps.length;i++){
-    var s=steps[i];
-    h+='<div style="display:flex;align-items:center;gap:0.5rem;padding:0.45rem 1rem;margin:0.05rem 0;background:'+(s.a?'#f5f3ff':'transparent')+';border-right:2px solid '+(s.a?'#8b5cf6':'transparent')+';transition:all 0.2s ease">';
-    h+='<span style="font-size:0.72rem;width:20px;text-align:center">'+s.e+'</span>';
-    h+='<span style="font-size:0.72rem;font-weight:'+(s.a?'600':'500')+';color:'+(s.a?'#7c3aed':'#374151')+'">'+s.l+'</span>';
-    if(i<3){h+='<span style="margin-left:auto;width:6px;height:6px;border-radius:50%;background:#22c55e"></span>';}
-    h+='</div>';
-  }
-  h+='</div></div>';
-
-  // Middle panel: Edit form
-  h+='<div style="width:280px;flex-shrink:0;border-right:1px solid #e9ecef;background:#fff;padding:0.85rem;overflow:hidden;display:flex;flex-direction:column">';
-  h+='<div style="display:flex;align-items:center;gap:0.4rem;margin-bottom:0.65rem"><span style="font-size:0.82rem">💼</span><span style="font-size:0.82rem;font-weight:700;color:#1e1b4b;font-family:Figtree,sans-serif">Employment</span><span style="margin-left:auto;font-size:0.52rem;font-weight:600;color:#8b5cf6;background:#f5f3ff;padding:2px 8px;border-radius:100px;border:1px solid #ede9fe">2 roles</span></div>';
-
-  h+='<div style="border:1.5px solid #ddd6fe;border-radius:12px;background:#fff;margin-bottom:0.6rem;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.04)">';
-  h+='<div style="padding:0.6rem 0.75rem;border-bottom:1px solid #f5f0fa;display:flex;align-items:flex-start;gap:0.4rem"><div style="width:7px;height:7px;border-radius:50%;background:#8b5cf6;margin-top:5px;flex-shrink:0"></div><div><p style="font-size:0.72rem;font-weight:700;color:#1e1b4b;margin:0">Technical Project Manager</p><p style="font-size:0.58rem;color:#6b7280;margin:0">Capgemini UK · Jan 2022 – Present</p></div></div>';
-  h+='<div style="padding:0.55rem 0.75rem"><label style="font-size:0.5rem;font-weight:600;color:#9ca3af;display:block;margin-bottom:0.35rem;text-transform:uppercase;letter-spacing:0.06em">Key Achievements</label>';
-  h+='<div id="phCvBullets" style="display:flex;flex-direction:column;gap:0.3rem">';
-  var buls=[ORIG,B2,B3];
-  for(var bi=0;bi<buls.length;bi++){
-    h+='<div style="display:flex;align-items:flex-start;gap:0.3rem"><span style="color:#8b5cf6;font-weight:700;font-size:0.6rem;margin-top:1px;flex-shrink:0">•</span><span id="phBul'+bi+'" style="font-size:0.56rem;color:#374151;line-height:1.5;padding:2px 4px;border-radius:3px;transition:all 0.3s ease">'+buls[bi]+'</span></div>';
-  }
-  h+='</div></div></div>';
-
-  h+='<div style="border:1.5px solid #f0ebfa;border-radius:12px;background:#fdfcff;padding:0.6rem 0.75rem;display:flex;align-items:center;gap:0.4rem;opacity:0.35"><div style="width:7px;height:7px;border-radius:50%;background:#c4b5fd;flex-shrink:0"></div><div><p style="font-size:0.62rem;font-weight:600;color:#1e1b4b;margin:0">IT Programme Coordinator</p><p style="font-size:0.52rem;color:#9ca3af;margin:0">BAE Systems · Sep 2019 – Dec 2021</p></div></div>';
-  h+='</div>';
-
-  // Right panel: CV preview
-  h+='<div style="flex:1;background:#f3f0f8;position:relative;overflow:hidden;display:flex;flex-direction:column">';
-  h+='<div style="padding:0.45rem 0.85rem;display:flex;align-items:center;gap:0.5rem;border-bottom:1px solid #e9e0fd;background:rgba(250,248,255,0.8);flex-shrink:0;backdrop-filter:blur(8px)">';
-  h+='<span style="font-size:0.6rem;font-weight:600;color:#7c3aed;padding:4px 10px;border-radius:6px;background:#f5f3ff;border:1px solid #e9e0fd">Preview</span>';
-  h+='<span style="font-size:0.6rem;font-weight:500;color:#94a3b8;padding:4px 10px">Templates</span>';
-  h+='<div style="flex:1"></div>';
-  h+='<span id="phImproveBtn" style="display:flex;align-items:center;gap:5px;padding:5px 12px;border-radius:8px;background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff;font-size:0.6rem;font-weight:600;box-shadow:0 2px 8px rgba(124,58,237,0.25);transition:all 0.3s ease">⚡ Improve with AI</span>';
-  h+='</div>';
-
-  h+='<div style="flex:1;padding:0.85rem;display:flex;justify-content:center;position:relative">';
-  h+='<div id="phCvPage" style="width:100%;max-width:420px;background:#fff;border-radius:4px;box-shadow:0 4px 24px rgba(0,0,0,0.06),0 1px 4px rgba(0,0,0,0.04);padding:1.25rem 1.1rem;position:relative;transition:transform 0.6s cubic-bezier(0.34,1.56,0.64,1)">';
-  h+='<h2 style="font-size:0.88rem;font-weight:800;color:#1e1b4b;margin:0 0 0.1rem;text-transform:uppercase;letter-spacing:0.06em">ALEX THOMPSON</h2>';
-  h+='<p style="font-size:0.5rem;color:#6b7280;margin:0 0 0.35rem">alex.thompson@gmail.com · +44 7700 123456 · London, UK</p>';
-  h+='<div style="height:1px;background:#e5e7eb;margin:0 0 0.35rem"></div>';
-  h+='<h3 style="font-size:0.55rem;font-weight:700;color:#1e1b4b;margin:0 0 0.15rem;text-transform:uppercase;letter-spacing:0.05em">Professional Profile</h3>';
-  h+='<p style="font-size:0.5rem;color:#374151;margin:0 0 0.35rem;line-height:1.55">Results-driven Technical Project Manager with 6+ years delivering complex digital transformation programmes across enterprise environments.</p>';
-  h+='<div style="height:1px;background:#e5e7eb;margin:0 0 0.35rem"></div>';
-  h+='<h3 style="font-size:0.55rem;font-weight:700;color:#1e1b4b;margin:0 0 0.2rem;text-transform:uppercase;letter-spacing:0.05em">Work Experience</h3>';
-  h+='<div style="margin-bottom:0.3rem"><p style="font-size:0.52rem;font-weight:700;color:#1e1b4b;margin:0">Technical Project Manager <span style="font-weight:400;color:#94a3b8;font-size:0.46rem;float:right">Jan 2022 – Present</span></p>';
-  h+='<p style="font-size:0.48rem;color:#6b7280;margin:0 0 0.15rem">Capgemini UK, London</p>';
-  h+='<ul style="margin:0;padding-left:0.75rem;list-style:disc">';
-  h+='<li id="phCvLi0" style="font-size:0.48rem;color:#374151;margin-bottom:0.1rem;line-height:1.5;padding:1px 3px;border-radius:2px;transition:all 0.3s ease">'+ORIG+'</li>';
-  h+='<li style="font-size:0.48rem;color:#374151;margin-bottom:0.1rem;line-height:1.5">'+B2+'</li>';
-  h+='<li style="font-size:0.48rem;color:#374151;margin-bottom:0.1rem;line-height:1.5">'+B3+'</li></ul></div>';
-  h+='<div><p style="font-size:0.52rem;font-weight:700;color:#1e1b4b;margin:0">IT Programme Coordinator <span style="font-weight:400;color:#94a3b8;font-size:0.46rem;float:right">Sep 2019 – Dec 2021</span></p>';
-  h+='<p style="font-size:0.48rem;color:#6b7280;margin:0 0 0.15rem">BAE Systems, Preston</p>';
-  h+='<ul style="margin:0;padding-left:0.75rem;list-style:disc"><li style="font-size:0.48rem;color:#374151;line-height:1.5">Coordinated IT infrastructure rollout across 4 UK defence sites</li></ul></div>';
-  h+='<div style="height:1px;background:#e5e7eb;margin:0.3rem 0"></div>';
-  h+='<h3 style="font-size:0.55rem;font-weight:700;color:#1e1b4b;margin:0 0 0.15rem;text-transform:uppercase;letter-spacing:0.05em">Skills</h3>';
-  h+='<p style="font-size:0.48rem;color:#374151">Agile · PRINCE2 · Stakeholder Management · Jira · Confluence · Risk Management · Budgeting</p>';
-
-  h+='<div id="phCvPopover" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:88%;max-width:310px;background:#fff;border-radius:14px;border:1.5px solid #c4b5fd;box-shadow:0 20px 50px rgba(91,33,182,0.2),0 8px 16px rgba(0,0,0,0.08);z-index:20;overflow:hidden;opacity:0;pointer-events:none"></div>';
-  h+='</div></div>';
-
-  h+='<div id="phCvToast" style="position:absolute;bottom:14px;left:50%;transform:translateX(-50%);background:rgba(30,27,75,0.9);backdrop-filter:blur(10px);color:#fff;padding:0.5rem 1.2rem;border-radius:100px;font-size:0.65rem;font-weight:600;display:flex;align-items:center;gap:0.45rem;box-shadow:0 8px 30px rgba(0,0,0,0.12);z-index:30;white-space:nowrap;opacity:0;transition:opacity 0.35s ease"></div>';
-  h+='</div></div>';
-  ct.innerHTML=h;
-
-  // Timing chain
-  showBadge('AI-powered CV improvements — one click to strengthen every bullet point',800);
-
-  setTimeout(function(){
-    var bul=document.getElementById('phBul0');
-    var li=document.getElementById('phCvLi0');
-    if(bul){bul.style.background='linear-gradient(135deg,#f5f3ff,#ede9fe)';bul.style.borderRadius='4px';}
-    if(li){li.style.animation='ph-highlight 1.5s ease-in-out infinite';}
-  },2000);
-
-  setTimeout(function(){
-    var pg=document.getElementById('phCvPage');
-    if(pg) pg.style.transform='scale(1.03)';
-    var pop=document.getElementById('phCvPopover');
-    if(pop){
-      pop.innerHTML='<div style="background:linear-gradient(135deg,#6d28d9,#4c1d95);padding:0.5rem 0.75rem;display:flex;align-items:center;gap:0.35rem"><span style="font-size:0.72rem">⚡</span><span style="font-size:0.65rem;font-weight:700;color:#fff">AI Suggestion</span><span style="margin-left:auto;color:rgba(255,255,255,0.4);font-size:0.6rem;cursor:pointer">✕</span></div><div style="padding:0.65rem 0.75rem"><p style="font-size:0.48rem;font-weight:600;color:#94a3b8;margin:0 0 0.2rem;text-transform:uppercase;letter-spacing:0.05em">Original</p><p style="font-size:0.52rem;color:#6b7280;margin:0 0 0.5rem;padding:0.3rem 0.5rem;background:#f9fafb;border-radius:6px;border-left:2.5px solid #e5e7eb;line-height:1.5;font-style:italic">'+ORIG+'</p><p style="font-size:0.48rem;font-weight:600;color:#8b5cf6;margin:0 0 0.2rem;text-transform:uppercase;letter-spacing:0.05em">Improved ✨</p><p style="font-size:0.52rem;color:#1e1b4b;margin:0 0 0.55rem;font-weight:600;padding:0.3rem 0.5rem;background:linear-gradient(135deg,#faf8ff,#f5f3ff);border-radius:6px;border-left:2.5px solid #8b5cf6;line-height:1.5">'+IMPROVED+'</p><div style="display:flex;gap:0.4rem;justify-content:flex-end"><span style="padding:5px 12px;border-radius:8px;border:1px solid #e9e0fd;font-size:0.56rem;font-weight:600;color:#6b7280;background:#fff">↻ Retry</span><span id="phReplaceBtn" style="padding:5px 12px;border-radius:8px;background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff;font-size:0.56rem;font-weight:600;box-shadow:0 2px 6px rgba(124,58,237,0.3)">✓ Replace</span></div></div>';
-      pop.style.opacity='1';
-      pop.style.animation='ph-popover-in 0.45s cubic-bezier(0.34,1.56,0.64,1) both';
-    }
-  },3200);
-
-  setTimeout(function(){
-    var pop=document.getElementById('phCvPopover');
-    if(pop){pop.style.opacity='0';pop.style.animation='';}
-    var li=document.getElementById('phCvLi0');
-    var bul=document.getElementById('phBul0');
-    if(li){li.textContent=IMPROVED;li.style.animation='ph-flash 0.8s ease both';}
-    if(bul){bul.textContent=IMPROVED;bul.style.animation='ph-flash 0.6s ease';}
-    var pg=document.getElementById('phCvPage');
-    if(pg) pg.style.transform='scale(1)';
-  },6000);
-
-  setTimeout(function(){
-    var t=document.getElementById('phCvToast');
-    if(t){t.innerHTML='<span style="color:#a5f3fc;animation:ph-check 0.3s ease both;font-size:0.8rem">✓</span> Bullet point improved';t.style.opacity='1';}
-  },6500);
-
-  setTimeout(function(){transition(onDone);},8500);
-}
-
-// ============ SCENE 2: JOB SEARCH ============
-function sceneJobs(onDone){
-  renderSidebar('jobs');
-  renderTopNav('jobs');
-
-  var h='<div style="height:100%;display:flex;flex-direction:column;animation:ph-fade-in 0.5s ease both">';
-
-  // Search hero
-  h+='<div style="background:linear-gradient(135deg,#4c1d95 0%,#6d28d9 50%,#1a0a3e 100%);padding:1.1rem 1.5rem 1rem;flex-shrink:0;position:relative;overflow:hidden">';
-  h+='<div style="position:absolute;top:-60%;right:-15%;width:400px;height:400px;background:radial-gradient(circle,rgba(186,103,239,0.15) 0%,transparent 70%);pointer-events:none"></div>';
-  h+='<div style="position:absolute;bottom:-40%;left:-8%;width:250px;height:250px;background:radial-gradient(circle,rgba(139,92,246,0.1) 0%,transparent 70%);pointer-events:none"></div>';
-  h+='<h3 style="font-size:0.92rem;font-weight:700;color:#fff;margin:0 0 0.15rem;position:relative;z-index:1;font-family:Figtree,sans-serif">Find your perfect role</h3>';
-  h+='<p style="font-size:0.62rem;color:rgba(255,255,255,0.6);margin:0 0 0.6rem;position:relative;z-index:1">Matched to your skills, values, and vibe</p>';
-  h+='<div style="display:flex;gap:0.6rem;position:relative;z-index:1">';
-  h+='<div style="flex:1;position:relative;display:flex;align-items:center"><span style="position:absolute;left:12px;color:#a78bfa;font-size:0.75rem">🔍</span><div style="width:100%;padding:0.6rem 0.6rem 0.6rem 2.2rem;border-radius:10px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);backdrop-filter:blur(4px)"><span style="font-size:0.72rem;color:rgba(255,255,255,0.85);font-weight:500">Programme Manager</span></div></div>';
-  h+='<div style="width:180px;position:relative;display:flex;align-items:center"><span style="position:absolute;left:12px;color:#a78bfa;font-size:0.75rem">📍</span><div style="width:100%;padding:0.6rem 0.6rem 0.6rem 2.2rem;border-radius:10px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);backdrop-filter:blur(4px)"><span style="font-size:0.72rem;color:rgba(255,255,255,0.85);font-weight:500">London</span></div></div>';
-  h+='<div style="padding:0.6rem 1.4rem;border-radius:10px;background:linear-gradient(135deg,#BA67EF,#a44de0);font-size:0.72rem;font-weight:600;color:#fff;display:flex;align-items:center;gap:5px;box-shadow:0 4px 16px rgba(186,103,239,0.3)">Search</div>';
-  h+='</div></div>';
-
-  // Filter bar
-  h+='<div style="padding:0.55rem 1.25rem;display:flex;align-items:center;gap:0.45rem;flex-wrap:wrap;border-bottom:1px solid #f0ebfa;background:#fff;flex-shrink:0">';
-  var filters=[{l:'Salary: £50k+',a:true},{l:'Vibe: 80+',a:true},{l:'Date: Any',a:false},{l:'Industry: Tech',a:false}];
-  for(var fi=0;fi<filters.length;fi++){
-    var f=filters[fi];
-    h+='<span style="font-size:0.6rem;font-weight:'+( f.a?'600':'500')+';color:'+(f.a?'#fff':'#6b7280')+';padding:4px 12px;border-radius:100px;background:'+(f.a?'#8b5cf6':'#fff')+';border:1px solid '+(f.a?'#8b5cf6':'#e9ecef')+'">'+f.l+'</span>';
-  }
-  h+='<span style="margin-left:auto;font-size:0.6rem;color:#64748b;font-weight:500"><strong style="color:#7c3aed;font-weight:700">24</strong> results</span>';
-  h+='</div>';
-
-  h+='<div style="flex:1;padding:0.75rem 1.25rem;overflow:hidden"><div id="phJobGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem"></div></div>';
-  h+='</div>';
-  ct.innerHTML=h;
-
-  var jobs=[
-    {company:'Deloitte',title:'Senior Programme Manager',loc:'London, UK',type:'Full-Time',mode:'Hybrid',salary:'£65,000',vibe:95,hot:true,letter:'D'},
-    {company:'Accenture',title:'Digital Project Lead',loc:'Manchester',type:'Full-Time',mode:'Remote',salary:'£58,000',vibe:87,hot:false,letter:'A'},
-    {company:'PwC',title:'Technology Delivery Mgr',loc:'London, UK',type:'Full-Time',mode:'Hybrid',salary:'£72,000',vibe:82,hot:false,letter:'P'},
-    {company:'IBM',title:'Agile Programme Manager',loc:'Birmingham',type:'Contract',mode:'Hybrid',salary:'£550/day',vibe:76,hot:false,letter:'I'}
+  const scenes = [
+    { id:'scene-dash', nav:'tn-dash', sidebar:0, zoom:'zoom-dash', zoomOrigin:'65% 45%', zoomScale:1.35, zoomDelay:4000 },
+    { id:'scene-cv', nav:'tn-cv', sidebar:1, zoom:'zoom-cv', zoomOrigin:'35% 50%', zoomScale:1.35, zoomDelay:4000 },
+    { id:'scene-jobs', nav:'tn-jobs', sidebar:2, zoom:'zoom-jobs', zoomOrigin:'85% 30%', zoomScale:1.45, zoomDelay:4000 },
+    { id:'scene-interview', nav:'tn-interview', sidebar:3, zoom:'zoom-interview', zoomOrigin:'80% 50%', zoomScale:1.3, zoomDelay:4000 }
   ];
+  const durations = [8000, 10000, 10000, 10000];
+  let current = 0;
+  let timer = null;
 
-  var grid=document.getElementById('phJobGrid');
-  function addCard(idx){
-    if(idx>=jobs.length) return;
-    var j=jobs[idx];
-    var isHot=j.hot;
-    var isWarm=!isHot && j.vibe>=80;
-    var vibeCls=isHot?'hot':(isWarm?'warm':'cool');
-    var vibeBg=isHot?'conic-gradient(from 0deg,#f0abfc,#d946ef,#a855f7,#7c3aed,#a855f7,#d946ef,#f0abfc)':(isWarm?'conic-gradient(from 0deg,#c4b5fd,#a78bfa,#8b5cf6,#a78bfa,#c4b5fd)':'conic-gradient(from 0deg,rgba(199,210,254,0.25),rgba(165,180,252,0.15),rgba(199,210,254,0.25))');
-    var spinSpeed=isHot?'1.5s':(isWarm?'5s':'8s');
-    var scoreStyle=isHot?'background-image:linear-gradient(135deg,#fff,#f0abfc,#d946ef,#a855f7);background-size:200% 200%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 10px rgba(217,70,239,0.8)) drop-shadow(0 0 20px rgba(168,85,247,0.5));animation:ph-shimmer 2s ease-in-out infinite':(isWarm?'background-image:linear-gradient(135deg,#c084fc,#a855f7,#8b5cf6);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 6px rgba(168,85,247,0.5))':'color:#a5b4fc');
+  const sidebarIcons = document.querySelectorAll('.ph-sb-icon:not(.ph-sb-sep)');
+  const topLinks = document.querySelectorAll('.ph-top-link');
+  const dots = document.querySelectorAll('.ph-dot');
 
-    var c='<div id="phCard'+idx+'" style="background:#fff;border-radius:14px;border:1px solid '+(isHot?'rgba(0,0,0,0.06)':'rgba(0,0,0,0.06)')+';padding:1rem;position:relative;overflow:hidden;display:flex;flex-direction:column;gap:0.6rem;box-shadow:0 1px 3px rgba(0,0,0,0.04);animation:ph-slide-up 0.4s ease '+(idx*0.12)+'s both;'+(isHot?'animation:ph-pop 0.5s cubic-bezier(0.34,1.56,0.64,1) both,ph-glow 3s ease-in-out infinite':'')+'">';
+  function showScene(idx) {
+    scenes.forEach((s, i) => {
+      const el = document.getElementById(s.id);
+      el.classList.toggle('active', i === idx);
 
-    // Header with logo + vibe
-    c+='<div style="display:flex;justify-content:space-between;align-items:flex-start">';
-    c+='<div style="display:flex;gap:0.55rem;align-items:flex-start;flex:1">';
-    c+='<div style="width:36px;height:36px;border-radius:10px;background:#f5f3ff;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:0.78rem;font-weight:700;color:#8b5cf6">'+j.letter+'</div>';
-    c+='<div><div style="display:flex;align-items:center;gap:5px;margin-bottom:2px"><span style="font-size:0.62rem;font-weight:600;color:#6b7280">'+j.company+'</span>';
-    if(isHot){c+='<span style="font-size:0.44rem;font-weight:700;color:#7c3aed;background:linear-gradient(135deg,#ede9fe,#f3e8ff);padding:1px 6px;border-radius:4px;border:1px solid #ddd6fe">Verified ✓</span>';}
-    c+='</div><p style="font-size:0.72rem;font-weight:700;color:#1e1b4b;margin:0;line-height:1.3;letter-spacing:-0.01em">'+j.title+'</p></div></div>';
+      const zoomEl = document.getElementById(s.zoom);
+      if (zoomEl) {
+        zoomEl.style.transform = 'scale(1)';
+        zoomEl.style.transformOrigin = 'center center';
+      }
+    });
 
-    // Vibe score
-    c+='<div style="width:44px;height:44px;border-radius:50%;position:relative;flex-shrink:0;'+(isHot?'animation:ph-pulse 1.8s ease-in-out infinite':'')+'">';
-    c+='<div style="position:absolute;inset:0;border-radius:50%;padding:'+(isHot?'2.5px':'2px')+';background:'+vibeBg+';-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:ph-ring-spin '+spinSpeed+' linear infinite"></div>';
-    c+='<span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:0.92rem;font-weight:900;line-height:1;letter-spacing:-0.5px;z-index:1;'+scoreStyle+'">'+j.vibe+'</span>';
-    c+='</div></div>';
+    sidebarIcons.forEach((icon, i) => {
+      if (i < scenes.length) icon.classList.toggle('active', i === idx);
+    });
+    topLinks.forEach((link, i) => {
+      if (i < scenes.length) link.classList.toggle('active', i === idx);
+    });
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('active', i === idx);
+    });
 
-    // Tags
-    c+='<div style="display:flex;flex-wrap:wrap;gap:5px">';
-    c+='<span style="font-size:0.52rem;font-weight:500;color:#6b7280;background:#f9fafb;padding:3px 8px;border-radius:6px;border:1px solid #f3f4f6;display:flex;align-items:center;gap:3px"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>'+j.loc+'</span>';
-    c+='<span style="font-size:0.52rem;font-weight:500;color:#6b7280;background:#f9fafb;padding:3px 8px;border-radius:6px;border:1px solid #f3f4f6">'+j.type+'</span>';
-    var modeColor=j.mode==='Remote'?'color:#059669;background:#ecfdf5;border-color:#a7f3d0':'color:#7c3aed;background:linear-gradient(135deg,#f5f3ff,#ede9fe);border-color:#ddd6fe';
-    c+='<span style="font-size:0.5rem;font-weight:600;padding:3px 8px;border-radius:6px;border:1px solid;'+modeColor+'">'+j.mode+'</span>';
-    c+='</div>';
+    const s = scenes[idx];
+    setTimeout(() => {
+      const zoomEl = document.getElementById(s.zoom);
+      if (zoomEl) {
+        zoomEl.style.transformOrigin = s.zoomOrigin;
+        zoomEl.style.transform = 'scale(' + s.zoomScale + ')';
+        setTimeout(() => {
+          zoomEl.style.transform = 'scale(1)';
+          zoomEl.style.transformOrigin = 'center center';
+        }, 2000);
+      }
+    }, s.zoomDelay);
 
-    // Footer
-    c+='<div style="display:flex;justify-content:space-between;align-items:center;padding-top:0.5rem;border-top:1px solid #f3f0fa">';
-    c+='<span style="font-size:0.78rem;font-weight:700;color:#059669">'+j.salary+'<span style="font-weight:400;color:#94a3b8;font-size:0.56rem">'+(j.salary.includes('/')?'':'/ yr')+'</span></span>';
-    c+='<span style="font-size:0.52rem;color:#9ca3af;display:flex;align-items:center;gap:3px"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>2d ago</span>';
-    c+='</div></div>';
-    grid.innerHTML+=c;
-    setTimeout(function(){addCard(idx+1);},150);
+    current = idx;
   }
 
-  setTimeout(function(){addCard(0);},300);
-  showBadge('Smart vibe matching — every role scored to your preferences',600);
-
-  // Vibe breakdown tooltip
-  setTimeout(function(){
-    var card=document.getElementById('phCard0');
-    if(!card) return;
-    var tip='<div style="position:absolute;bottom:8px;left:8px;right:8px;background:#fff;border-radius:12px;border:1.5px solid #ddd6fe;box-shadow:0 12px 32px rgba(91,33,182,0.15);padding:0.55rem 0.7rem;z-index:10;animation:ph-popover-in 0.4s cubic-bezier(0.34,1.56,0.64,1) both">';
-    tip+='<p style="font-size:0.52rem;font-weight:700;color:#7c3aed;margin:0 0 0.3rem">Why this is a 95 Vibe</p>';
-    var checks=['Location match','Remote preference','Company culture','Salary alignment'];
-    for(var ci=0;ci<checks.length;ci++){
-      tip+='<div style="display:flex;align-items:center;gap:5px;margin-bottom:3px"><span style="color:#22c55e;font-size:0.62rem;font-weight:700;animation:ph-check 0.3s ease '+(ci*0.08)+'s both">✓</span><span style="font-size:0.52rem;color:#374151;font-weight:500">'+checks[ci]+'</span></div>';
-    }
-    tip+='</div>';
-    card.insertAdjacentHTML('beforeend',tip);
-  },4200);
-
-  setTimeout(function(){transition(onDone);},8500);
-}
-
-// ============ SCENE 3: INTERVIEW SIMULATOR ============
-function sceneInterview(onDone){
-  renderSidebar('interview');
-  renderTopNav('interview');
-
-  var h='<div style="height:100%;display:flex;flex-direction:column;animation:ph-fade-in 0.5s ease both">';
-
-  h+='<div style="padding:0.7rem 1.5rem;border-bottom:1px solid #f0ebfa;background:#fff;display:flex;align-items:center;gap:0.6rem;flex-shrink:0">';
-  h+='<div style="width:32px;height:32px;border-radius:10px;background:#f5f3ff;display:flex;align-items:center;justify-content:center;font-size:0.85rem">🎤</div>';
-  h+='<div><p style="font-size:0.82rem;font-weight:700;color:#1e1b4b;margin:0;font-family:Figtree,sans-serif">Practice with Elise AI</p><p style="font-size:0.56rem;color:#94a3b8;margin:0">Bespoke mock interview · STAR Framework</p></div>';
-  h+='<div style="flex:1"></div>';
-  h+='<span style="font-size:0.56rem;font-weight:600;color:#059669;background:#ecfdf5;padding:4px 10px;border-radius:100px;border:1px solid #a7f3d0;display:flex;align-items:center;gap:4px"><span style="animation:ph-breathe 1.5s ease-in-out infinite">●</span> Live</span>';
-  h+='</div>';
-
-  h+='<div style="flex:1;display:flex;overflow:hidden">';
-
-  // Left: Question + Recording
-  h+='<div style="flex:1;padding:1.25rem 1.5rem;display:flex;flex-direction:column;border-right:1px solid #f0ebfa;background:#fff">';
-  h+='<div style="background:linear-gradient(135deg,#f5f3ff,#ede9fe);border-radius:14px;padding:0.85rem 1.1rem;margin-bottom:0.85rem;border:1px solid #ddd6fe">';
-  h+='<div style="display:flex;align-items:center;gap:0.35rem;margin-bottom:0.25rem"><span style="font-size:0.48rem;font-weight:700;color:#8b5cf6;text-transform:uppercase;letter-spacing:0.05em">Question 3 of 5</span><span style="margin-left:auto;font-size:0.46rem;font-weight:600;color:#6b7280;background:#fff;padding:2px 7px;border-radius:100px;border:1px solid #e9ecef">Behavioural</span></div>';
-  h+='<p style="font-size:0.75rem;font-weight:700;color:#1e1b4b;margin:0;line-height:1.45;letter-spacing:-0.01em">Tell me about a time you led a cross-functional team through a challenging project</p>';
-  h+='</div>';
-
-  h+='<div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.75rem"><span style="font-size:0.5rem;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:0.04em">Framework</span>';
-  h+='<span style="font-size:0.54rem;font-weight:600;color:#7c3aed;background:#f5f3ff;padding:3px 10px;border-radius:100px;border:1px solid #e9e0fd">⭐ STAR Method</span>';
-  h+='<span style="font-size:0.5rem;font-weight:500;color:#94a3b8;padding:3px 10px;border-radius:100px;border:1px solid #e9ecef">Difficulty: Medium</span></div>';
-
-  h+='<div id="phRecArea" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.65rem;padding:0.5rem">';
-  h+='<div id="phMic" style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#8b5cf6,#7c3aed);display:flex;align-items:center;justify-content:center;font-size:1.15rem;box-shadow:0 6px 20px rgba(124,58,237,0.3);color:#fff">🎙</div>';
-  h+='<div id="phWaveform" style="display:flex;align-items:center;gap:2px;height:28px"></div>';
-  h+='<p id="phRecLabel" style="font-size:0.62rem;font-weight:600;color:#8b5cf6;margin:0">Recording your answer...</p>';
-  h+='<p id="phTimer" style="font-size:0.56rem;color:#94a3b8;margin:0;font-variant-numeric:tabular-nums">01:42</p>';
-  h+='</div></div>';
-
-  // Right: Feedback panel
-  h+='<div id="phFeedback" style="width:340px;flex-shrink:0;padding:1rem;overflow-y:auto;opacity:0;background:#faf8ff;transition:opacity 0.4s ease"></div>';
-  h+='</div></div>';
-  ct.innerHTML=h;
-
-  // Waveform bars
-  var wf=document.getElementById('phWaveform');
-  if(wf){var bars='';for(var i=0;i<18;i++){bars+='<div style="width:3px;border-radius:2px;background:linear-gradient(to top,#8b5cf6,#c084fc);animation:ph-wave 0.55s ease-in-out '+(i*0.06)+'s infinite"></div>';}wf.innerHTML=bars;}
-
-  showBadge('AI-powered interview coaching — practise, record, and get instant bespoke feedback',600);
-
-  // Recording completes
-  setTimeout(function(){
-    var wf2=document.getElementById('phWaveform');
-    var rl=document.getElementById('phRecLabel');
-    var mc=document.getElementById('phMic');
-    var tm=document.getElementById('phTimer');
-    if(wf2) wf2.style.opacity='0';
-    if(rl){rl.textContent='Answer recorded';rl.style.color='#059669';}
-    if(mc){mc.style.background='linear-gradient(135deg,#059669,#047857)';mc.innerHTML='✓';mc.style.fontSize='1.2rem';}
-    if(tm) tm.textContent='02:18';
-  },2800);
-
-  // Show feedback panel
-  setTimeout(function(){
-    var fp=document.getElementById('phFeedback');
-    if(!fp) return;
-    fp.style.opacity='1';
-
-    var fh='<div style="animation:ph-slide-r 0.5s ease both">';
-    fh+='<div style="display:flex;align-items:center;gap:0.4rem;margin-bottom:0.75rem"><span style="font-size:0.78rem">⚡</span><span style="font-size:0.82rem;font-weight:700;color:#1e1b4b;font-family:Figtree,sans-serif">AI Feedback</span></div>';
-
-    // Score ring
-    var score=82,size=80,sw=6,r=(size-sw)/2,circ=2*Math.PI*r,offset=circ-(score/100)*circ;
-    fh+='<div style="display:flex;align-items:center;gap:0.85rem;margin-bottom:0.75rem;padding:0.75rem;background:linear-gradient(135deg,#f5f3ff,#ede9fe);border-radius:14px;border:1px solid #ddd6fe">';
-    fh+='<div style="position:relative;width:'+size+'px;height:'+size+'px;flex-shrink:0;animation:ph-pop 0.6s ease 0.2s both">';
-    fh+='<svg width="'+size+'" height="'+size+'" viewBox="0 0 '+size+' '+size+'"><circle cx="'+(size/2)+'" cy="'+(size/2)+'" r="'+r+'" fill="none" stroke="#e9e5f5" stroke-width="'+sw+'"/><circle cx="'+(size/2)+'" cy="'+(size/2)+'" r="'+r+'" fill="none" stroke="#8b5cf6" stroke-width="'+sw+'" stroke-linecap="round" stroke-dasharray="'+circ+'" stroke-dashoffset="'+offset+'" transform="rotate(-90 '+(size/2)+' '+(size/2)+')" style="--ph-circ:'+circ+';--ph-offset:'+offset+';animation:ph-score-fill 1.2s ease 0.3s both"/></svg>';
-    fh+='<div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center"><span style="font-size:1.2rem;font-weight:900;color:#7c3aed;display:block;line-height:1">82%</span><span style="font-size:0.42rem;font-weight:600;color:#8b5cf6">Strong</span></div></div>';
-    fh+='<div><p style="font-size:0.72rem;font-weight:700;color:#1e1b4b;margin:0 0 3px">Strong Performance</p><p style="font-size:0.52rem;color:#6b7280;margin:0;line-height:1.45">STAR framework applied well. Clear situation context with measurable outcomes.</p></div></div>';
-
-    // STAR breakdown bars
-    fh+='<div style="margin-bottom:0.65rem">';
-    fh+='<p style="font-size:0.58rem;font-weight:700;color:#1e1b4b;margin:0 0 0.4rem">STAR Breakdown</p>';
-    var bars=[{l:'Situation',v:90,m:12,c:'#22c55e'},{l:'Task',v:85,m:10,c:'#8b5cf6'},{l:'Action',v:78,m:18,c:'#8b5cf6'},{l:'Result',v:72,m:5,c:'#f59e0b'}];
-    for(var bi=0;bi<bars.length;bi++){
-      var b=bars[bi];
-      fh+='<div style="margin-bottom:0.4rem"><div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="font-size:0.52rem;font-weight:600;color:#374151">'+b.l+'</span><span style="font-size:0.5rem;font-weight:700;color:'+b.c+'">'+Math.round(b.v*b.m/100)+'/'+b.m+'</span></div>';
-      fh+='<div style="height:5px;border-radius:100px;background:#ede9fe;overflow:hidden"><div style="height:100%;border-radius:100px;background:'+b.c+';--ph-bar-w:'+b.v+'%;animation:ph-bar-fill 0.8s ease '+(0.4+bi*0.15)+'s both"></div></div></div>';
-    }
-    fh+='</div>';
-
-    // Strengths + Focus
-    fh+='<div style="padding:0.6rem;background:#ecfdf5;border-radius:10px;border:1px solid #a7f3d0;margin-bottom:0.5rem"><p style="font-size:0.52rem;font-weight:700;color:#059669;margin:0 0 0.2rem">✓ What You Did Well</p>';
-    fh+='<p style="font-size:0.5rem;color:#374151;line-height:1.55;margin:0">Clear context setting with specific metrics (£2.4M, 42 members). Structured delivery and strong stakeholder engagement.</p></div>';
-
-    fh+='<div style="padding:0.6rem;background:#f5f3ff;border-radius:10px;border:1px solid #ddd6fe"><p style="font-size:0.52rem;font-weight:700;color:#7c3aed;margin:0 0 0.2rem">◎ Where to Focus</p>';
-    fh+='<p style="font-size:0.5rem;color:#374151;line-height:1.55;margin:0">Quantify the result more clearly — add timeline, percentage improvement, or direct business impact achieved.</p></div>';
-
-    fh+='</div>';
-    fp.innerHTML=fh;
-  },3600);
-
-  setTimeout(function(){transition(onDone);},8500);
-}
-
-// ============ SCENE 4: DASHBOARD ============
-function sceneDashboard(onDone){
-  renderSidebar('dashboard');
-  renderTopNav('dashboard');
-
-  var h='<div style="height:100%;padding:1.25rem 1.5rem;animation:ph-fade-in 0.5s ease both;overflow:hidden">';
-
-  // Welcome banner (matches HeroWelcomeBanner)
-  h+='<div style="border-radius:1rem;background:linear-gradient(135deg,#4c1d95 0%,#6d28d9 40%,#7c3aed 70%,#a78bfa 100%);padding:1.25rem 1.5rem;margin-bottom:1rem;position:relative;overflow:hidden">';
-  h+='<div style="position:absolute;top:-40px;right:-40px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,0.04);pointer-events:none"></div>';
-  h+='<div style="position:absolute;bottom:-30px;left:40%;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,0.03);pointer-events:none"></div>';
-  h+='<div style="position:relative;z-index:1">';
-  h+='<div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.35rem;flex-wrap:wrap">';
-  h+='<h1 style="font-size:1.15rem;font-weight:700;color:#fff;margin:0;font-family:Figtree,sans-serif">Welcome back, Alex<span style="color:#a78bfa">.</span></h1>';
-  h+='<span style="display:inline-flex;align-items:center;padding:0.15rem 0.5rem;border-radius:999px;font-size:0.58rem;font-weight:700;background:#ede9fe;color:#6d28d9;border:1px solid #c4b5fd;letter-spacing:0.02em">Sprint Pass</span>';
-  h+='</div>';
-  h+='<div style="display:flex;align-items:center;gap:0.4rem"><span style="color:#c4b5fd;font-size:0.72rem">⚡</span><p style="font-size:0.72rem;color:#ddd6fe;margin:0;line-height:1.45">Your scores are up 12% recently — great momentum! Keep going.</p></div>';
-  h+='</div></div>';
-
-  // Feature cards (matches ControlComponents)
-  h+='<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0.75rem;margin-bottom:1rem">';
-  var cards=[
-    {icon:'📄',title:'CV Builder',desc:'Create your perfect CV in seconds.',btn:'Launch CV Builder',grad:'linear-gradient(135deg,#7c3aed,#5b21b6)',iconBg:'#ede9fe',accent:'#7c3aed',count:3,countLabel:'CVs created'},
-    {icon:'🎤',title:'Interview Simulator',desc:'Get real-world feedback for any question.',btn:'Practise an Interview',grad:'linear-gradient(135deg,#c026d3,#86198f)',iconBg:'#fae8ff',accent:'#c026d3',count:12,countLabel:'this week'},
-    {icon:'🔍',title:'Job Search',desc:'Roles matched to your skills and vibe.',btn:'Browse Vacancies',grad:'linear-gradient(135deg,#d946ef,#a21caf)',iconBg:'#fdf4ff',accent:'#d946ef',count:47,countLabel:'jobs tracked'},
-    {icon:'📊',title:'Application Tracker',desc:'One view, zero missed opportunities.',btn:'View Progress',grad:'linear-gradient(135deg,#4c1d95,#1e1b4b)',iconBg:'#ede9fe',accent:'#4c1d95',count:8,countLabel:'applications'}
-  ];
-  for(var ci=0;ci<cards.length;ci++){
-    var c=cards[ci];
-    h+='<div style="background:#fff;border-radius:1rem;overflow:hidden;box-shadow:0 2px 12px rgba(91,33,182,0.06),0 0 0 1px rgba(139,92,246,0.08);position:relative;animation:ph-slide-up 0.4s ease '+(0.2+ci*0.1)+'s both">';
-    h+='<div style="position:absolute;top:0;left:0;right:0;height:4px;background:'+c.grad+';z-index:1"></div>';
-    h+='<div style="padding:1.1rem 0.9rem 0.9rem;display:flex;flex-direction:column;align-items:center;text-align:center">';
-    h+='<div style="position:relative;margin-bottom:0.6rem"><div style="width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:'+c.iconBg+';font-size:1.15rem;animation:ph-float 3s ease-in-out '+(ci*0.3)+'s infinite">'+c.icon+'</div>';
-    h+='<span style="position:absolute;top:-5px;right:-8px;background:'+c.accent+';color:#fff;font-size:0.5rem;font-weight:700;min-width:18px;height:18px;border-radius:999px;display:flex;align-items:center;justify-content:center;padding:0 4px;border:2px solid #fff;box-shadow:0 2px 4px rgba(0,0,0,0.1)" id="phCount'+ci+'">0</span>';
-    h+='</div>';
-    h+='<h4 style="font-size:0.78rem;font-weight:700;color:#1e1b4b;margin:0 0 0.2rem;font-family:Figtree,sans-serif">'+c.title+'</h4>';
-    h+='<span style="font-size:0.54rem;font-weight:600;color:'+c.accent+';margin-bottom:0.2rem;opacity:0.85" id="phLabel'+ci+'">0 '+c.countLabel+'</span>';
-    h+='<div style="width:24px;height:3px;border-radius:2px;background:#e9e5f5;margin-bottom:0.45rem"></div>';
-    h+='<p style="font-size:0.58rem;color:#64617a;line-height:1.5;margin:0 0 0.7rem;letter-spacing:0.01em">'+c.desc+'</p>';
-    h+='<div style="width:100%;padding:0.5rem 0.7rem;border-radius:0.6rem;background:'+c.grad+';color:#fff;font-weight:600;font-size:0.62rem;text-align:center;letter-spacing:0.01em">'+c.btn+' →</div>';
-    h+='</div></div>';
+  function nextScene() {
+    const next = (current + 1) % scenes.length;
+    showScene(next);
+    timer = setTimeout(nextScene, durations[next]);
   }
-  h+='</div></div>';
-  ct.innerHTML=h;
 
-  showBadge('Your career command centre — everything in one place',500);
+  showScene(0);
+  timer = setTimeout(nextScene, durations[0]);
 
-  // Count-up animation
-  setTimeout(function(){
-    for(var i=0;i<cards.length;i++){
-      (function(idx,target,label){
-        var el=document.getElementById('phCount'+idx);
-        var lbl=document.getElementById('phLabel'+idx);
-        var cur=0;
-        var steps=Math.min(target,15);
-        var inc=Math.max(1,Math.ceil(target/steps));
-        var interval=Math.max(40,Math.floor(500/steps));
-        var timer=setInterval(function(){
-          cur+=inc;
-          if(cur>=target){cur=target;clearInterval(timer);}
-          if(el) el.textContent=cur;
-          if(lbl) lbl.textContent=cur+' '+label;
-        },interval);
-      })(i,cards[i].count,cards[i].countLabel);
-    }
-  },800);
-
-  setTimeout(function(){transition(onDone);},5800);
-}
-
-// ============ MASTER LOOP ============
-function runLoop(){
-  sceneCv(function(){
-    sceneJobs(function(){
-      sceneInterview(function(){
-        sceneDashboard(function(){
-          setTimeout(runLoop,300);
-        });
-      });
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => {
+      clearTimeout(timer);
+      showScene(i);
+      timer = setTimeout(nextScene, durations[i]);
     });
   });
-}
-
-runLoop();
 })();
 </script>
 </body></html>
