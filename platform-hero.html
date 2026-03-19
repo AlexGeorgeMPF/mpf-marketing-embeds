@@ -1,39 +1,46 @@
 <!DOCTYPE html>
 <html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Figtree:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-@keyframes ph-fade-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes ph-fade-in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 @keyframes ph-fade-out{from{opacity:1}to{opacity:0}}
-@keyframes ph-slide-in-r{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
-@keyframes ph-pop{0%{opacity:0;transform:scale(0.85)}60%{transform:scale(1.05)}100%{opacity:1;transform:scale(1)}}
-@keyframes ph-highlight{0%,100%{background:rgba(139,92,246,0.2)}50%{background:rgba(139,92,246,0.45)}}
+@keyframes ph-slide-up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes ph-slide-r{from{opacity:0;transform:translateX(24px)}to{opacity:1;transform:translateX(0)}}
+@keyframes ph-pop{0%{opacity:0;transform:scale(0.88)}60%{opacity:1;transform:scale(1.04)}100%{transform:scale(1)}}
+@keyframes ph-highlight{0%,100%{background:rgba(139,92,246,0.12)}50%{background:rgba(139,92,246,0.35)}}
 @keyframes ph-flash{0%{background:#ede9fe}100%{background:transparent}}
-@keyframes ph-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+@keyframes ph-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
 @keyframes ph-ring-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 @keyframes ph-shimmer{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
-@keyframes ph-glow{0%,100%{box-shadow:0 4px 20px rgba(139,92,246,0.1)}50%{box-shadow:0 8px 32px rgba(139,92,246,0.25)}}
-@keyframes ph-wave{0%{height:8px}25%{height:22px}50%{height:12px}75%{height:28px}100%{height:8px}}
-@keyframes ph-badge-in{from{opacity:0;transform:translateY(8px) scale(0.9)}to{opacity:1;transform:translateY(0) scale(1)}}
-@keyframes ph-check-pop{0%{transform:scale(0)}60%{transform:scale(1.3)}100%{transform:scale(1)}}
-@keyframes ph-counter{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-@keyframes ph-popover-in{from{opacity:0;transform:translateY(8px) scale(0.92)}to{opacity:1;transform:translateY(0) scale(1)}}
-body{display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:transparent;padding:16px}
+@keyframes ph-glow{0%,100%{box-shadow:0 4px 20px rgba(139,92,246,0.08)}50%{box-shadow:0 8px 32px rgba(139,92,246,0.22)}}
+@keyframes ph-wave{0%{height:6px}25%{height:20px}50%{height:10px}75%{height:26px}100%{height:6px}}
+@keyframes ph-badge-in{from{opacity:0;transform:translateY(10px) scale(0.92)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes ph-check{0%{transform:scale(0)}60%{transform:scale(1.25)}100%{transform:scale(1)}}
+@keyframes ph-popover-in{from{opacity:0;transform:translateY(10px) scale(0.94)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes ph-breathe{0%,100%{opacity:0.6}50%{opacity:1}}
+@keyframes ph-score-fill{from{stroke-dashoffset:var(--ph-circ)}to{stroke-dashoffset:var(--ph-offset)}}
+@keyframes ph-bar-fill{from{width:0}to{width:var(--ph-bar-w)}}
+@keyframes ph-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+body{display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:transparent;padding:12px}
 </style>
 </head><body>
-<div id="phRoot" style="width:1100px;height:680px;border-radius:16px;overflow:hidden;box-shadow:0 25px 60px rgba(91,33,182,0.18),0 8px 24px rgba(0,0,0,0.08);background:#fff;display:flex;flex-direction:column">
-  <div style="background:linear-gradient(135deg,#6d28d9 0%,#4c1d95 50%,#1a0a3e 100%);padding:0.55rem 1.25rem;display:flex;align-items:center;gap:0.65rem;flex-shrink:0;position:relative;overflow:hidden">
-    <div style="position:absolute;top:-80%;right:-10%;width:300px;height:300px;background:radial-gradient(circle,rgba(186,103,239,0.15) 0%,transparent 70%);pointer-events:none"></div>
-    <div style="width:28px;height:28px;border-radius:8px;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-size:0.85rem">⚡</div>
-    <span style="font-size:0.88rem;font-weight:700;color:#fff;letter-spacing:-0.01em;position:relative;z-index:1">MyPathfinder</span>
-    <div style="flex:1"></div>
-    <span style="font-size:0.6rem;font-weight:500;color:rgba(255,255,255,0.5);padding:3px 8px;border-radius:5px;background:rgba(255,255,255,0.08)">Alex Thompson</span>
-    <div style="width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#a78bfa,#7c3aed);display:flex;align-items:center;justify-content:center;font-size:0.6rem;font-weight:700;color:#fff">AT</div>
+<div id="phRoot" style="width:1100px;height:680px;border-radius:18px;overflow:hidden;box-shadow:0 30px 80px rgba(76,29,149,0.15),0 10px 30px rgba(0,0,0,0.07);background:#fff;display:flex;flex-direction:column;border:1px solid rgba(139,92,246,0.08)">
+  <div style="background:#fff;padding:0 1.25rem;display:flex;align-items:center;height:46px;border-bottom:1px solid #f0ebfa;flex-shrink:0">
+    <div style="display:flex;align-items:center;gap:0.35rem;margin-right:2rem">
+      <span style="font-size:1rem;color:#7c3aed;font-weight:800;font-style:italic;font-family:'Figtree',sans-serif;letter-spacing:-0.03em">my</span>
+      <span style="font-size:1.05rem;font-weight:800;color:#1e1b4b;font-family:'Figtree',sans-serif;letter-spacing:-0.03em">Pathfinder</span>
+    </div>
+    <div id="phTopNav" style="display:flex;align-items:center;gap:1.5rem;flex:1"></div>
+    <div style="display:flex;align-items:center;gap:0.75rem">
+      <div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#a78bfa,#7c3aed);display:flex;align-items:center;justify-content:center;font-size:0.58rem;font-weight:700;color:#fff">AT</div>
+    </div>
   </div>
   <div style="display:flex;flex:1;overflow:hidden">
-    <div id="phSidebar" style="width:60px;flex-shrink:0;border-right:1px solid #f0ebfa;background:#faf8ff;display:flex;flex-direction:column;padding:0.4rem 0;gap:0.1rem"></div>
-    <div style="flex:1;position:relative;overflow:hidden;background:#f8f6ff">
+    <div id="phSidebar" style="width:200px;flex-shrink:0;border-right:1px solid #f0ebfa;background:#fff;display:flex;flex-direction:column;padding:0.75rem 0;overflow:hidden"></div>
+    <div style="flex:1;position:relative;overflow:hidden;background:#f5f3ff">
       <div id="phContent" style="position:absolute;inset:0;overflow:hidden"></div>
-      <div id="phBadge" style="position:absolute;top:16px;right:16px;z-index:30;opacity:0"></div>
+      <div id="phBadge" style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);z-index:30;opacity:0;transition:opacity 0.4s ease"></div>
     </div>
   </div>
 </div>
@@ -42,444 +49,471 @@ body{display:flex;align-items:center;justify-content:center;min-height:100vh;fon
 var sb=document.getElementById('phSidebar');
 var ct=document.getElementById('phContent');
 var bg=document.getElementById('phBadge');
+var tn=document.getElementById('phTopNav');
+
 var navItems=[
-  {icon:'📊',label:'Dashboard',key:'dashboard'},
-  {icon:'📄',label:'CV Builder',key:'cv'},
-  {icon:'🔍',label:'Job Search',key:'jobs'},
-  {icon:'🎤',label:'Interview',key:'interview'}
+  {label:'Dashboard',key:'dashboard',svg:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9 9 9 0 0 1 9 9z"/><path d="M9 12h6"/><path d="M12 9v6"/></svg>'},
+  {label:'CV Builder',key:'cv',svg:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"/><line x1="9" y1="9" x2="10" y2="9"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg>'},
+  {label:'Job Search',key:'jobs',svg:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>'},
+  {label:'Interview Simulator',key:'interview',svg:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>'},
+  {label:'Application Tracker',key:'tracker',svg:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>'}
 ];
 
-function renderSidebar(activeKey){
+var supportItems=[
+  {label:'Career Advice',svg:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>'},
+  {label:'Payment Plans',svg:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>'}
+];
+
+function renderTopNav(activeKey){
+  var topLabels={dashboard:'Dashboard',cv:'CV Builder',jobs:'Job Search',interview:'Interview Simulator',tracker:'Application Tracker'};
   var h='';
+  for(var k in topLabels){
+    var isA=k===activeKey;
+    h+='<span style="font-size:0.78rem;font-weight:'+(isA?'600':'500')+';color:'+(isA?'#7c3aed':'#6b7280')+';letter-spacing:-0.01em;transition:color 0.3s ease">'+topLabels[k]+'</span>';
+  }
+  tn.innerHTML=h;
+}
+
+function renderSidebar(activeKey){
+  var h='<div style="padding:0 0.75rem 0.4rem"><span style="font-size:0.6rem;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.08em">Navigation</span></div>';
+  h+='<div style="height:1px;background:#f0ebfa;margin:0 0.75rem 0.3rem"></div>';
   for(var i=0;i<navItems.length;i++){
     var n=navItems[i];
     var isA=n.key===activeKey;
-    h+='<div style="display:flex;flex-direction:column;align-items:center;padding:0.5rem 0.2rem;gap:2px;border-radius:8px;margin:0 0.25rem;background:'+(isA?'#f5f3ff':'transparent')+';border:1px solid '+(isA?'#e9e0fd':'transparent')+';transition:all 0.3s ease">';
-    h+='<span style="font-size:0.72rem">'+n.icon+'</span>';
-    h+='<span style="font-size:0.46rem;font-weight:'+(isA?'700':'500')+';color:'+(isA?'#7c3aed':'#94a3b8')+';text-align:center;line-height:1.2">'+n.label+'</span></div>';
+    h+='<a style="display:flex;align-items:center;gap:0.55rem;padding:0.45rem 0.75rem;margin:0.05rem 0.5rem;border-radius:8px;text-decoration:none;transition:all 0.25s ease;background:'+(isA?'#f5f3ff':'transparent')+';color:'+(isA?'#7c3aed':'#6b7280')+'">';
+    h+='<span style="display:flex;align-items:center;color:'+(isA?'#7c3aed':'#9ca3af')+'">'+n.svg+'</span>';
+    h+='<span style="font-size:0.78rem;font-weight:'+(isA?'600':'500')+'">'+n.label+'</span></a>';
+  }
+  h+='<div style="padding:0.6rem 0.75rem 0.35rem;margin-top:0.5rem"><span style="font-size:0.6rem;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.08em">Support</span></div>';
+  h+='<div style="height:1px;background:#f0ebfa;margin:0 0.75rem 0.3rem"></div>';
+  for(var j=0;j<supportItems.length;j++){
+    var s=supportItems[j];
+    h+='<a style="display:flex;align-items:center;gap:0.55rem;padding:0.45rem 0.75rem;margin:0.05rem 0.5rem;border-radius:8px;text-decoration:none;color:#6b7280">';
+    h+='<span style="display:flex;align-items:center;color:#9ca3af">'+s.svg+'</span>';
+    h+='<span style="font-size:0.78rem;font-weight:500">'+s.label+'</span></a>';
   }
   sb.innerHTML=h;
 }
 
-function showBadge(text,icon,delay){
+function showBadge(text,delay){
   bg.style.opacity='0';
   setTimeout(function(){
-    bg.innerHTML='<div style="display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:10px;background:linear-gradient(135deg,#6d28d9,#4c1d95);color:#fff;font-size:0.68rem;font-weight:700;box-shadow:0 8px 24px rgba(91,33,182,0.3);animation:ph-badge-in 0.4s ease both;white-space:nowrap"><span style="font-size:0.8rem">'+icon+'</span>'+text+'</div>';
+    bg.innerHTML='<div style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:100px;background:rgba(30,27,75,0.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:#fff;font-size:0.75rem;font-weight:600;box-shadow:0 12px 40px rgba(0,0,0,0.15),0 0 0 1px rgba(139,92,246,0.15);animation:ph-badge-in 0.5s cubic-bezier(0.34,1.56,0.64,1) both;white-space:nowrap;letter-spacing:-0.01em">'+text+'</div>';
     bg.style.opacity='1';
   },delay);
 }
 
-function hideBadge(){
-  bg.style.opacity='0';
+function hideBadge(){bg.style.opacity='0';}
+
+function transition(onDone){
+  hideBadge();
+  ct.style.animation='ph-fade-out 0.3s ease both';
+  setTimeout(function(){
+    ct.style.animation='none';
+    void ct.offsetWidth;
+    onDone();
+  },350);
 }
 
-// ============ SCENE 1: CV Builder ============
+// ============ SCENE 1: CV BUILDER ============
 function sceneCv(onDone){
   renderSidebar('cv');
-  hideBadge();
+  renderTopNav('cv');
   ct.style.animation='none';
   void ct.offsetWidth;
+
   var ORIG='Led cross-functional delivery of a £2.4M digital transformation programme across 3 business units';
   var IMPROVED='Spearheaded end-to-end delivery of a £2.4M enterprise digital transformation, coordinating 3 cross-functional business units and 42 team members to achieve on-time, on-budget completion';
   var B2='Reduced project delivery timelines by 28% through Agile methodology adoption and sprint planning';
   var B3='Managed stakeholder relationships across C-suite, achieving 96% client satisfaction rating';
 
-  var h='<div style="display:flex;height:100%;animation:ph-fade-in 0.4s ease both">';
-  h+='<div style="width:260px;flex-shrink:0;border-right:1px solid #f0ebfa;background:#fdfcff;padding:0.85rem;overflow:hidden">';
-  h+='<div style="display:flex;align-items:center;gap:0.4rem;margin-bottom:0.6rem"><span style="font-size:0.8rem">💼</span><span style="font-size:0.78rem;font-weight:700;color:#1e1b4b">Employment History</span><span style="margin-left:auto;font-size:0.52rem;font-weight:600;color:#8b5cf6;background:#f5f3ff;padding:2px 6px;border-radius:4px">2 roles</span></div>';
-  h+='<div style="border:1.5px solid #e9e0fd;border-radius:12px;background:#fff;margin-bottom:0.5rem;overflow:hidden">';
-  h+='<div style="padding:0.55rem 0.7rem;border-bottom:1px solid #f5f0fa;display:flex;align-items:flex-start;gap:0.4rem"><div style="width:6px;height:6px;border-radius:50%;background:#8b5cf6;margin-top:5px;flex-shrink:0"></div><div><p style="font-size:0.68rem;font-weight:700;color:#1e1b4b;margin:0">Technical Project Manager</p><p style="font-size:0.56rem;color:#6b7280;margin:0">Capgemini UK · Jan 2022 – Present</p></div></div>';
-  h+='<div style="padding:0.5rem 0.7rem"><label style="font-size:0.5rem;font-weight:600;color:#94a3b8;display:block;margin-bottom:0.35rem;text-transform:uppercase;letter-spacing:0.04em">Key Achievements</label>';
+  var h='<div style="display:flex;height:100%;animation:ph-fade-in 0.5s ease both">';
+
+  // Left panel: CV editor sidebar
+  h+='<div style="width:240px;flex-shrink:0;border-right:1px solid #e9ecef;background:#fff;display:flex;flex-direction:column;overflow:hidden">';
+  h+='<div style="padding:0.85rem 1rem 0.65rem;border-bottom:1px solid #f0f0f0">';
+  h+='<p style="font-size:0.58rem;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.08em;margin:0 0 0.5rem">Sections</p>';
+  h+='<div style="height:6px;background:#f0f0f0;border-radius:3px;overflow:hidden"><div style="height:100%;width:75%;background:linear-gradient(135deg,#8b5cf6,#BA67EF);border-radius:3px"></div></div>';
+  h+='<div style="display:flex;justify-content:space-between;margin-top:4px"><span style="font-size:0.52rem;color:#6b7280">Progress</span><span style="font-size:0.52rem;font-weight:700;color:#8b5cf6">75%</span></div>';
+  h+='</div>';
+  var steps=[{e:'👤',l:'Personal',a:false},{e:'💼',l:'Employment',a:true},{e:'🎓',l:'Education',a:false},{e:'⚡',l:'Skills',a:false},{e:'🌍',l:'Languages',a:false},{e:'🎯',l:'Hobbies',a:false},{e:'✏️',l:'Custom',a:false},{e:'🎨',l:'Design',a:false}];
+  h+='<div style="flex:1;overflow:hidden;padding:0.5rem 0">';
+  for(var i=0;i<steps.length;i++){
+    var s=steps[i];
+    h+='<div style="display:flex;align-items:center;gap:0.5rem;padding:0.45rem 1rem;margin:0.05rem 0;background:'+(s.a?'#f5f3ff':'transparent')+';border-right:2px solid '+(s.a?'#8b5cf6':'transparent')+';transition:all 0.2s ease">';
+    h+='<span style="font-size:0.72rem;width:20px;text-align:center">'+s.e+'</span>';
+    h+='<span style="font-size:0.72rem;font-weight:'+(s.a?'600':'500')+';color:'+(s.a?'#7c3aed':'#374151')+'">'+s.l+'</span>';
+    if(i<3){h+='<span style="margin-left:auto;width:6px;height:6px;border-radius:50%;background:#22c55e"></span>';}
+    h+='</div>';
+  }
+  h+='</div></div>';
+
+  // Middle panel: Edit form
+  h+='<div style="width:280px;flex-shrink:0;border-right:1px solid #e9ecef;background:#fff;padding:0.85rem;overflow:hidden;display:flex;flex-direction:column">';
+  h+='<div style="display:flex;align-items:center;gap:0.4rem;margin-bottom:0.65rem"><span style="font-size:0.82rem">💼</span><span style="font-size:0.82rem;font-weight:700;color:#1e1b4b;font-family:Figtree,sans-serif">Employment</span><span style="margin-left:auto;font-size:0.52rem;font-weight:600;color:#8b5cf6;background:#f5f3ff;padding:2px 8px;border-radius:100px;border:1px solid #ede9fe">2 roles</span></div>';
+
+  h+='<div style="border:1.5px solid #ddd6fe;border-radius:12px;background:#fff;margin-bottom:0.6rem;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.04)">';
+  h+='<div style="padding:0.6rem 0.75rem;border-bottom:1px solid #f5f0fa;display:flex;align-items:flex-start;gap:0.4rem"><div style="width:7px;height:7px;border-radius:50%;background:#8b5cf6;margin-top:5px;flex-shrink:0"></div><div><p style="font-size:0.72rem;font-weight:700;color:#1e1b4b;margin:0">Technical Project Manager</p><p style="font-size:0.58rem;color:#6b7280;margin:0">Capgemini UK · Jan 2022 – Present</p></div></div>';
+  h+='<div style="padding:0.55rem 0.75rem"><label style="font-size:0.5rem;font-weight:600;color:#9ca3af;display:block;margin-bottom:0.35rem;text-transform:uppercase;letter-spacing:0.06em">Key Achievements</label>';
   h+='<div id="phCvBullets" style="display:flex;flex-direction:column;gap:0.3rem">';
   var buls=[ORIG,B2,B3];
-  for(var i=0;i<buls.length;i++){
-    h+='<div style="display:flex;align-items:flex-start;gap:0.3rem"><span style="color:#8b5cf6;font-weight:700;font-size:0.6rem;margin-top:1px">•</span><span id="phBul'+ i+'" style="font-size:0.54rem;color:#374151;line-height:1.45;padding:1px 3px;border-radius:2px;transition:all 0.3s ease">'+buls[i]+'</span></div>';
+  for(var bi=0;bi<buls.length;bi++){
+    h+='<div style="display:flex;align-items:flex-start;gap:0.3rem"><span style="color:#8b5cf6;font-weight:700;font-size:0.6rem;margin-top:1px;flex-shrink:0">•</span><span id="phBul'+bi+'" style="font-size:0.56rem;color:#374151;line-height:1.5;padding:2px 4px;border-radius:3px;transition:all 0.3s ease">'+buls[bi]+'</span></div>';
   }
   h+='</div></div></div>';
-  h+='<div style="border:1.5px solid #f0ebfa;border-radius:12px;background:#fdfcff;padding:0.55rem 0.7rem;display:flex;align-items:center;gap:0.4rem;opacity:0.4"><div style="width:6px;height:6px;border-radius:50%;background:#c4b5fd;flex-shrink:0"></div><div><p style="font-size:0.6rem;font-weight:600;color:#1e1b4b;margin:0">IT Programme Coordinator</p><p style="font-size:0.5rem;color:#94a3b8;margin:0">BAE Systems · Sep 2019 – Dec 2021</p></div></div>';
+
+  h+='<div style="border:1.5px solid #f0ebfa;border-radius:12px;background:#fdfcff;padding:0.6rem 0.75rem;display:flex;align-items:center;gap:0.4rem;opacity:0.35"><div style="width:7px;height:7px;border-radius:50%;background:#c4b5fd;flex-shrink:0"></div><div><p style="font-size:0.62rem;font-weight:600;color:#1e1b4b;margin:0">IT Programme Coordinator</p><p style="font-size:0.52rem;color:#9ca3af;margin:0">BAE Systems · Sep 2019 – Dec 2021</p></div></div>';
   h+='</div>';
 
+  // Right panel: CV preview
   h+='<div style="flex:1;background:#f3f0f8;position:relative;overflow:hidden;display:flex;flex-direction:column">';
-  h+='<div style="padding:0.4rem 0.85rem;display:flex;align-items:center;gap:0.5rem;border-bottom:1px solid #e9e0fd;background:#faf8ff;flex-shrink:0">';
-  h+='<span style="font-size:0.56rem;font-weight:600;color:#7c3aed;padding:3px 8px;border-radius:5px;background:#f5f3ff;border:1px solid #e9e0fd">Preview</span>';
-  h+='<span style="font-size:0.56rem;font-weight:500;color:#94a3b8;padding:3px 8px">Templates</span>';
+  h+='<div style="padding:0.45rem 0.85rem;display:flex;align-items:center;gap:0.5rem;border-bottom:1px solid #e9e0fd;background:rgba(250,248,255,0.8);flex-shrink:0;backdrop-filter:blur(8px)">';
+  h+='<span style="font-size:0.6rem;font-weight:600;color:#7c3aed;padding:4px 10px;border-radius:6px;background:#f5f3ff;border:1px solid #e9e0fd">Preview</span>';
+  h+='<span style="font-size:0.6rem;font-weight:500;color:#94a3b8;padding:4px 10px">Templates</span>';
   h+='<div style="flex:1"></div>';
-  h+='<span id="phImproveBtn" style="display:flex;align-items:center;gap:4px;padding:4px 10px;border-radius:6px;background:#fff;border:1.5px solid #e9e0fd;font-size:0.56rem;font-weight:600;color:#7c3aed;transition:all 0.3s ease">⚡ Improve</span>';
+  h+='<span id="phImproveBtn" style="display:flex;align-items:center;gap:5px;padding:5px 12px;border-radius:8px;background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff;font-size:0.6rem;font-weight:600;box-shadow:0 2px 8px rgba(124,58,237,0.25);transition:all 0.3s ease">⚡ Improve with AI</span>';
   h+='</div>';
-  h+='<div style="flex:1;padding:0.75rem;display:flex;justify-content:center;position:relative">';
-  h+='<div id="phCvPage" style="width:100%;max-width:440px;background:#fff;border-radius:4px;box-shadow:0 2px 12px rgba(0,0,0,0.08);padding:1.2rem 1rem;font-size:0.58rem;color:#1e1b4b;line-height:1.5;position:relative;transition:transform 0.6s ease">';
-  h+='<h2 style="font-size:0.95rem;font-weight:800;color:#1e1b4b;margin:0 0 0.1rem;text-transform:uppercase;letter-spacing:0.05em">ALEX THOMPSON</h2>';
-  h+='<p style="font-size:0.52rem;color:#6b7280;margin:0 0 0.4rem">alex.thompson@gmail.com • +44 7700 123456 • London, UK</p>';
-  h+='<div style="height:1px;background:#e5e7eb;margin:0 0 0.4rem"></div>';
-  h+='<h3 style="font-size:0.58rem;font-weight:700;color:#1e1b4b;margin:0 0 0.2rem;text-transform:uppercase;letter-spacing:0.04em">Professional Profile</h3>';
-  h+='<p style="font-size:0.52rem;color:#374151;margin:0 0 0.4rem;line-height:1.5">Results-driven Technical Project Manager with 6+ years of experience delivering complex digital transformation programmes.</p>';
-  h+='<div style="height:1px;background:#e5e7eb;margin:0 0 0.4rem"></div>';
-  h+='<h3 style="font-size:0.58rem;font-weight:700;color:#1e1b4b;margin:0 0 0.3rem;text-transform:uppercase;letter-spacing:0.04em">Work Experience</h3>';
-  h+='<p style="font-size:0.55rem;font-weight:700;color:#1e1b4b;margin:0 0 0.05rem">Technical Project Manager <span style="font-weight:400;color:#94a3b8;font-size:0.48rem;float:right">Jan 2022 – Present</span></p>';
-  h+='<p style="font-size:0.5rem;color:#6b7280;margin:0 0 0.2rem">Capgemini UK, London</p>';
-  h+='<ul style="margin:0 0 0.35rem;padding-left:0.8rem;list-style:disc">';
-  h+='<li id="phCvLi0" style="font-size:0.5rem;color:#374151;margin-bottom:0.15rem;line-height:1.45;padding:1px 2px;border-radius:2px;transition:all 0.3s ease">'+ORIG+'</li>';
-  h+='<li style="font-size:0.5rem;color:#374151;margin-bottom:0.15rem;line-height:1.45">'+B2+'</li>';
-  h+='<li style="font-size:0.5rem;color:#374151;margin-bottom:0.15rem;line-height:1.45">'+B3+'</li></ul>';
-  h+='<p style="font-size:0.55rem;font-weight:700;color:#1e1b4b;margin:0 0 0.05rem">IT Programme Coordinator <span style="font-weight:400;color:#94a3b8;font-size:0.48rem;float:right">Sep 2019 – Dec 2021</span></p>';
-  h+='<p style="font-size:0.5rem;color:#6b7280;margin:0 0 0.2rem">BAE Systems, Preston</p>';
-  h+='<ul style="margin:0 0 0.35rem;padding-left:0.8rem;list-style:disc"><li style="font-size:0.5rem;color:#374151;margin-bottom:0.15rem;line-height:1.45">Coordinated IT infrastructure rollout across 4 UK defence sites</li></ul>';
+
+  h+='<div style="flex:1;padding:0.85rem;display:flex;justify-content:center;position:relative">';
+  h+='<div id="phCvPage" style="width:100%;max-width:420px;background:#fff;border-radius:4px;box-shadow:0 4px 24px rgba(0,0,0,0.06),0 1px 4px rgba(0,0,0,0.04);padding:1.25rem 1.1rem;position:relative;transition:transform 0.6s cubic-bezier(0.34,1.56,0.64,1)">';
+  h+='<h2 style="font-size:0.88rem;font-weight:800;color:#1e1b4b;margin:0 0 0.1rem;text-transform:uppercase;letter-spacing:0.06em">ALEX THOMPSON</h2>';
+  h+='<p style="font-size:0.5rem;color:#6b7280;margin:0 0 0.35rem">alex.thompson@gmail.com · +44 7700 123456 · London, UK</p>';
   h+='<div style="height:1px;background:#e5e7eb;margin:0 0 0.35rem"></div>';
-  h+='<h3 style="font-size:0.58rem;font-weight:700;color:#1e1b4b;margin:0 0 0.2rem;text-transform:uppercase;letter-spacing:0.04em">Skills</h3>';
-  h+='<p style="font-size:0.5rem;color:#374151">Agile • PRINCE2 • Stakeholder Management • Jira • Confluence • Risk Management</p>';
-  h+='<div id="phCvPopover" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:85%;max-width:280px;background:#fff;border-radius:12px;border:2px solid #c4b5fd;box-shadow:0 12px 32px rgba(91,33,182,0.2),0 4px 12px rgba(0,0,0,0.1);z-index:20;overflow:hidden;opacity:0;transition:opacity 0.3s ease"></div>';
+  h+='<h3 style="font-size:0.55rem;font-weight:700;color:#1e1b4b;margin:0 0 0.15rem;text-transform:uppercase;letter-spacing:0.05em">Professional Profile</h3>';
+  h+='<p style="font-size:0.5rem;color:#374151;margin:0 0 0.35rem;line-height:1.55">Results-driven Technical Project Manager with 6+ years delivering complex digital transformation programmes across enterprise environments.</p>';
+  h+='<div style="height:1px;background:#e5e7eb;margin:0 0 0.35rem"></div>';
+  h+='<h3 style="font-size:0.55rem;font-weight:700;color:#1e1b4b;margin:0 0 0.2rem;text-transform:uppercase;letter-spacing:0.05em">Work Experience</h3>';
+  h+='<div style="margin-bottom:0.3rem"><p style="font-size:0.52rem;font-weight:700;color:#1e1b4b;margin:0">Technical Project Manager <span style="font-weight:400;color:#94a3b8;font-size:0.46rem;float:right">Jan 2022 – Present</span></p>';
+  h+='<p style="font-size:0.48rem;color:#6b7280;margin:0 0 0.15rem">Capgemini UK, London</p>';
+  h+='<ul style="margin:0;padding-left:0.75rem;list-style:disc">';
+  h+='<li id="phCvLi0" style="font-size:0.48rem;color:#374151;margin-bottom:0.1rem;line-height:1.5;padding:1px 3px;border-radius:2px;transition:all 0.3s ease">'+ORIG+'</li>';
+  h+='<li style="font-size:0.48rem;color:#374151;margin-bottom:0.1rem;line-height:1.5">'+B2+'</li>';
+  h+='<li style="font-size:0.48rem;color:#374151;margin-bottom:0.1rem;line-height:1.5">'+B3+'</li></ul></div>';
+  h+='<div><p style="font-size:0.52rem;font-weight:700;color:#1e1b4b;margin:0">IT Programme Coordinator <span style="font-weight:400;color:#94a3b8;font-size:0.46rem;float:right">Sep 2019 – Dec 2021</span></p>';
+  h+='<p style="font-size:0.48rem;color:#6b7280;margin:0 0 0.15rem">BAE Systems, Preston</p>';
+  h+='<ul style="margin:0;padding-left:0.75rem;list-style:disc"><li style="font-size:0.48rem;color:#374151;line-height:1.5">Coordinated IT infrastructure rollout across 4 UK defence sites</li></ul></div>';
+  h+='<div style="height:1px;background:#e5e7eb;margin:0.3rem 0"></div>';
+  h+='<h3 style="font-size:0.55rem;font-weight:700;color:#1e1b4b;margin:0 0 0.15rem;text-transform:uppercase;letter-spacing:0.05em">Skills</h3>';
+  h+='<p style="font-size:0.48rem;color:#374151">Agile · PRINCE2 · Stakeholder Management · Jira · Confluence · Risk Management · Budgeting</p>';
+
+  h+='<div id="phCvPopover" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:88%;max-width:310px;background:#fff;border-radius:14px;border:1.5px solid #c4b5fd;box-shadow:0 20px 50px rgba(91,33,182,0.2),0 8px 16px rgba(0,0,0,0.08);z-index:20;overflow:hidden;opacity:0;pointer-events:none"></div>';
   h+='</div></div>';
-  h+='<div id="phCvToast" style="position:absolute;bottom:12px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#6d28d9,#4c1d95);color:#fff;padding:0.45rem 1rem;border-radius:10px;font-size:0.62rem;font-weight:600;display:flex;align-items:center;gap:0.4rem;box-shadow:0 8px 24px rgba(91,33,182,0.3);z-index:30;white-space:nowrap;opacity:0;transition:opacity 0.3s ease"></div>';
-  h+='</div>';
-  h+='</div>';
+
+  h+='<div id="phCvToast" style="position:absolute;bottom:14px;left:50%;transform:translateX(-50%);background:rgba(30,27,75,0.9);backdrop-filter:blur(10px);color:#fff;padding:0.5rem 1.2rem;border-radius:100px;font-size:0.65rem;font-weight:600;display:flex;align-items:center;gap:0.45rem;box-shadow:0 8px 30px rgba(0,0,0,0.12);z-index:30;white-space:nowrap;opacity:0;transition:opacity 0.35s ease"></div>';
+  h+='</div></div>';
   ct.innerHTML=h;
 
-  showBadge('AI-powered CV improvements','✨',600);
+  // Timing chain
+  showBadge('AI-powered CV improvements — one click to strengthen every bullet point',800);
 
-  // Animate: improve btn activates
   setTimeout(function(){
-    var btn=document.getElementById('phImproveBtn');
-    if(btn){btn.style.background='linear-gradient(135deg,#8b5cf6,#7c3aed)';btn.style.color='#fff';btn.style.borderColor='#8b5cf6';}
-  },1200);
-
-  // Highlight bullet
-  setTimeout(function(){
-    var li=document.getElementById('phCvLi0');
     var bul=document.getElementById('phBul0');
-    if(li){li.style.animation='ph-highlight 1.5s ease-in-out infinite';}
+    var li=document.getElementById('phCvLi0');
     if(bul){bul.style.background='linear-gradient(135deg,#f5f3ff,#ede9fe)';bul.style.borderRadius='4px';}
-    var pg=document.getElementById('phCvPage');
-    if(pg){pg.style.transform='scale(1.03)';}
-  },2200);
+    if(li){li.style.animation='ph-highlight 1.5s ease-in-out infinite';}
+  },2000);
 
-  // Show popover
   setTimeout(function(){
+    var pg=document.getElementById('phCvPage');
+    if(pg) pg.style.transform='scale(1.03)';
     var pop=document.getElementById('phCvPopover');
     if(pop){
-      pop.innerHTML='<div style="background:linear-gradient(135deg,#6d28d9,#4c1d95);padding:0.4rem 0.65rem;display:flex;align-items:center;gap:0.3rem"><span style="font-size:0.65rem">⚡</span><span style="font-size:0.6rem;font-weight:700;color:#fff">AI Suggestion</span><span style="margin-left:auto;color:rgba(255,255,255,0.5);font-size:0.55rem">✕</span></div><div style="padding:0.55rem 0.65rem"><p style="font-size:0.48rem;font-weight:600;color:#94a3b8;margin:0 0 0.2rem;text-transform:uppercase;letter-spacing:0.04em">Original</p><p style="font-size:0.5rem;color:#6b7280;margin:0 0 0.45rem;padding:0.25rem 0.4rem;background:#f9fafb;border-radius:4px;border-left:2px solid #e5e7eb;line-height:1.45;font-style:italic">'+ORIG+'</p><p style="font-size:0.48rem;font-weight:600;color:#8b5cf6;margin:0 0 0.2rem;text-transform:uppercase;letter-spacing:0.04em">Improved</p><p style="font-size:0.5rem;color:#1e1b4b;margin:0 0 0.45rem;font-weight:600;padding:0.25rem 0.4rem;background:#faf8ff;border-radius:4px;border-left:2px solid #8b5cf6;line-height:1.45">'+IMPROVED+'</p><div style="display:flex;gap:0.3rem;justify-content:flex-end"><span style="padding:3px 8px;border-radius:6px;border:1px solid #e9e0fd;font-size:0.52rem;font-weight:600;color:#6b7280;background:#fff">↻ Retry</span><span style="padding:3px 8px;border-radius:6px;background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff;font-size:0.52rem;font-weight:600">Replace</span></div></div>';
+      pop.innerHTML='<div style="background:linear-gradient(135deg,#6d28d9,#4c1d95);padding:0.5rem 0.75rem;display:flex;align-items:center;gap:0.35rem"><span style="font-size:0.72rem">⚡</span><span style="font-size:0.65rem;font-weight:700;color:#fff">AI Suggestion</span><span style="margin-left:auto;color:rgba(255,255,255,0.4);font-size:0.6rem;cursor:pointer">✕</span></div><div style="padding:0.65rem 0.75rem"><p style="font-size:0.48rem;font-weight:600;color:#94a3b8;margin:0 0 0.2rem;text-transform:uppercase;letter-spacing:0.05em">Original</p><p style="font-size:0.52rem;color:#6b7280;margin:0 0 0.5rem;padding:0.3rem 0.5rem;background:#f9fafb;border-radius:6px;border-left:2.5px solid #e5e7eb;line-height:1.5;font-style:italic">'+ORIG+'</p><p style="font-size:0.48rem;font-weight:600;color:#8b5cf6;margin:0 0 0.2rem;text-transform:uppercase;letter-spacing:0.05em">Improved ✨</p><p style="font-size:0.52rem;color:#1e1b4b;margin:0 0 0.55rem;font-weight:600;padding:0.3rem 0.5rem;background:linear-gradient(135deg,#faf8ff,#f5f3ff);border-radius:6px;border-left:2.5px solid #8b5cf6;line-height:1.5">'+IMPROVED+'</p><div style="display:flex;gap:0.4rem;justify-content:flex-end"><span style="padding:5px 12px;border-radius:8px;border:1px solid #e9e0fd;font-size:0.56rem;font-weight:600;color:#6b7280;background:#fff">↻ Retry</span><span id="phReplaceBtn" style="padding:5px 12px;border-radius:8px;background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff;font-size:0.56rem;font-weight:600;box-shadow:0 2px 6px rgba(124,58,237,0.3)">✓ Replace</span></div></div>';
       pop.style.opacity='1';
-      pop.style.animation='ph-popover-in 0.4s ease both';
+      pop.style.animation='ph-popover-in 0.45s cubic-bezier(0.34,1.56,0.64,1) both';
     }
-  },3400);
+  },3200);
 
-  // Apply replacement
   setTimeout(function(){
     var pop=document.getElementById('phCvPopover');
-    if(pop){pop.style.opacity='0';}
+    if(pop){pop.style.opacity='0';pop.style.animation='';}
     var li=document.getElementById('phCvLi0');
     var bul=document.getElementById('phBul0');
     if(li){li.textContent=IMPROVED;li.style.animation='ph-flash 0.8s ease both';}
     if(bul){bul.textContent=IMPROVED;bul.style.animation='ph-flash 0.6s ease';}
     var pg=document.getElementById('phCvPage');
-    if(pg){pg.style.transform='scale(1)';}
+    if(pg) pg.style.transform='scale(1)';
   },6000);
 
-  // Toast
   setTimeout(function(){
     var t=document.getElementById('phCvToast');
-    if(t){t.innerHTML='<span style="color:#a5f3fc;animation:ph-check-pop 0.3s ease both">✓</span> Improvement applied';t.style.opacity='1';}
-  },6600);
+    if(t){t.innerHTML='<span style="color:#a5f3fc;animation:ph-check 0.3s ease both;font-size:0.8rem">✓</span> Bullet point improved';t.style.opacity='1';}
+  },6500);
 
-  // Fade out
-  setTimeout(function(){
-    var t=document.getElementById('phCvToast');
-    if(t){t.style.opacity='0';}
-    hideBadge();
-    ct.style.animation='ph-fade-out 0.35s ease both';
-    setTimeout(onDone,400);
-  },8200);
+  setTimeout(function(){transition(onDone);},8500);
 }
 
-// ============ SCENE 2: Job Search + High Vibes ============
+// ============ SCENE 2: JOB SEARCH ============
 function sceneJobs(onDone){
   renderSidebar('jobs');
-  ct.style.animation='none';
-  void ct.offsetWidth;
+  renderTopNav('jobs');
 
-  var h='<div style="height:100%;display:flex;flex-direction:column;animation:ph-fade-in 0.4s ease both">';
-  h+='<div style="background:linear-gradient(135deg,#4c1d95,#1a0a3e);padding:0.85rem 1.25rem;flex-shrink:0">';
-  h+='<h3 style="font-size:0.82rem;font-weight:700;color:#fff;margin:0 0 0.5rem">Find your perfect role</h3>';
-  h+='<div style="display:flex;gap:0.5rem">';
-  h+='<div style="flex:1;display:flex;align-items:center;gap:0.4rem;padding:0.45rem 0.7rem;border-radius:10px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.15)"><span style="font-size:0.65rem">🔍</span><span style="font-size:0.62rem;color:rgba(255,255,255,0.9);font-weight:500">Programme Manager</span></div>';
-  h+='<div style="width:140px;display:flex;align-items:center;gap:0.4rem;padding:0.45rem 0.7rem;border-radius:10px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.15)"><span style="font-size:0.65rem">📍</span><span style="font-size:0.62rem;color:rgba(255,255,255,0.9);font-weight:500">London</span></div>';
-  h+='<div style="padding:0.45rem 1rem;border-radius:10px;background:linear-gradient(135deg,#8b5cf6,#7c3aed);font-size:0.62rem;font-weight:600;color:#fff;display:flex;align-items:center;gap:4px">✨ Search</div>';
+  var h='<div style="height:100%;display:flex;flex-direction:column;animation:ph-fade-in 0.5s ease both">';
+
+  // Search hero
+  h+='<div style="background:linear-gradient(135deg,#4c1d95 0%,#6d28d9 50%,#1a0a3e 100%);padding:1.1rem 1.5rem 1rem;flex-shrink:0;position:relative;overflow:hidden">';
+  h+='<div style="position:absolute;top:-60%;right:-15%;width:400px;height:400px;background:radial-gradient(circle,rgba(186,103,239,0.15) 0%,transparent 70%);pointer-events:none"></div>';
+  h+='<div style="position:absolute;bottom:-40%;left:-8%;width:250px;height:250px;background:radial-gradient(circle,rgba(139,92,246,0.1) 0%,transparent 70%);pointer-events:none"></div>';
+  h+='<h3 style="font-size:0.92rem;font-weight:700;color:#fff;margin:0 0 0.15rem;position:relative;z-index:1;font-family:Figtree,sans-serif">Find your perfect role</h3>';
+  h+='<p style="font-size:0.62rem;color:rgba(255,255,255,0.6);margin:0 0 0.6rem;position:relative;z-index:1">Matched to your skills, values, and vibe</p>';
+  h+='<div style="display:flex;gap:0.6rem;position:relative;z-index:1">';
+  h+='<div style="flex:1;position:relative;display:flex;align-items:center"><span style="position:absolute;left:12px;color:#a78bfa;font-size:0.75rem">🔍</span><div style="width:100%;padding:0.6rem 0.6rem 0.6rem 2.2rem;border-radius:10px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);backdrop-filter:blur(4px)"><span style="font-size:0.72rem;color:rgba(255,255,255,0.85);font-weight:500">Programme Manager</span></div></div>';
+  h+='<div style="width:180px;position:relative;display:flex;align-items:center"><span style="position:absolute;left:12px;color:#a78bfa;font-size:0.75rem">📍</span><div style="width:100%;padding:0.6rem 0.6rem 0.6rem 2.2rem;border-radius:10px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);backdrop-filter:blur(4px)"><span style="font-size:0.72rem;color:rgba(255,255,255,0.85);font-weight:500">London</span></div></div>';
+  h+='<div style="padding:0.6rem 1.4rem;border-radius:10px;background:linear-gradient(135deg,#BA67EF,#a44de0);font-size:0.72rem;font-weight:600;color:#fff;display:flex;align-items:center;gap:5px;box-shadow:0 4px 16px rgba(186,103,239,0.3)">Search</div>';
   h+='</div></div>';
 
-  h+='<div style="padding:0.5rem 1rem;display:flex;gap:0.4rem;flex-wrap:wrap;border-bottom:1px solid #f0ebfa;background:#fdfcff;flex-shrink:0">';
-  var filters=['Salary: £50k+','Vibe: 80+','Date: Any','Industry: Tech'];
-  for(var i=0;i<filters.length;i++){
-    h+='<span style="font-size:0.52rem;font-weight:600;color:'+(i<2?'#7c3aed':'#6b7280')+';padding:3px 8px;border-radius:6px;background:'+(i<2?'#f5f3ff':'#f9fafb')+';border:1px solid '+(i<2?'#e9e0fd':'#f3f4f6')+'">'+filters[i]+'</span>';
+  // Filter bar
+  h+='<div style="padding:0.55rem 1.25rem;display:flex;align-items:center;gap:0.45rem;flex-wrap:wrap;border-bottom:1px solid #f0ebfa;background:#fff;flex-shrink:0">';
+  var filters=[{l:'Salary: £50k+',a:true},{l:'Vibe: 80+',a:true},{l:'Date: Any',a:false},{l:'Industry: Tech',a:false}];
+  for(var fi=0;fi<filters.length;fi++){
+    var f=filters[fi];
+    h+='<span style="font-size:0.6rem;font-weight:'+( f.a?'600':'500')+';color:'+(f.a?'#fff':'#6b7280')+';padding:4px 12px;border-radius:100px;background:'+(f.a?'#8b5cf6':'#fff')+';border:1px solid '+(f.a?'#8b5cf6':'#e9ecef')+'">'+f.l+'</span>';
   }
-  h+='<span style="margin-left:auto;font-size:0.52rem;color:#94a3b8">24 results</span>';
+  h+='<span style="margin-left:auto;font-size:0.6rem;color:#64748b;font-weight:500"><strong style="color:#7c3aed;font-weight:700">24</strong> results</span>';
   h+='</div>';
 
-  h+='<div style="flex:1;padding:0.75rem 1rem;overflow:hidden">';
-  h+='<div id="phJobGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:0.65rem"></div>';
-  h+='</div>';
+  h+='<div style="flex:1;padding:0.75rem 1.25rem;overflow:hidden"><div id="phJobGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem"></div></div>';
   h+='</div>';
   ct.innerHTML=h;
 
   var jobs=[
-    {company:'Deloitte',title:'Senior Programme Manager',loc:'London, UK',type:'Full-Time',mode:'Hybrid',salary:'£65,000',vibe:95,hot:true},
-    {company:'Accenture',title:'Digital Project Lead',loc:'Manchester',type:'Full-Time',mode:'Remote',salary:'£58,000',vibe:87,hot:false},
-    {company:'PwC',title:'Technology Delivery Manager',loc:'London, UK',type:'Full-Time',mode:'Hybrid',salary:'£72,000',vibe:82,hot:false},
-    {company:'IBM',title:'Agile Programme Manager',loc:'Birmingham',type:'Contract',mode:'Hybrid',salary:'£550/day',vibe:76,hot:false}
+    {company:'Deloitte',title:'Senior Programme Manager',loc:'London, UK',type:'Full-Time',mode:'Hybrid',salary:'£65,000',vibe:95,hot:true,letter:'D'},
+    {company:'Accenture',title:'Digital Project Lead',loc:'Manchester',type:'Full-Time',mode:'Remote',salary:'£58,000',vibe:87,hot:false,letter:'A'},
+    {company:'PwC',title:'Technology Delivery Mgr',loc:'London, UK',type:'Full-Time',mode:'Hybrid',salary:'£72,000',vibe:82,hot:false,letter:'P'},
+    {company:'IBM',title:'Agile Programme Manager',loc:'Birmingham',type:'Contract',mode:'Hybrid',salary:'£550/day',vibe:76,hot:false,letter:'I'}
   ];
 
-  // Stagger cards in
   var grid=document.getElementById('phJobGrid');
   function addCard(idx){
     if(idx>=jobs.length) return;
     var j=jobs[idx];
     var isHot=j.hot;
-    var vibeBg=isHot?'conic-gradient(from 0deg,#f0abfc,#d946ef,#a855f7,#7c3aed,#a855f7,#d946ef,#f0abfc)':'linear-gradient(135deg,#a78bfa,#8b5cf6)';
-    var vibeAnim=isHot?'animation:ph-ring-spin 1.5s linear infinite':'';
-    var scoreAnim=isHot?'animation:ph-shimmer 2s ease-in-out infinite':'';
-    var scoreStyle=isHot?'background-image:linear-gradient(135deg,#fff,#f0abfc,#d946ef,#a855f7);background-size:200% 200%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 8px rgba(217,70,239,0.7));'+scoreAnim:'color:#7c3aed';
-    var cardAnim=isHot?'animation:ph-pop 0.5s ease '+(idx*0.15)+'s both,ph-glow 3s ease-in-out infinite':'animation:ph-fade-in 0.4s ease '+(idx*0.15)+'s both';
+    var isWarm=!isHot && j.vibe>=80;
+    var vibeCls=isHot?'hot':(isWarm?'warm':'cool');
+    var vibeBg=isHot?'conic-gradient(from 0deg,#f0abfc,#d946ef,#a855f7,#7c3aed,#a855f7,#d946ef,#f0abfc)':(isWarm?'conic-gradient(from 0deg,#c4b5fd,#a78bfa,#8b5cf6,#a78bfa,#c4b5fd)':'conic-gradient(from 0deg,rgba(199,210,254,0.25),rgba(165,180,252,0.15),rgba(199,210,254,0.25))');
+    var spinSpeed=isHot?'1.5s':(isWarm?'5s':'8s');
+    var scoreStyle=isHot?'background-image:linear-gradient(135deg,#fff,#f0abfc,#d946ef,#a855f7);background-size:200% 200%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 10px rgba(217,70,239,0.8)) drop-shadow(0 0 20px rgba(168,85,247,0.5));animation:ph-shimmer 2s ease-in-out infinite':(isWarm?'background-image:linear-gradient(135deg,#c084fc,#a855f7,#8b5cf6);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 6px rgba(168,85,247,0.5))':'color:#a5b4fc');
 
-    var c='<div id="phCard'+idx+'" style="background:#fff;border-radius:14px;border:1px solid '+(isHot?'#ddd6fe':'#e9e5f5')+';padding:0.75rem;position:relative;overflow:hidden;'+cardAnim+'">';
-    if(isHot){c+='<div style="position:absolute;top:0;left:0;right:0;height:2.5px;background:linear-gradient(90deg,#a855f7,#d946ef,#a855f7);border-radius:14px 14px 0 0"></div>';}
-    c+='<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.45rem">';
-    c+='<div style="flex:1"><div style="display:flex;align-items:center;gap:5px;margin-bottom:3px"><span style="font-size:0.58rem;font-weight:600;color:#6b7280">'+j.company+'</span>';
-    if(isHot){c+='<span style="font-size:0.42rem;font-weight:700;color:#7c3aed;background:linear-gradient(135deg,#ede9fe,#f3e8ff);padding:1px 5px;border-radius:3px;border:1px solid #ddd6fe">Verified</span>';}
-    c+='</div>';
-    c+='<p style="font-size:0.68rem;font-weight:700;color:#1e1b4b;margin:0;line-height:1.3">'+j.title+'</p></div>';
-    c+='<div style="width:40px;height:40px;border-radius:50%;position:relative;flex-shrink:0;margin-left:8px;'+(isHot?'animation:ph-pulse 1.8s ease-in-out infinite':'')+'">';
-    c+='<div style="position:absolute;inset:0;border-radius:50%;padding:2px;background:'+vibeBg+';-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;'+vibeAnim+'"></div>';
-    c+='<span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:0.82rem;font-weight:900;'+scoreStyle+'">'+j.vibe+'</span>';
+    var c='<div id="phCard'+idx+'" style="background:#fff;border-radius:14px;border:1px solid '+(isHot?'rgba(0,0,0,0.06)':'rgba(0,0,0,0.06)')+';padding:1rem;position:relative;overflow:hidden;display:flex;flex-direction:column;gap:0.6rem;box-shadow:0 1px 3px rgba(0,0,0,0.04);animation:ph-slide-up 0.4s ease '+(idx*0.12)+'s both;'+(isHot?'animation:ph-pop 0.5s cubic-bezier(0.34,1.56,0.64,1) both,ph-glow 3s ease-in-out infinite':'')+'">';
+
+    // Header with logo + vibe
+    c+='<div style="display:flex;justify-content:space-between;align-items:flex-start">';
+    c+='<div style="display:flex;gap:0.55rem;align-items:flex-start;flex:1">';
+    c+='<div style="width:36px;height:36px;border-radius:10px;background:#f5f3ff;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:0.78rem;font-weight:700;color:#8b5cf6">'+j.letter+'</div>';
+    c+='<div><div style="display:flex;align-items:center;gap:5px;margin-bottom:2px"><span style="font-size:0.62rem;font-weight:600;color:#6b7280">'+j.company+'</span>';
+    if(isHot){c+='<span style="font-size:0.44rem;font-weight:700;color:#7c3aed;background:linear-gradient(135deg,#ede9fe,#f3e8ff);padding:1px 6px;border-radius:4px;border:1px solid #ddd6fe">Verified ✓</span>';}
+    c+='</div><p style="font-size:0.72rem;font-weight:700;color:#1e1b4b;margin:0;line-height:1.3;letter-spacing:-0.01em">'+j.title+'</p></div></div>';
+
+    // Vibe score
+    c+='<div style="width:44px;height:44px;border-radius:50%;position:relative;flex-shrink:0;'+(isHot?'animation:ph-pulse 1.8s ease-in-out infinite':'')+'">';
+    c+='<div style="position:absolute;inset:0;border-radius:50%;padding:'+(isHot?'2.5px':'2px')+';background:'+vibeBg+';-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:ph-ring-spin '+spinSpeed+' linear infinite"></div>';
+    c+='<span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:0.92rem;font-weight:900;line-height:1;letter-spacing:-0.5px;z-index:1;'+scoreStyle+'">'+j.vibe+'</span>';
     c+='</div></div>';
-    c+='<div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:0.5rem">';
-    c+='<span style="font-size:0.48rem;font-weight:500;color:#6b7280;background:#f9fafb;padding:2px 6px;border-radius:4px;border:1px solid #f3f4f6">📍 '+j.loc+'</span>';
-    c+='<span style="font-size:0.48rem;font-weight:500;color:#6b7280;background:#f9fafb;padding:2px 6px;border-radius:4px;border:1px solid #f3f4f6">'+j.type+'</span>';
-    c+='<span style="font-size:0.46rem;font-weight:600;color:#7c3aed;background:linear-gradient(135deg,#f5f3ff,#ede9fe);padding:2px 6px;border-radius:4px;border:1px solid #ddd6fe">'+j.mode+'</span>';
+
+    // Tags
+    c+='<div style="display:flex;flex-wrap:wrap;gap:5px">';
+    c+='<span style="font-size:0.52rem;font-weight:500;color:#6b7280;background:#f9fafb;padding:3px 8px;border-radius:6px;border:1px solid #f3f4f6;display:flex;align-items:center;gap:3px"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>'+j.loc+'</span>';
+    c+='<span style="font-size:0.52rem;font-weight:500;color:#6b7280;background:#f9fafb;padding:3px 8px;border-radius:6px;border:1px solid #f3f4f6">'+j.type+'</span>';
+    var modeColor=j.mode==='Remote'?'color:#059669;background:#ecfdf5;border-color:#a7f3d0':'color:#7c3aed;background:linear-gradient(135deg,#f5f3ff,#ede9fe);border-color:#ddd6fe';
+    c+='<span style="font-size:0.5rem;font-weight:600;padding:3px 8px;border-radius:6px;border:1px solid;'+modeColor+'">'+j.mode+'</span>';
     c+='</div>';
-    c+='<div style="display:flex;justify-content:space-between;align-items:center;padding-top:0.4rem;border-top:1px solid #f3f0fa">';
-    c+='<span style="font-size:0.7rem;font-weight:700;color:#1e1b4b">'+j.salary+'<span style="font-weight:400;color:#94a3b8;font-size:0.52rem">'+(j.salary.includes('/')?'':'/ yr')+'</span></span>';
-    c+='<span style="font-size:0.48rem;color:#9ca3af">2 days ago</span>';
+
+    // Footer
+    c+='<div style="display:flex;justify-content:space-between;align-items:center;padding-top:0.5rem;border-top:1px solid #f3f0fa">';
+    c+='<span style="font-size:0.78rem;font-weight:700;color:#059669">'+j.salary+'<span style="font-weight:400;color:#94a3b8;font-size:0.56rem">'+(j.salary.includes('/')?'':'/ yr')+'</span></span>';
+    c+='<span style="font-size:0.52rem;color:#9ca3af;display:flex;align-items:center;gap:3px"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>2d ago</span>';
     c+='</div></div>';
     grid.innerHTML+=c;
-    setTimeout(function(){addCard(idx+1);},180);
+    setTimeout(function(){addCard(idx+1);},150);
   }
 
-  setTimeout(function(){addCard(0);},400);
+  setTimeout(function(){addCard(0);},300);
+  showBadge('Smart vibe matching — every role scored to your preferences',600);
 
-  showBadge('Smart vibe matching','🎯',800);
-
-  // Show vibe breakdown on hot card
+  // Vibe breakdown tooltip
   setTimeout(function(){
     var card=document.getElementById('phCard0');
-    if(card){
-      var tooltip='<div style="position:absolute;bottom:8px;left:8px;right:8px;background:#fff;border-radius:10px;border:1.5px solid #ddd6fe;box-shadow:0 8px 20px rgba(91,33,182,0.15);padding:0.45rem 0.6rem;z-index:10;animation:ph-popover-in 0.35s ease both">';
-      tooltip+='<p style="font-size:0.48rem;font-weight:700;color:#7c3aed;margin:0 0 0.3rem">Vibe Breakdown</p>';
-      var checks=[{l:'Location match',c:true},{l:'Remote preference',c:true},{l:'Company culture',c:true},{l:'Salary range',c:true}];
-      for(var i=0;i<checks.length;i++){
-        tooltip+='<div style="display:flex;align-items:center;gap:4px;margin-bottom:2px"><span style="color:#22c55e;font-size:0.55rem;animation:ph-check-pop 0.3s ease '+(i*0.1)+'s both">✓</span><span style="font-size:0.48rem;color:#374151">'+checks[i].l+'</span></div>';
-      }
-      tooltip+='</div>';
-      card.insertAdjacentHTML('beforeend',tooltip);
+    if(!card) return;
+    var tip='<div style="position:absolute;bottom:8px;left:8px;right:8px;background:#fff;border-radius:12px;border:1.5px solid #ddd6fe;box-shadow:0 12px 32px rgba(91,33,182,0.15);padding:0.55rem 0.7rem;z-index:10;animation:ph-popover-in 0.4s cubic-bezier(0.34,1.56,0.64,1) both">';
+    tip+='<p style="font-size:0.52rem;font-weight:700;color:#7c3aed;margin:0 0 0.3rem">Why this is a 95 Vibe</p>';
+    var checks=['Location match','Remote preference','Company culture','Salary alignment'];
+    for(var ci=0;ci<checks.length;ci++){
+      tip+='<div style="display:flex;align-items:center;gap:5px;margin-bottom:3px"><span style="color:#22c55e;font-size:0.62rem;font-weight:700;animation:ph-check 0.3s ease '+(ci*0.08)+'s both">✓</span><span style="font-size:0.52rem;color:#374151;font-weight:500">'+checks[ci]+'</span></div>';
     }
-  },4500);
+    tip+='</div>';
+    card.insertAdjacentHTML('beforeend',tip);
+  },4200);
 
-  // Fade out
-  setTimeout(function(){
-    hideBadge();
-    ct.style.animation='ph-fade-out 0.35s ease both';
-    setTimeout(onDone,400);
-  },8200);
+  setTimeout(function(){transition(onDone);},8500);
 }
 
-// ============ SCENE 3: Interview Simulator ============
+// ============ SCENE 3: INTERVIEW SIMULATOR ============
 function sceneInterview(onDone){
   renderSidebar('interview');
-  ct.style.animation='none';
-  void ct.offsetWidth;
+  renderTopNav('interview');
 
-  var h='<div style="height:100%;display:flex;flex-direction:column;animation:ph-fade-in 0.4s ease both">';
-  h+='<div style="padding:0.75rem 1.25rem;border-bottom:1px solid #f0ebfa;background:#fdfcff;display:flex;align-items:center;gap:0.6rem;flex-shrink:0">';
-  h+='<span style="font-size:0.8rem">🎤</span>';
-  h+='<div><p style="font-size:0.78rem;font-weight:700;color:#1e1b4b;margin:0">Interview Practice with Elise</p><p style="font-size:0.52rem;color:#94a3b8;margin:0">Bespoke AI mock interview</p></div>';
+  var h='<div style="height:100%;display:flex;flex-direction:column;animation:ph-fade-in 0.5s ease both">';
+
+  h+='<div style="padding:0.7rem 1.5rem;border-bottom:1px solid #f0ebfa;background:#fff;display:flex;align-items:center;gap:0.6rem;flex-shrink:0">';
+  h+='<div style="width:32px;height:32px;border-radius:10px;background:#f5f3ff;display:flex;align-items:center;justify-content:center;font-size:0.85rem">🎤</div>';
+  h+='<div><p style="font-size:0.82rem;font-weight:700;color:#1e1b4b;margin:0;font-family:Figtree,sans-serif">Practice with Elise AI</p><p style="font-size:0.56rem;color:#94a3b8;margin:0">Bespoke mock interview · STAR Framework</p></div>';
   h+='<div style="flex:1"></div>';
-  h+='<span style="font-size:0.52rem;font-weight:600;color:#22c55e;background:#f0fdf4;padding:3px 8px;border-radius:6px;border:1px solid #bbf7d0">● Live Session</span>';
+  h+='<span style="font-size:0.56rem;font-weight:600;color:#059669;background:#ecfdf5;padding:4px 10px;border-radius:100px;border:1px solid #a7f3d0;display:flex;align-items:center;gap:4px"><span style="animation:ph-breathe 1.5s ease-in-out infinite">●</span> Live</span>';
   h+='</div>';
 
   h+='<div style="flex:1;display:flex;overflow:hidden">';
+
   // Left: Question + Recording
-  h+='<div id="phIntLeft" style="flex:1;padding:1rem 1.25rem;display:flex;flex-direction:column;border-right:1px solid #f0ebfa">';
-  h+='<div style="background:linear-gradient(135deg,#f5f3ff,#ede9fe);border-radius:12px;padding:0.75rem 1rem;margin-bottom:0.75rem;border:1px solid #ddd6fe">';
-  h+='<p style="font-size:0.48rem;font-weight:600;color:#8b5cf6;margin:0 0 0.2rem;text-transform:uppercase;letter-spacing:0.04em">Question 3 of 5</p>';
-  h+='<p style="font-size:0.68rem;font-weight:700;color:#1e1b4b;margin:0;line-height:1.4">Tell me about a time you led a cross-functional team through a challenging project</p>';
+  h+='<div style="flex:1;padding:1.25rem 1.5rem;display:flex;flex-direction:column;border-right:1px solid #f0ebfa;background:#fff">';
+  h+='<div style="background:linear-gradient(135deg,#f5f3ff,#ede9fe);border-radius:14px;padding:0.85rem 1.1rem;margin-bottom:0.85rem;border:1px solid #ddd6fe">';
+  h+='<div style="display:flex;align-items:center;gap:0.35rem;margin-bottom:0.25rem"><span style="font-size:0.48rem;font-weight:700;color:#8b5cf6;text-transform:uppercase;letter-spacing:0.05em">Question 3 of 5</span><span style="margin-left:auto;font-size:0.46rem;font-weight:600;color:#6b7280;background:#fff;padding:2px 7px;border-radius:100px;border:1px solid #e9ecef">Behavioural</span></div>';
+  h+='<p style="font-size:0.75rem;font-weight:700;color:#1e1b4b;margin:0;line-height:1.45;letter-spacing:-0.01em">Tell me about a time you led a cross-functional team through a challenging project</p>';
   h+='</div>';
-  h+='<div style="display:flex;align-items:center;gap:0.4rem;margin-bottom:0.5rem"><span style="font-size:0.48rem;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:0.03em">Framework:</span>';
-  h+='<span style="font-size:0.5rem;font-weight:600;color:#7c3aed;background:#f5f3ff;padding:2px 8px;border-radius:5px;border:1px solid #e9e0fd">STAR Method</span></div>';
-  h+='<div id="phRecording" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.6rem">';
-  h+='<div id="phMicCircle" style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#8b5cf6,#7c3aed);display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 4px 16px rgba(139,92,246,0.3)">🎙</div>';
-  h+='<div id="phWaveform" style="display:flex;align-items:center;gap:2px;height:32px"></div>';
-  h+='<p id="phRecLabel" style="font-size:0.56rem;font-weight:600;color:#8b5cf6;margin:0">Recording your answer...</p>';
-  h+='<p style="font-size:0.52rem;color:#94a3b8;margin:0" id="phTimer">01:24</p>';
+
+  h+='<div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.75rem"><span style="font-size:0.5rem;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:0.04em">Framework</span>';
+  h+='<span style="font-size:0.54rem;font-weight:600;color:#7c3aed;background:#f5f3ff;padding:3px 10px;border-radius:100px;border:1px solid #e9e0fd">⭐ STAR Method</span>';
+  h+='<span style="font-size:0.5rem;font-weight:500;color:#94a3b8;padding:3px 10px;border-radius:100px;border:1px solid #e9ecef">Difficulty: Medium</span></div>';
+
+  h+='<div id="phRecArea" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.65rem;padding:0.5rem">';
+  h+='<div id="phMic" style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#8b5cf6,#7c3aed);display:flex;align-items:center;justify-content:center;font-size:1.15rem;box-shadow:0 6px 20px rgba(124,58,237,0.3);color:#fff">🎙</div>';
+  h+='<div id="phWaveform" style="display:flex;align-items:center;gap:2px;height:28px"></div>';
+  h+='<p id="phRecLabel" style="font-size:0.62rem;font-weight:600;color:#8b5cf6;margin:0">Recording your answer...</p>';
+  h+='<p id="phTimer" style="font-size:0.56rem;color:#94a3b8;margin:0;font-variant-numeric:tabular-nums">01:42</p>';
   h+='</div></div>';
 
-  // Right: Feedback panel (initially hidden)
-  h+='<div id="phIntRight" style="width:320px;flex-shrink:0;padding:0.85rem;overflow:hidden;opacity:0;transition:opacity 0.4s ease">';
-  h+='</div>';
+  // Right: Feedback panel
+  h+='<div id="phFeedback" style="width:340px;flex-shrink:0;padding:1rem;overflow-y:auto;opacity:0;background:#faf8ff;transition:opacity 0.4s ease"></div>';
   h+='</div></div>';
   ct.innerHTML=h;
 
-  showBadge('Bespoke AI feedback','🎯',600);
-
-  // Animate waveform
+  // Waveform bars
   var wf=document.getElementById('phWaveform');
-  if(wf){
-    var bars='';
-    for(var i=0;i<16;i++){
-      bars+='<div style="width:3px;border-radius:2px;background:linear-gradient(to top,#8b5cf6,#d946ef);animation:ph-wave 0.6s ease-in-out '+(i*0.08)+'s infinite"></div>';
-    }
-    wf.innerHTML=bars;
-  }
+  if(wf){var bars='';for(var i=0;i<18;i++){bars+='<div style="width:3px;border-radius:2px;background:linear-gradient(to top,#8b5cf6,#c084fc);animation:ph-wave 0.55s ease-in-out '+(i*0.06)+'s infinite"></div>';}wf.innerHTML=bars;}
 
-  // Recording complete -> show feedback
+  showBadge('AI-powered interview coaching — practise, record, and get instant bespoke feedback',600);
+
+  // Recording completes
   setTimeout(function(){
     var wf2=document.getElementById('phWaveform');
     var rl=document.getElementById('phRecLabel');
-    var mc=document.getElementById('phMicCircle');
+    var mc=document.getElementById('phMic');
     var tm=document.getElementById('phTimer');
-    if(wf2){wf2.style.opacity='0';}
-    if(rl){rl.textContent='Answer recorded';rl.style.color='#22c55e';}
-    if(mc){mc.style.background='linear-gradient(135deg,#22c55e,#16a34a)';mc.innerHTML='✓';mc.style.fontSize='1.2rem';mc.style.color='#fff';}
-    if(tm){tm.textContent='02:18';}
-  },3000);
+    if(wf2) wf2.style.opacity='0';
+    if(rl){rl.textContent='Answer recorded';rl.style.color='#059669';}
+    if(mc){mc.style.background='linear-gradient(135deg,#059669,#047857)';mc.innerHTML='✓';mc.style.fontSize='1.2rem';}
+    if(tm) tm.textContent='02:18';
+  },2800);
 
   // Show feedback panel
   setTimeout(function(){
-    var rp=document.getElementById('phIntRight');
-    if(rp){
-      rp.style.opacity='1';
-      var fh='<div style="animation:ph-slide-in-r 0.5s ease both">';
-      fh+='<div style="display:flex;align-items:center;gap:0.4rem;margin-bottom:0.65rem"><span style="font-size:0.7rem">⚡</span><span style="font-size:0.72rem;font-weight:700;color:#1e1b4b">AI Feedback</span></div>';
+    var fp=document.getElementById('phFeedback');
+    if(!fp) return;
+    fp.style.opacity='1';
 
-      // Score ring
-      fh+='<div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.65rem;padding:0.6rem;background:linear-gradient(135deg,#f5f3ff,#ede9fe);border-radius:12px;border:1px solid #ddd6fe">';
-      fh+='<div style="width:60px;height:60px;border-radius:50%;position:relative;flex-shrink:0;animation:ph-pop 0.6s ease both">';
-      fh+='<svg width="60" height="60" viewBox="0 0 60 60" style="transform:rotate(-90deg)"><circle cx="30" cy="30" r="26" fill="none" stroke="#ede9fe" stroke-width="4"/><circle cx="30" cy="30" r="26" fill="none" stroke="#8b5cf6" stroke-width="4" stroke-dasharray="163.4" stroke-dashoffset="29.4" stroke-linecap="round" style="transition:stroke-dashoffset 1s ease"/></svg>';
-      fh+='<span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:1rem;font-weight:900;color:#7c3aed">82</span></div>';
-      fh+='<div><p style="font-size:0.65rem;font-weight:700;color:#1e1b4b;margin:0 0 2px">Strong Performance</p><p style="font-size:0.48rem;color:#6b7280;margin:0">STAR framework applied well</p></div></div>';
+    var fh='<div style="animation:ph-slide-r 0.5s ease both">';
+    fh+='<div style="display:flex;align-items:center;gap:0.4rem;margin-bottom:0.75rem"><span style="font-size:0.78rem">⚡</span><span style="font-size:0.82rem;font-weight:700;color:#1e1b4b;font-family:Figtree,sans-serif">AI Feedback</span></div>';
 
-      // Breakdown bars
-      fh+='<div style="margin-bottom:0.55rem">';
-      var metrics=[{l:'Situation',v:90,c:'#22c55e'},{l:'Task',v:85,c:'#8b5cf6'},{l:'Action',v:78,c:'#8b5cf6'},{l:'Result',v:72,c:'#f59e0b'}];
-      for(var i=0;i<metrics.length;i++){
-        var m=metrics[i];
-        fh+='<div style="margin-bottom:0.35rem"><div style="display:flex;justify-content:space-between;margin-bottom:2px"><span style="font-size:0.48rem;font-weight:600;color:#374151">'+m.l+'</span><span style="font-size:0.46rem;font-weight:700;color:'+m.c+'">'+m.v+'%</span></div>';
-        fh+='<div style="height:4px;border-radius:100px;background:#ede9fe;overflow:hidden"><div style="height:100%;border-radius:100px;background:'+m.c+';width:'+m.v+'%;transition:width 0.8s ease '+(i*0.15)+'s"></div></div></div>';
-      }
-      fh+='</div>';
+    // Score ring
+    var score=82,size=80,sw=6,r=(size-sw)/2,circ=2*Math.PI*r,offset=circ-(score/100)*circ;
+    fh+='<div style="display:flex;align-items:center;gap:0.85rem;margin-bottom:0.75rem;padding:0.75rem;background:linear-gradient(135deg,#f5f3ff,#ede9fe);border-radius:14px;border:1px solid #ddd6fe">';
+    fh+='<div style="position:relative;width:'+size+'px;height:'+size+'px;flex-shrink:0;animation:ph-pop 0.6s ease 0.2s both">';
+    fh+='<svg width="'+size+'" height="'+size+'" viewBox="0 0 '+size+' '+size+'"><circle cx="'+(size/2)+'" cy="'+(size/2)+'" r="'+r+'" fill="none" stroke="#e9e5f5" stroke-width="'+sw+'"/><circle cx="'+(size/2)+'" cy="'+(size/2)+'" r="'+r+'" fill="none" stroke="#8b5cf6" stroke-width="'+sw+'" stroke-linecap="round" stroke-dasharray="'+circ+'" stroke-dashoffset="'+offset+'" transform="rotate(-90 '+(size/2)+' '+(size/2)+')" style="--ph-circ:'+circ+';--ph-offset:'+offset+';animation:ph-score-fill 1.2s ease 0.3s both"/></svg>';
+    fh+='<div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center"><span style="font-size:1.2rem;font-weight:900;color:#7c3aed;display:block;line-height:1">82%</span><span style="font-size:0.42rem;font-weight:600;color:#8b5cf6">Strong</span></div></div>';
+    fh+='<div><p style="font-size:0.72rem;font-weight:700;color:#1e1b4b;margin:0 0 3px">Strong Performance</p><p style="font-size:0.52rem;color:#6b7280;margin:0;line-height:1.45">STAR framework applied well. Clear situation context with measurable outcomes.</p></div></div>';
 
-      // Strengths
-      fh+='<div style="margin-bottom:0.45rem"><p style="font-size:0.5rem;font-weight:700;color:#22c55e;margin:0 0 0.25rem">✓ What you did well</p>';
-      fh+='<p style="font-size:0.48rem;color:#374151;line-height:1.5;margin:0">Clear context setting, specific metrics used (£2.4M, 42 team members), structured delivery</p></div>';
-
-      // Focus areas
-      fh+='<div><p style="font-size:0.5rem;font-weight:700;color:#8b5cf6;margin:0 0 0.25rem">◎ Where to focus</p>';
-      fh+='<p style="font-size:0.48rem;color:#374151;line-height:1.5;margin:0">Quantify the result more — add timeline or percentage improvement achieved</p></div>';
-
-      fh+='</div>';
-      rp.innerHTML=fh;
+    // STAR breakdown bars
+    fh+='<div style="margin-bottom:0.65rem">';
+    fh+='<p style="font-size:0.58rem;font-weight:700;color:#1e1b4b;margin:0 0 0.4rem">STAR Breakdown</p>';
+    var bars=[{l:'Situation',v:90,m:12,c:'#22c55e'},{l:'Task',v:85,m:10,c:'#8b5cf6'},{l:'Action',v:78,m:18,c:'#8b5cf6'},{l:'Result',v:72,m:5,c:'#f59e0b'}];
+    for(var bi=0;bi<bars.length;bi++){
+      var b=bars[bi];
+      fh+='<div style="margin-bottom:0.4rem"><div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="font-size:0.52rem;font-weight:600;color:#374151">'+b.l+'</span><span style="font-size:0.5rem;font-weight:700;color:'+b.c+'">'+Math.round(b.v*b.m/100)+'/'+b.m+'</span></div>';
+      fh+='<div style="height:5px;border-radius:100px;background:#ede9fe;overflow:hidden"><div style="height:100%;border-radius:100px;background:'+b.c+';--ph-bar-w:'+b.v+'%;animation:ph-bar-fill 0.8s ease '+(0.4+bi*0.15)+'s both"></div></div></div>';
     }
-  },3800);
+    fh+='</div>';
 
-  // Fade out
-  setTimeout(function(){
-    hideBadge();
-    ct.style.animation='ph-fade-out 0.35s ease both';
-    setTimeout(onDone,400);
-  },8200);
+    // Strengths + Focus
+    fh+='<div style="padding:0.6rem;background:#ecfdf5;border-radius:10px;border:1px solid #a7f3d0;margin-bottom:0.5rem"><p style="font-size:0.52rem;font-weight:700;color:#059669;margin:0 0 0.2rem">✓ What You Did Well</p>';
+    fh+='<p style="font-size:0.5rem;color:#374151;line-height:1.55;margin:0">Clear context setting with specific metrics (£2.4M, 42 members). Structured delivery and strong stakeholder engagement.</p></div>';
+
+    fh+='<div style="padding:0.6rem;background:#f5f3ff;border-radius:10px;border:1px solid #ddd6fe"><p style="font-size:0.52rem;font-weight:700;color:#7c3aed;margin:0 0 0.2rem">◎ Where to Focus</p>';
+    fh+='<p style="font-size:0.5rem;color:#374151;line-height:1.55;margin:0">Quantify the result more clearly — add timeline, percentage improvement, or direct business impact achieved.</p></div>';
+
+    fh+='</div>';
+    fp.innerHTML=fh;
+  },3600);
+
+  setTimeout(function(){transition(onDone);},8500);
 }
 
-// ============ SCENE 4: Dashboard ============
+// ============ SCENE 4: DASHBOARD ============
 function sceneDashboard(onDone){
   renderSidebar('dashboard');
-  ct.style.animation='none';
-  void ct.offsetWidth;
+  renderTopNav('dashboard');
 
-  var h='<div style="height:100%;padding:1rem 1.5rem;animation:ph-fade-in 0.4s ease both;overflow:hidden">';
+  var h='<div style="height:100%;padding:1.25rem 1.5rem;animation:ph-fade-in 0.5s ease both;overflow:hidden">';
 
-  // Welcome banner
-  h+='<div style="background:linear-gradient(135deg,#4c1d95,#7c3aed);border-radius:14px;padding:1rem 1.5rem;margin-bottom:0.85rem;position:relative;overflow:hidden">';
-  h+='<div style="position:absolute;top:-50%;right:-10%;width:200px;height:200px;background:radial-gradient(circle,rgba(186,103,239,0.25) 0%,transparent 70%);pointer-events:none"></div>';
-  h+='<h3 style="font-size:0.92rem;font-weight:700;color:#fff;margin:0 0 0.2rem;position:relative;z-index:1">Welcome back, Alex 👋</h3>';
-  h+='<p style="font-size:0.6rem;color:rgba(255,255,255,0.7);margin:0 0 0.5rem;position:relative;z-index:1">Your career journey is 68% complete. Keep going!</p>';
-  h+='<div style="height:5px;border-radius:100px;background:rgba(255,255,255,0.15);overflow:hidden;max-width:300px;position:relative;z-index:1"><div id="phProgress" style="height:100%;border-radius:100px;background:linear-gradient(90deg,#a78bfa,#d946ef);width:0%;transition:width 1.5s ease"></div></div>';
+  // Welcome banner (matches HeroWelcomeBanner)
+  h+='<div style="border-radius:1rem;background:linear-gradient(135deg,#4c1d95 0%,#6d28d9 40%,#7c3aed 70%,#a78bfa 100%);padding:1.25rem 1.5rem;margin-bottom:1rem;position:relative;overflow:hidden">';
+  h+='<div style="position:absolute;top:-40px;right:-40px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,0.04);pointer-events:none"></div>';
+  h+='<div style="position:absolute;bottom:-30px;left:40%;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,0.03);pointer-events:none"></div>';
+  h+='<div style="position:relative;z-index:1">';
+  h+='<div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.35rem;flex-wrap:wrap">';
+  h+='<h1 style="font-size:1.15rem;font-weight:700;color:#fff;margin:0;font-family:Figtree,sans-serif">Welcome back, Alex<span style="color:#a78bfa">.</span></h1>';
+  h+='<span style="display:inline-flex;align-items:center;padding:0.15rem 0.5rem;border-radius:999px;font-size:0.58rem;font-weight:700;background:#ede9fe;color:#6d28d9;border:1px solid #c4b5fd;letter-spacing:0.02em">Sprint Pass</span>';
   h+='</div>';
+  h+='<div style="display:flex;align-items:center;gap:0.4rem"><span style="color:#c4b5fd;font-size:0.72rem">⚡</span><p style="font-size:0.72rem;color:#ddd6fe;margin:0;line-height:1.45">Your scores are up 12% recently — great momentum! Keep going.</p></div>';
+  h+='</div></div>';
 
-  // Stats row
-  h+='<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0.65rem;margin-bottom:0.85rem">';
-  var stats=[
-    {icon:'📄',label:'CVs Created',value:'3',color:'#8b5cf6'},
-    {icon:'🔍',label:'Jobs Viewed',value:'47',color:'#d946ef'},
-    {icon:'🎤',label:'Interviews Practised',value:'12',color:'#22c55e'},
-    {icon:'📬',label:'Applications',value:'8',color:'#f59e0b'}
+  // Feature cards (matches ControlComponents)
+  h+='<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0.75rem;margin-bottom:1rem">';
+  var cards=[
+    {icon:'📄',title:'CV Builder',desc:'Create your perfect CV in seconds.',btn:'Launch CV Builder',grad:'linear-gradient(135deg,#7c3aed,#5b21b6)',iconBg:'#ede9fe',accent:'#7c3aed',count:3,countLabel:'CVs created'},
+    {icon:'🎤',title:'Interview Simulator',desc:'Get real-world feedback for any question.',btn:'Practise an Interview',grad:'linear-gradient(135deg,#c026d3,#86198f)',iconBg:'#fae8ff',accent:'#c026d3',count:12,countLabel:'this week'},
+    {icon:'🔍',title:'Job Search',desc:'Roles matched to your skills and vibe.',btn:'Browse Vacancies',grad:'linear-gradient(135deg,#d946ef,#a21caf)',iconBg:'#fdf4ff',accent:'#d946ef',count:47,countLabel:'jobs tracked'},
+    {icon:'📊',title:'Application Tracker',desc:'One view, zero missed opportunities.',btn:'View Progress',grad:'linear-gradient(135deg,#4c1d95,#1e1b4b)',iconBg:'#ede9fe',accent:'#4c1d95',count:8,countLabel:'applications'}
   ];
-  for(var i=0;i<stats.length;i++){
-    var s=stats[i];
-    h+='<div style="background:#fff;border-radius:12px;border:1px solid #f0ebfa;padding:0.65rem;text-align:center;animation:ph-fade-in 0.4s ease '+(i*0.12)+'s both">';
-    h+='<span style="font-size:1rem;display:block;margin-bottom:0.25rem">'+s.icon+'</span>';
-    h+='<span id="phStat'+i+'" data-target="'+s.value+'" style="font-size:1.15rem;font-weight:900;color:'+s.color+';display:block;margin-bottom:0.1rem;animation:ph-counter 0.5s ease '+(0.5+i*0.15)+'s both">0</span>';
-    h+='<span style="font-size:0.48rem;font-weight:500;color:#94a3b8">'+s.label+'</span></div>';
+  for(var ci=0;ci<cards.length;ci++){
+    var c=cards[ci];
+    h+='<div style="background:#fff;border-radius:1rem;overflow:hidden;box-shadow:0 2px 12px rgba(91,33,182,0.06),0 0 0 1px rgba(139,92,246,0.08);position:relative;animation:ph-slide-up 0.4s ease '+(0.2+ci*0.1)+'s both">';
+    h+='<div style="position:absolute;top:0;left:0;right:0;height:4px;background:'+c.grad+';z-index:1"></div>';
+    h+='<div style="padding:1.1rem 0.9rem 0.9rem;display:flex;flex-direction:column;align-items:center;text-align:center">';
+    h+='<div style="position:relative;margin-bottom:0.6rem"><div style="width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:'+c.iconBg+';font-size:1.15rem;animation:ph-float 3s ease-in-out '+(ci*0.3)+'s infinite">'+c.icon+'</div>';
+    h+='<span style="position:absolute;top:-5px;right:-8px;background:'+c.accent+';color:#fff;font-size:0.5rem;font-weight:700;min-width:18px;height:18px;border-radius:999px;display:flex;align-items:center;justify-content:center;padding:0 4px;border:2px solid #fff;box-shadow:0 2px 4px rgba(0,0,0,0.1)" id="phCount'+ci+'">0</span>';
+    h+='</div>';
+    h+='<h4 style="font-size:0.78rem;font-weight:700;color:#1e1b4b;margin:0 0 0.2rem;font-family:Figtree,sans-serif">'+c.title+'</h4>';
+    h+='<span style="font-size:0.54rem;font-weight:600;color:'+c.accent+';margin-bottom:0.2rem;opacity:0.85" id="phLabel'+ci+'">0 '+c.countLabel+'</span>';
+    h+='<div style="width:24px;height:3px;border-radius:2px;background:#e9e5f5;margin-bottom:0.45rem"></div>';
+    h+='<p style="font-size:0.58rem;color:#64617a;line-height:1.5;margin:0 0 0.7rem;letter-spacing:0.01em">'+c.desc+'</p>';
+    h+='<div style="width:100%;padding:0.5rem 0.7rem;border-radius:0.6rem;background:'+c.grad+';color:#fff;font-weight:600;font-size:0.62rem;text-align:center;letter-spacing:0.01em">'+c.btn+' →</div>';
+    h+='</div></div>';
   }
-  h+='</div>';
-
-  // Feature cards
-  h+='<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.65rem">';
-  var features=[
-    {icon:'📄',title:'CV Builder',desc:'AI-powered CV creation and optimisation',color:'#8b5cf6',bg:'linear-gradient(135deg,#f5f3ff,#ede9fe)'},
-    {icon:'🔍',title:'Job Search',desc:'Smart vibe matching for your ideal role',color:'#d946ef',bg:'linear-gradient(135deg,#fdf4ff,#fae8ff)'},
-    {icon:'🎤',title:'Interview Prep',desc:'Bespoke practice with AI feedback',color:'#22c55e',bg:'linear-gradient(135deg,#f0fdf4,#dcfce7)'}
-  ];
-  for(var i=0;i<features.length;i++){
-    var f=features[i];
-    h+='<div style="background:'+f.bg+';border-radius:12px;padding:0.75rem;border:1px solid #e9e0fd;animation:ph-fade-in 0.4s ease '+(0.3+i*0.15)+'s both">';
-    h+='<span style="font-size:1.1rem;display:block;margin-bottom:0.3rem">'+f.icon+'</span>';
-    h+='<p style="font-size:0.68rem;font-weight:700;color:#1e1b4b;margin:0 0 0.15rem">'+f.title+'</p>';
-    h+='<p style="font-size:0.48rem;color:#6b7280;margin:0;line-height:1.4">'+f.desc+'</p></div>';
-  }
-  h+='</div>';
-  h+='</div>';
+  h+='</div></div>';
   ct.innerHTML=h;
 
-  showBadge('Your career command centre','🚀',500);
+  showBadge('Your career command centre — everything in one place',500);
 
-  // Animate progress bar
+  // Count-up animation
   setTimeout(function(){
-    var pb=document.getElementById('phProgress');
-    if(pb){pb.style.width='68%';}
-  },300);
-
-  // Count-up animation for stats
-  setTimeout(function(){
-    for(var i=0;i<stats.length;i++){
-      (function(idx){
-        var el=document.getElementById('phStat'+idx);
-        if(!el) return;
-        var target=parseInt(el.getAttribute('data-target'));
-        var current=0;
-        var steps=Math.min(target,20);
+    for(var i=0;i<cards.length;i++){
+      (function(idx,target,label){
+        var el=document.getElementById('phCount'+idx);
+        var lbl=document.getElementById('phLabel'+idx);
+        var cur=0;
+        var steps=Math.min(target,15);
         var inc=Math.max(1,Math.ceil(target/steps));
-        var interval=Math.max(30,Math.floor(600/steps));
+        var interval=Math.max(40,Math.floor(500/steps));
         var timer=setInterval(function(){
-          current+=inc;
-          if(current>=target){current=target;clearInterval(timer);}
-          el.textContent=current;
+          cur+=inc;
+          if(cur>=target){cur=target;clearInterval(timer);}
+          if(el) el.textContent=cur;
+          if(lbl) lbl.textContent=cur+' '+label;
         },interval);
-      })(i);
+      })(i,cards[i].count,cards[i].countLabel);
     }
-  },600);
+  },800);
 
-  // Fade out
-  setTimeout(function(){
-    hideBadge();
-    ct.style.animation='ph-fade-out 0.35s ease both';
-    setTimeout(onDone,400);
-  },5500);
+  setTimeout(function(){transition(onDone);},5800);
 }
 
 // ============ MASTER LOOP ============
@@ -488,7 +522,7 @@ function runLoop(){
     sceneJobs(function(){
       sceneInterview(function(){
         sceneDashboard(function(){
-          setTimeout(runLoop,200);
+          setTimeout(runLoop,300);
         });
       });
     });
