@@ -549,10 +549,19 @@
   const topLinks = document.querySelectorAll('.ph-top-link');
   const dots = document.querySelectorAll('.ph-dot');
 
+  function retriggerAnimations(sceneEl) {
+    const animated = sceneEl.querySelectorAll('[style*="animation"]');
+    animated.forEach(el => {
+      const anim = el.style.animation;
+      if (anim) { el.style.animation = 'none'; el.offsetHeight; el.style.animation = anim; }
+    });
+  }
+
   function showScene(idx) {
     scenes.forEach((s, i) => {
       const el = document.getElementById(s.id);
       el.classList.toggle('active', i === idx);
+      if (i === idx) retriggerAnimations(el);
 
       const zoomEl = document.getElementById(s.zoom);
       if (zoomEl) {
