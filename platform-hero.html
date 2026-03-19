@@ -81,6 +81,8 @@ function hideBadge(){
 function sceneCv(onDone){
   renderSidebar('cv');
   hideBadge();
+  ct.style.animation='none';
+  void ct.offsetWidth;
   var ORIG='Led cross-functional delivery of a £2.4M digital transformation programme across 3 business units';
   var IMPROVED='Spearheaded end-to-end delivery of a £2.4M enterprise digital transformation, coordinating 3 cross-functional business units and 42 team members to achieve on-time, on-budget completion';
   var B2='Reduced project delivery timelines by 28% through Agile methodology adoption and sprint planning';
@@ -425,7 +427,7 @@ function sceneDashboard(onDone){
     var s=stats[i];
     h+='<div style="background:#fff;border-radius:12px;border:1px solid #f0ebfa;padding:0.65rem;text-align:center;animation:ph-fade-in 0.4s ease '+(i*0.12)+'s both">';
     h+='<span style="font-size:1rem;display:block;margin-bottom:0.25rem">'+s.icon+'</span>';
-    h+='<span id="phStat'+i+'" style="font-size:1.15rem;font-weight:900;color:'+s.color+';display:block;margin-bottom:0.1rem;animation:ph-counter 0.5s ease '+(0.5+i*0.15)+'s both">'+s.value+'</span>';
+    h+='<span id="phStat'+i+'" data-target="'+s.value+'" style="font-size:1.15rem;font-weight:900;color:'+s.color+';display:block;margin-bottom:0.1rem;animation:ph-counter 0.5s ease '+(0.5+i*0.15)+'s both">0</span>';
     h+='<span style="font-size:0.48rem;font-weight:500;color:#94a3b8">'+s.label+'</span></div>';
   }
   h+='</div>';
@@ -455,6 +457,26 @@ function sceneDashboard(onDone){
     var pb=document.getElementById('phProgress');
     if(pb){pb.style.width='68%';}
   },300);
+
+  // Count-up animation for stats
+  setTimeout(function(){
+    for(var i=0;i<stats.length;i++){
+      (function(idx){
+        var el=document.getElementById('phStat'+idx);
+        if(!el) return;
+        var target=parseInt(el.getAttribute('data-target'));
+        var current=0;
+        var steps=Math.min(target,20);
+        var inc=Math.max(1,Math.ceil(target/steps));
+        var interval=Math.max(30,Math.floor(600/steps));
+        var timer=setInterval(function(){
+          current+=inc;
+          if(current>=target){current=target;clearInterval(timer);}
+          el.textContent=current;
+        },interval);
+      })(i);
+    }
+  },600);
 
   // Fade out
   setTimeout(function(){
