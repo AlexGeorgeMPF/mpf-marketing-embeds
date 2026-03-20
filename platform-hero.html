@@ -19,6 +19,7 @@
   @keyframes ph-gradient-shift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
   @keyframes warm-number-breathe{0%,100%{filter:drop-shadow(0 0 4px rgba(168,85,247,0.4)) drop-shadow(0 0 10px rgba(139,92,246,0.15))}50%{filter:drop-shadow(0 0 8px rgba(168,85,247,0.7)) drop-shadow(0 0 18px rgba(139,92,246,0.3))}}
   @keyframes ph-crossfade-in{from{opacity:0}to{opacity:1}}
+  @keyframes ph-cards-scroll{0%{transform:translateY(0)}100%{transform:translateY(-50%)}}
   @keyframes ph-border-shimmer{0%{background-position:100% 50%}100%{background-position:-100% 50%}}
 
   .ph-shimmer-wrap{border-radius:20px;padding:2px;background:linear-gradient(90deg,hsl(270,80%,55%) 0%,hsl(290,70%,50%) 25%,hsl(250,80%,60%) 50%,hsl(300,80%,70%) 60%,hsl(250,80%,60%) 70%,hsl(290,70%,50%) 85%,hsl(270,80%,55%) 100%);background-size:200% 100%;animation:ph-border-shimmer 3s ease-in-out infinite;box-shadow:0 25px 50px rgba(91,33,182,0.2),0 12px 24px rgba(0,0,0,0.1)}
@@ -302,6 +303,14 @@
   @keyframes ph-blink{0%,100%{opacity:1}50%{opacity:0}}
   .ph-iv-typing-cursor{display:inline-block;width:2px;height:1em;background:#a78bfa;animation:ph-blink 0.8s step-end infinite;vertical-align:text-bottom;margin-left:1px}
   .ph-iv-typing-hint{font-size:0.64rem;color:rgba(255,255,255,0.4);margin-top:10px;text-align:center}
+  .ph-iv-cards-bg{position:absolute;inset:0;overflow:hidden;opacity:0.13;pointer-events:none}
+  .ph-iv-cards-scroll{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:12px;animation:ph-cards-scroll 25s linear infinite}
+  .ph-iv-qcard{background:#fff;border:1px solid #e9e5f5;border-radius:10px;padding:10px 12px;display:flex;flex-direction:column}
+  .ph-iv-qcard-badges{display:flex;gap:4px;align-items:center;margin-bottom:6px}
+  .ph-iv-qcard-cat{display:inline-flex;align-items:center;gap:3px;padding:2px 6px;border-radius:5px;font-size:0.58rem;font-weight:600;background:#ede9fe;color:#5b21b6}
+  .ph-iv-qcard-diff{padding:2px 5px;border-radius:5px;font-size:0.54rem;font-weight:700}
+  .ph-iv-qcard-title{font-size:0.72rem;font-weight:700;color:#1e1b4b;line-height:1.3;margin-bottom:4px}
+  .ph-iv-qcard-link{font-size:0.62rem;font-weight:600;color:#6d28d9}
 
   /* ELISE AVATAR */
   .ph-iv-elise{width:120px;height:120px;border-radius:50%;overflow:hidden;position:relative;z-index:2}
@@ -335,15 +344,18 @@
   .ph-iv-rec-dot{width:10px;height:10px;border-radius:50%;background:#ef4444;animation:ph-record-pulse 1.2s ease-in-out infinite;box-shadow:0 0 8px rgba(239,68,68,0.6)}
   .ph-iv-rec-label{font-size:0.72rem;font-weight:600;color:#fca5a5;letter-spacing:0.04em}
 
-  .ph-tracker-hdr{display:flex;align-items:center;gap:8px;margin-bottom:12px}
-  .ph-tracker-hdr svg{color:#8b5cf6}
-  .ph-tracker-hdr h3{font-size:0.88rem;font-weight:800;color:#1e1b4b;font-family:'Figtree',sans-serif}
-  .ph-tracker-hdr .ph-tracker-count{margin-left:auto;font-size:0.62rem;font-weight:700;padding:2px 8px;border-radius:20px;background:#ede9fe;color:#7c3aed}
+  .ph-tracker-card{background:#fff;border-radius:16px;border:1px solid #e9e5f5;box-shadow:0 2px 8px rgba(91,33,182,0.06);overflow:hidden;flex:1;display:flex;flex-direction:column}
+  .ph-tracker-card-hdr{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid #eee8f8;background:#faf8ff}
+  .ph-tracker-card-left{display:flex;align-items:center;gap:8px}
+  .ph-tracker-icon-box{width:30px;height:30px;border-radius:8px;background:#ede9fe;border:1px solid #ddd6fe;display:flex;align-items:center;justify-content:center}
+  .ph-tracker-card-title{font-size:0.82rem;font-weight:700;color:#1e1b4b;font-family:'Figtree',sans-serif}
+  .ph-tracker-count-badge{background:#ede9fe;color:#5b21b6;font-size:0.62rem;font-weight:700;padding:2px 7px;border-radius:6px;border:1px solid #ddd6fe}
   .ph-tracker-table{width:100%;border-collapse:separate;border-spacing:0}
-  .ph-tracker-table th{font-size:0.58rem;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:0.05em;padding:6px 8px;text-align:left;border-bottom:1px solid #f3f0fa}
-  .ph-tracker-table td{font-size:0.72rem;padding:8px 8px;border-bottom:1px solid #f8f7fc;vertical-align:middle}
+  .ph-tracker-table th{font-size:0.56rem;font-weight:700;color:#4c1d95;text-transform:uppercase;letter-spacing:0.04em;padding:8px 10px;text-align:left;background:#ede9fe;border-bottom:2px solid #ddd6fe}
+  .ph-tracker-table td{font-size:0.72rem;padding:10px 10px;border-bottom:1px solid #f3f0fa;vertical-align:middle}
   .ph-tracker-table tr:last-child td{border-bottom:none}
   .ph-tracker-table tr.featured{background:#faf8ff}
+  .ph-tracker-table tr:hover{background:#faf8ff}
   .ph-tracker-job-title{font-weight:700;color:#5b21b6;line-height:1.3;font-size:0.72rem}
   .ph-tracker-job-company{font-size:0.6rem;color:#6b7280;font-weight:500;margin-top:1px}
   .ph-tracker-vibe{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;font-size:0.62rem;font-weight:800;font-family:'Figtree',sans-serif}
@@ -351,7 +363,6 @@
   .ph-tracker-vibe.warm{background:linear-gradient(135deg,#faf5ff,#f3e8ff);color:#9333ea}
   .ph-tracker-vibe.cool{background:linear-gradient(135deg,#f8fafc,#f1f5f9);color:#64748b}
   .ph-tracker-status{display:inline-block;font-size:0.58rem;font-weight:700;padding:3px 9px;border-radius:20px;white-space:nowrap;transition:all 0.4s ease}
-  .ph-tracker-date{font-size:0.6rem;color:#9ca3af;white-space:nowrap}
   .ph-tracker-table th.center,.ph-tracker-table td.center{text-align:center}
   .ph-tracker-toggle{display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform 0.15s ease}
   .ph-tracker-toggle svg{display:block}
@@ -476,6 +487,32 @@
             <div style="width:25%;background:#ede9fe;border-right:1px solid #fff;display:flex;align-items:center;justify-content:center"><span style="font-size:0.5rem;font-weight:700;color:#5b21b6">2</span></div>
             <div style="width:12.5%;background:#fef3c7;border-right:1px solid #fff;display:flex;align-items:center;justify-content:center"><span style="font-size:0.5rem;font-weight:700;color:#92400e">1</span></div>
             <div style="width:12.5%;background:#fee2e2;display:flex;align-items:center;justify-content:center"><span style="font-size:0.5rem;font-weight:700;color:#991b1b">1</span></div>
+          </div>
+        </div>
+        <div style="padding:4px 10px 8px;display:flex;flex-direction:column;gap:5px">
+          <div style="display:flex;align-items:flex-start;gap:6px;padding:5px 8px;background:#faf8ff;border-radius:8px;border:1px solid #f3f0fa">
+            <div style="width:6px;height:6px;border-radius:50%;background:#16a34a;margin-top:4px;flex-shrink:0"></div>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:0.6rem;font-weight:700;color:#1e1b4b;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Tell me about a team project</div>
+              <div style="font-size:0.54rem;color:#6b7280;line-height:1.35;margin-top:1px">Strong use of STAR framework — clear structure</div>
+            </div>
+            <span style="font-size:0.56rem;font-weight:700;color:#16a34a;background:#dcfce7;padding:1px 5px;border-radius:4px;flex-shrink:0">82%</span>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:6px;padding:5px 8px;background:#faf8ff;border-radius:8px;border:1px solid #f3f0fa">
+            <div style="width:6px;height:6px;border-radius:50%;background:#8b5cf6;margin-top:4px;flex-shrink:0"></div>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:0.6rem;font-weight:700;color:#1e1b4b;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Describe a challenge you overcame</div>
+              <div style="font-size:0.54rem;color:#6b7280;line-height:1.35;margin-top:1px">Add specific metrics to demonstrate impact</div>
+            </div>
+            <span style="font-size:0.56rem;font-weight:700;color:#5b21b6;background:#ede9fe;padding:1px 5px;border-radius:4px;flex-shrink:0">67%</span>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:6px;padding:5px 8px;background:#faf8ff;border-radius:8px;border:1px solid #f3f0fa">
+            <div style="width:6px;height:6px;border-radius:50%;background:#d97706;margin-top:4px;flex-shrink:0"></div>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:0.6rem;font-weight:700;color:#1e1b4b;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">How do you handle conflict?</div>
+              <div style="font-size:0.54rem;color:#6b7280;line-height:1.35;margin-top:1px">Slow down pacing during key points</div>
+            </div>
+            <span style="font-size:0.56rem;font-weight:700;color:#92400e;background:#fef3c7;padding:1px 5px;border-radius:4px;flex-shrink:0">42%</span>
           </div>
         </div>
       </div>
@@ -876,6 +913,37 @@
   <div class="ph-scene" id="scene-interview">
     <!-- Phase 0: Typing Question -->
     <div id="iv-phase-typing" class="ph-iv-typing" style="opacity:0;pointer-events:none">
+      <div class="ph-iv-cards-bg">
+        <div class="ph-iv-cards-scroll">
+          <div class="ph-iv-qcard"><div class="ph-iv-qcard-badges"><span class="ph-iv-qcard-cat"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg> Industry</span><span class="ph-iv-qcard-diff" style="background:#dcfce7;color:#166534;border:1px solid #a7f3d0">Easy</span></div><div class="ph-iv-qcard-title">Tell me about your experience with agile methodologies</div><div class="ph-iv-qcard-link">Practise Now →</div></div>
+          <div class="ph-iv-qcard"><div class="ph-iv-qcard-badges"><span class="ph-iv-qcard-cat"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/></svg> Behavioural</span><span class="ph-iv-qcard-diff" style="background:#fef3c7;color:#92400e;border:1px solid #fde68a">Medium</span></div><div class="ph-iv-qcard-title">Describe a time you resolved a conflict in your team</div><div class="ph-iv-qcard-link">Practise Now →</div></div>
+          <div class="ph-iv-qcard"><div class="ph-iv-qcard-badges"><span class="ph-iv-qcard-cat"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg> Get to Know</span><span class="ph-iv-qcard-diff" style="background:#dcfce7;color:#166534;border:1px solid #a7f3d0">Easy</span></div><div class="ph-iv-qcard-title">What motivates you to do your best work?</div><div class="ph-iv-qcard-link">Practise Now →</div></div>
+          <div class="ph-iv-qcard"><div class="ph-iv-qcard-badges"><span class="ph-iv-qcard-cat"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg> Industry</span><span class="ph-iv-qcard-diff" style="background:#fee2e2;color:#991b1b;border:1px solid #fecaca">Hard</span></div><div class="ph-iv-qcard-title">How would you design a system to handle 10M concurrent users?</div><div class="ph-iv-qcard-link">Practise Now →</div></div>
+          <div class="ph-iv-qcard"><div class="ph-iv-qcard-badges"><span class="ph-iv-qcard-cat"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/></svg> Behavioural</span><span class="ph-iv-qcard-diff" style="background:#dcfce7;color:#166534;border:1px solid #a7f3d0">Easy</span></div><div class="ph-iv-qcard-title">Tell me about a time you showed leadership</div><div class="ph-iv-qcard-link">Practise Now →</div></div>
+          <div class="ph-iv-qcard"><div class="ph-iv-qcard-badges"><span class="ph-iv-qcard-cat"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg> Technical</span><span class="ph-iv-qcard-diff" style="background:#fef3c7;color:#92400e;border:1px solid #fde68a">Medium</span></div><div class="ph-iv-qcard-title">Explain the difference between SQL and NoSQL databases</div><div class="ph-iv-qcard-link">Practise Now →</div></div>
+          <div class="ph-iv-qcard"><div class="ph-iv-qcard-badges"><span class="ph-iv-qcard-cat"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg> Industry</span><span class="ph-iv-qcard-diff" style="background:#fef3c7;color:#92400e;border:1px solid #fde68a">Medium</span></div><div class="ph-iv-qcard-title">What's your approach to debugging production issues?</div><div class="ph-iv-qcard-link">Practise Now →</div></div>
+          <div class="ph-iv-qcard"><div class="ph-iv-qcard-badges"><span class="ph-iv-qcard-cat"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/></svg> Behavioural</span><span class="ph-iv-qcard-diff" style="background:#fee2e2;color:#991b1b;border:1px solid #fecaca">Hard</span></div><div class="ph-iv-qcard-title">Describe a project that failed and what you learned</div><div class="ph-iv-qcard-link">Practise Now →</div></div>
+          <div class="ph-iv-qcard"><div class="ph-iv-qcard-badges"><span class="ph-iv-qcard-cat"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg> Get to Know</span><span class="ph-iv-qcard-diff" style="background:#dcfce7;color:#166534;border:1px solid #a7f3d0">Easy</span></div><div class="ph-iv-qcard-title">Where do you see yourself in five years?</div><div class="ph-iv-qcard-link">Practise Now →</div></div>
+          <div class="ph-iv-qcard"><div class="ph-iv-qcard-badges"><span class="ph-iv-qcard-cat"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg> Technical</span><span class="ph-iv-qcard-diff" style="background:#fee2e2;color:#991b1b;border:1px solid #fecaca">Hard</span></div><div class="ph-iv-qcard-title">Walk me through optimising a React app for performance</div><div class="ph-iv-qcard-link">Practise Now →</div></div>
+          <div class="ph-iv-qcard"><div class="ph-iv-qcard-badges"><span class="ph-iv-qcard-cat"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg> Industry</span><span class="ph-iv-qcard-diff" style="background:#dcfce7;color:#166534;border:1px solid #a7f3d0">Easy</span></div><div class="ph-iv-qcard-title">How do you stay up to date with industry trends?</div><div class="ph-iv-qcard-link">Practise Now →</div></div>
+          <div class="ph-iv-qcard"><div class="ph-iv-qcard-badges"><span class="ph-iv-qcard-cat"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/></svg> Behavioural</span><span class="ph-iv-qcard-diff" style="background:#fef3c7;color:#92400e;border:1px solid #fde68a">Medium</span></div><div class="ph-iv-qcard-title">Give an example of when you had to adapt quickly</div><div class="ph-iv-qcard-link">Practise Now →</div></div>
+          <div class="ph-iv-qcard"><div class="ph-iv-qcard-badges"><span class="ph-iv-qcard-cat"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg> Get to Know</span><span class="ph-iv-qcard-diff" style="background:#dcfce7;color:#166534;border:1px solid #a7f3d0">Easy</span></div><div class="ph-iv-qcard-title">What's the most interesting project you've worked on?</div><div class="ph-iv-qcard-link">Practise Now →</div></div>
+          <div class="ph-iv-qcard"><div class="ph-iv-qcard-badges"><span class="ph-iv-qcard-cat"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg> Technical</span><span class="ph-iv-qcard-diff" style="background:#fef3c7;color:#92400e;border:1px solid #fde68a">Medium</span></div><div class="ph-iv-qcard-title">How would you implement authentication in a web app?</div><div class="ph-iv-qcard-link">Practise Now →</div></div>
+          <div class="ph-iv-qcard"><div class="ph-iv-qcard-badges"><span class="ph-iv-qcard-cat"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg> Industry</span><span class="ph-iv-qcard-diff" style="background:#fee2e2;color:#991b1b;border:1px solid #fecaca">Hard</span></div><div class="ph-iv-qcard-title">Explain microservices vs monolith architecture trade-offs</div><div class="ph-iv-qcard-link">Practise Now →</div></div>
+          <div class="ph-iv-qcard"><div class="ph-iv-qcard-badges"><span class="ph-iv-qcard-cat"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/></svg> Behavioural</span><span class="ph-iv-qcard-diff" style="background:#dcfce7;color:#166534;border:1px solid #a7f3d0">Easy</span></div><div class="ph-iv-qcard-title">How do you prioritise when everything is urgent?</div><div class="ph-iv-qcard-link">Practise Now →</div></div>
+          <div class="ph-iv-qcard"><div class="ph-iv-qcard-badges"><span class="ph-iv-qcard-cat"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg> Technical</span><span class="ph-iv-qcard-diff" style="background:#fef3c7;color:#92400e;border:1px solid #fde68a">Medium</span></div><div class="ph-iv-qcard-title">What testing strategies do you use for frontend code?</div><div class="ph-iv-qcard-link">Practise Now →</div></div>
+          <div class="ph-iv-qcard"><div class="ph-iv-qcard-badges"><span class="ph-iv-qcard-cat"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg> Industry</span><span class="ph-iv-qcard-diff" style="background:#dcfce7;color:#166534;border:1px solid #a7f3d0">Easy</span></div><div class="ph-iv-qcard-title">What drew you to software engineering as a career?</div><div class="ph-iv-qcard-link">Practise Now →</div></div>
+          <div class="ph-iv-qcard"><div class="ph-iv-qcard-badges"><span class="ph-iv-qcard-cat"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/></svg> Behavioural</span><span class="ph-iv-qcard-diff" style="background:#fee2e2;color:#991b1b;border:1px solid #fecaca">Hard</span></div><div class="ph-iv-qcard-title">Tell me about a time you had to influence without authority</div><div class="ph-iv-qcard-link">Practise Now →</div></div>
+          <div class="ph-iv-qcard"><div class="ph-iv-qcard-badges"><span class="ph-iv-qcard-cat"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg> Industry</span><span class="ph-iv-qcard-diff" style="background:#dcfce7;color:#166534;border:1px solid #a7f3d0">Easy</span></div><div class="ph-iv-qcard-title">Tell me about your experience with agile methodologies</div><div class="ph-iv-qcard-link">Practise Now →</div></div>
+          <div class="ph-iv-qcard"><div class="ph-iv-qcard-badges"><span class="ph-iv-qcard-cat"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/></svg> Behavioural</span><span class="ph-iv-qcard-diff" style="background:#fef3c7;color:#92400e;border:1px solid #fde68a">Medium</span></div><div class="ph-iv-qcard-title">Describe a time you resolved a conflict in your team</div><div class="ph-iv-qcard-link">Practise Now →</div></div>
+          <div class="ph-iv-qcard"><div class="ph-iv-qcard-badges"><span class="ph-iv-qcard-cat"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg> Get to Know</span><span class="ph-iv-qcard-diff" style="background:#dcfce7;color:#166534;border:1px solid #a7f3d0">Easy</span></div><div class="ph-iv-qcard-title">What motivates you to do your best work?</div><div class="ph-iv-qcard-link">Practise Now →</div></div>
+          <div class="ph-iv-qcard"><div class="ph-iv-qcard-badges"><span class="ph-iv-qcard-cat"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg> Industry</span><span class="ph-iv-qcard-diff" style="background:#fee2e2;color:#991b1b;border:1px solid #fecaca">Hard</span></div><div class="ph-iv-qcard-title">How would you design a system to handle 10M concurrent users?</div><div class="ph-iv-qcard-link">Practise Now →</div></div>
+          <div class="ph-iv-qcard"><div class="ph-iv-qcard-badges"><span class="ph-iv-qcard-cat"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/></svg> Behavioural</span><span class="ph-iv-qcard-diff" style="background:#dcfce7;color:#166534;border:1px solid #a7f3d0">Easy</span></div><div class="ph-iv-qcard-title">Tell me about a time you showed leadership</div><div class="ph-iv-qcard-link">Practise Now →</div></div>
+          <div class="ph-iv-qcard"><div class="ph-iv-qcard-badges"><span class="ph-iv-qcard-cat"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg> Technical</span><span class="ph-iv-qcard-diff" style="background:#fef3c7;color:#92400e;border:1px solid #fde68a">Medium</span></div><div class="ph-iv-qcard-title">Explain the difference between SQL and NoSQL databases</div><div class="ph-iv-qcard-link">Practise Now →</div></div>
+          <div class="ph-iv-qcard"><div class="ph-iv-qcard-badges"><span class="ph-iv-qcard-cat"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg> Industry</span><span class="ph-iv-qcard-diff" style="background:#fef3c7;color:#92400e;border:1px solid #fde68a">Medium</span></div><div class="ph-iv-qcard-title">What's your approach to debugging production issues?</div><div class="ph-iv-qcard-link">Practise Now →</div></div>
+          <div class="ph-iv-qcard"><div class="ph-iv-qcard-badges"><span class="ph-iv-qcard-cat"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/></svg> Behavioural</span><span class="ph-iv-qcard-diff" style="background:#fee2e2;color:#991b1b;border:1px solid #fecaca">Hard</span></div><div class="ph-iv-qcard-title">Describe a project that failed and what you learned</div><div class="ph-iv-qcard-link">Practise Now →</div></div>
+        </div>
+      </div>
       <div class="ph-iv-typing-card">
         <div class="ph-iv-typing-label">Interview Question</div>
         <div class="ph-iv-typing-input"><span id="iv-typing-text"></span><span class="ph-iv-typing-cursor"></span></div>
@@ -1003,13 +1071,16 @@
 
   <!-- SCENE 4: APPLICATION TRACKER -->
   <div class="ph-scene" id="scene-tracker">
-    <div style="padding:20px 24px;height:100%;display:flex;flex-direction:column">
-      <div class="ph-tracker-hdr">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>
-        <h3>Application Tracker</h3>
-        <span class="ph-tracker-count">5 Applications</span>
-      </div>
-      <div style="background:#fff;border-radius:14px;border:1px solid #e9e5f5;padding:4px 0;box-shadow:0 4px 16px rgba(91,33,182,0.08);flex:1">
+    <div style="padding:16px 20px;height:100%;display:flex;flex-direction:column">
+      <div class="ph-tracker-card">
+        <div class="ph-tracker-card-hdr">
+          <div class="ph-tracker-card-left">
+            <div class="ph-tracker-icon-box"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2.2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg></div>
+            <span class="ph-tracker-card-title">Application Tracker</span>
+            <span class="ph-tracker-count-badge">5</span>
+          </div>
+        </div>
+        <div style="flex:1;overflow:hidden">
         <table class="ph-tracker-table">
           <thead><tr><th>Job Position</th><th>Vibe</th><th class="center">CV Built</th><th class="center">Applied</th><th class="center" style="font-size:0.52rem;line-height:1.2">Interview<br>Practised</th><th>Status</th></tr></thead>
           <tbody>
@@ -1055,6 +1126,7 @@
             </tr>
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   </div>
@@ -1279,7 +1351,9 @@
           var hl = document.querySelector('.ph-cv-highlight');
           if (!hl) return;
           var hlr = hl.getBoundingClientRect();
-          moveCursor(hlr.left - cr.left + hlr.width / 2, hlr.top - cr.top + hlr.height / 2, function() {
+          var scalableX = hlr.left - cr.left + 30;
+          var scalableY = hlr.top - cr.top + hlr.height / 2;
+          moveCursor(scalableX, scalableY, function() {
             schedule(function() {
               hl.style.background = 'rgba(250,204,21,0.6)';
               schedule(function() {
@@ -1298,7 +1372,7 @@
                     schedule(function() {
                       pop.style.opacity = '0';
                       schedule(function() { pop.style.display = 'none'; }, 300);
-                      hl.textContent = 'high-performance, scalable web applications leveraging React 18 and TypeScript';
+                      hl.textContent = 'high-performance, scalable web applications leveraging React 18 and TypeScript, delivering 40% faster load times';
                       hl.style.background = 'rgba(139,92,246,0.15)';
                     }, 200);
                     schedule(function() {
