@@ -6,7 +6,7 @@
 
   @keyframes ph-fade-in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
   @keyframes ph-slide-up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-  @keyframes ph-pop{0%{opacity:0;transform:scale(0.88)}60%{opacity:1;transform:scale(1.04)}100%{transform:scale(1)}}
+  @keyframes ph-pop{0%{opacity:0;transform:scale(0)}40%{opacity:1;transform:scale(1.18)}70%{transform:scale(0.95)}100%{transform:scale(1)}}
   @keyframes ph-ring-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
   @keyframes ph-shimmer{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
   @keyframes ph-hot-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
@@ -17,7 +17,6 @@
   @keyframes ph-popover-in{from{opacity:0;transform:translateY(10px) scale(0.94)}to{opacity:1;transform:translateY(0) scale(1)}}
   @keyframes ph-pulse-glow{0%,100%{box-shadow:0 3px 12px rgba(124,58,237,0.4)}50%{box-shadow:0 3px 20px rgba(124,58,237,0.6)}}
   @keyframes ph-gradient-shift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
-  @keyframes ph-video-progress{from{width:0}to{width:100%}}
   @keyframes warm-number-breathe{0%,100%{filter:drop-shadow(0 0 4px rgba(168,85,247,0.4)) drop-shadow(0 0 10px rgba(139,92,246,0.15))}50%{filter:drop-shadow(0 0 8px rgba(168,85,247,0.7)) drop-shadow(0 0 18px rgba(139,92,246,0.3))}}
   @keyframes ph-crossfade-in{from{opacity:0}to{opacity:1}}
   @keyframes ph-border-shimmer{0%{background-position:100% 50%}100%{background-position:-100% 50%}}
@@ -194,10 +193,6 @@
   .ph-iv-avatar{width:120px;height:120px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#6d28d9);display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 5px rgba(124,58,237,0.2);position:relative;z-index:2}
   .ph-iv-avatar svg{color:#fff;font-size:2.8rem}
   .ph-iv-caption{position:relative;z-index:2;margin-top:16px;font-size:0.92rem;font-weight:600;color:#ddd6fe;letter-spacing:0.01em;animation:ph-caption-in 0.6s 0.5s ease both}
-  .ph-iv-progress{position:absolute;bottom:16px;left:20px;right:20px;z-index:2}
-  .ph-iv-pbar-bg{height:4px;background:rgba(255,255,255,0.15);border-radius:2px;overflow:hidden}
-  .ph-iv-pbar-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,#8b5cf6,#a78bfa)}
-  .ph-iv-pbar-label{display:flex;justify-content:space-between;margin-top:4px;font-size:0.6rem;color:rgba(255,255,255,0.5)}
 
   /* INTERVIEW FEEDBACK */
   .ph-ifb{width:100%;height:100%;overflow:hidden;position:relative}
@@ -340,12 +335,6 @@
   .ph-iv-rec-dot{width:10px;height:10px;border-radius:50%;background:#ef4444;animation:ph-record-pulse 1.2s ease-in-out infinite;box-shadow:0 0 8px rgba(239,68,68,0.6)}
   .ph-iv-rec-label{font-size:0.72rem;font-weight:600;color:#fca5a5;letter-spacing:0.04em}
 
-  @keyframes ph-check-pop{0%{transform:scale(0);opacity:0}60%{transform:scale(1.15);opacity:1}100%{transform:scale(1);opacity:1}}
-  @keyframes ph-check-strike{from{width:0}to{width:100%}}
-  .ph-tracker-overlay{position:absolute;inset:0;background:rgba(30,27,75,0.35);z-index:15;opacity:0;pointer-events:none;transition:opacity 0.3s ease;display:flex;align-items:center;justify-content:center;padding:16px}
-  .ph-tracker-overlay.visible{opacity:1;pointer-events:auto}
-  .ph-tracker-card{background:#fff;border-radius:16px;border:1px solid #e9e5f5;padding:16px 18px;box-shadow:0 12px 40px rgba(91,33,182,0.25),0 4px 12px rgba(0,0,0,0.15);width:460px;opacity:0;transform:scale(0.92)}
-  .ph-tracker-overlay.visible .ph-tracker-card{animation:ph-modal-in 0.35s ease both}
   .ph-tracker-hdr{display:flex;align-items:center;gap:8px;margin-bottom:12px}
   .ph-tracker-hdr svg{color:#8b5cf6}
   .ph-tracker-hdr h3{font-size:0.88rem;font-weight:800;color:#1e1b4b;font-family:'Figtree',sans-serif}
@@ -381,7 +370,7 @@
       <a class="ph-top-link" id="tn-cv"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> CV Builder</a>
       <a class="ph-top-link" id="tn-jobs"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Job Search</a>
       <a class="ph-top-link" id="tn-interview"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg> Interview</a>
-      <a class="ph-top-link"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg> Tracker</a>
+      <a class="ph-top-link" id="tn-tracker"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg> Tracker</a>
     </div>
   </div>
 
@@ -565,50 +554,6 @@
       </div>
     </div>
 
-    <div class="ph-tracker-overlay" id="tracker-overlay">
-      <div class="ph-tracker-card">
-        <div class="ph-tracker-hdr">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>
-          <h3>Application Tracker</h3>
-          <span class="ph-tracker-count">5 Applications</span>
-        </div>
-        <table class="ph-tracker-table">
-          <thead><tr><th>Job Position</th><th>Vibe</th><th>Status</th><th>Date</th></tr></thead>
-          <tbody>
-            <tr class="featured" id="tracker-featured-row">
-              <td><div class="ph-tracker-job-title">Senior React Developer</div><div class="ph-tracker-job-company">TechCorp Ltd</div></td>
-              <td><div class="ph-tracker-vibe hot">94</div></td>
-              <td><span class="ph-tracker-status" id="tracker-featured-status" style="background:#f5f3ff;color:#7c3aed">Preparing</span></td>
-              <td><span class="ph-tracker-date">Today</span></td>
-            </tr>
-            <tr>
-              <td><div class="ph-tracker-job-title">Full Stack Engineer</div><div class="ph-tracker-job-company">Innovate Digital</div></td>
-              <td><div class="ph-tracker-vibe warm">87</div></td>
-              <td><span class="ph-tracker-status" style="background:#d1fae5;color:#059669">Shortlisted</span></td>
-              <td><span class="ph-tracker-date">2 days ago</span></td>
-            </tr>
-            <tr>
-              <td><div class="ph-tracker-job-title">UI/UX Developer</div><div class="ph-tracker-job-company">DataFlow AI</div></td>
-              <td><div class="ph-tracker-vibe warm">82</div></td>
-              <td><span class="ph-tracker-status" style="background:#fef3c7;color:#d97706">1st Interview</span></td>
-              <td><span class="ph-tracker-date">5 days ago</span></td>
-            </tr>
-            <tr>
-              <td><div class="ph-tracker-job-title">DevOps Engineer</div><div class="ph-tracker-job-company">CloudNative Inc</div></td>
-              <td><div class="ph-tracker-vibe cool">71</div></td>
-              <td><span class="ph-tracker-status" style="background:#f3f4f6;color:#6b7280">On Hold</span></td>
-              <td><span class="ph-tracker-date">1 week ago</span></td>
-            </tr>
-            <tr>
-              <td><div class="ph-tracker-job-title">JavaScript Developer</div><div class="ph-tracker-job-company">GreenTech Solutions</div></td>
-              <td><div class="ph-tracker-vibe cool">68</div></td>
-              <td><span class="ph-tracker-status" style="background:#fee2e2;color:#dc2626">Unsuccessful</span></td>
-              <td><span class="ph-tracker-date">2 weeks ago</span></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
   </div>
 
   <!-- SCENE 1: CV BUILDER -->
@@ -947,10 +892,6 @@
           <div class="ph-iv-label-role">AI Interview Coach</div>
         </div>
         <div class="ph-iv-recording"><div class="ph-iv-rec-dot"></div><span class="ph-iv-rec-label">Recording...</span></div>
-        <div class="ph-iv-progress">
-          <div class="ph-iv-pbar-bg"><div class="ph-iv-pbar-fill" id="iv-progress-bar" style="width:0%;transition:width 4s linear"></div></div>
-          <div class="ph-iv-pbar-label"><span>0:00</span><span>0:45</span></div>
-        </div>
       </div>
     </div>
 
@@ -1060,11 +1001,60 @@
   </div>
   </div>
 
+  <!-- SCENE 4: APPLICATION TRACKER -->
+  <div class="ph-scene" id="scene-tracker">
+    <div style="padding:20px 24px;height:100%;display:flex;flex-direction:column">
+      <div class="ph-tracker-hdr">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>
+        <h3>Application Tracker</h3>
+        <span class="ph-tracker-count">5 Applications</span>
+      </div>
+      <div style="background:#fff;border-radius:14px;border:1px solid #e9e5f5;padding:4px 0;box-shadow:0 4px 16px rgba(91,33,182,0.08);flex:1">
+        <table class="ph-tracker-table">
+          <thead><tr><th>Job Position</th><th>Vibe</th><th>Status</th><th>Date</th></tr></thead>
+          <tbody>
+            <tr class="featured" id="tracker-featured-row">
+              <td><div class="ph-tracker-job-title">Senior React Developer</div><div class="ph-tracker-job-company">TechCorp Ltd</div></td>
+              <td><div class="ph-tracker-vibe hot">94</div></td>
+              <td><span class="ph-tracker-status" id="tracker-featured-status" style="background:#f5f3ff;color:#7c3aed">Preparing</span></td>
+              <td><span class="ph-tracker-date">Today</span></td>
+            </tr>
+            <tr>
+              <td><div class="ph-tracker-job-title">Full Stack Engineer</div><div class="ph-tracker-job-company">Innovate Digital</div></td>
+              <td><div class="ph-tracker-vibe warm">87</div></td>
+              <td><span class="ph-tracker-status" style="background:#d1fae5;color:#059669">Shortlisted</span></td>
+              <td><span class="ph-tracker-date">2 days ago</span></td>
+            </tr>
+            <tr>
+              <td><div class="ph-tracker-job-title">UI/UX Developer</div><div class="ph-tracker-job-company">DataFlow AI</div></td>
+              <td><div class="ph-tracker-vibe warm">82</div></td>
+              <td><span class="ph-tracker-status" style="background:#fef3c7;color:#d97706">1st Interview</span></td>
+              <td><span class="ph-tracker-date">5 days ago</span></td>
+            </tr>
+            <tr>
+              <td><div class="ph-tracker-job-title">DevOps Engineer</div><div class="ph-tracker-job-company">CloudNative Inc</div></td>
+              <td><div class="ph-tracker-vibe cool">71</div></td>
+              <td><span class="ph-tracker-status" style="background:#f3f4f6;color:#6b7280">On Hold</span></td>
+              <td><span class="ph-tracker-date">1 week ago</span></td>
+            </tr>
+            <tr>
+              <td><div class="ph-tracker-job-title">JavaScript Developer</div><div class="ph-tracker-job-company">GreenTech Solutions</div></td>
+              <td><div class="ph-tracker-vibe cool">68</div></td>
+              <td><span class="ph-tracker-status" style="background:#fee2e2;color:#dc2626">Unsuccessful</span></td>
+              <td><span class="ph-tracker-date">2 weeks ago</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
   <div class="ph-scene-indicator" id="scene-dots">
     <div class="ph-dot active" data-scene="0"></div>
     <div class="ph-dot" data-scene="1"></div>
     <div class="ph-dot" data-scene="2"></div>
     <div class="ph-dot" data-scene="3"></div>
+    <div class="ph-dot" data-scene="4"></div>
   </div>
 
   </div>
@@ -1075,11 +1065,11 @@
       { id:'scene-dash', nav:'tn-dash', sidebar:0 },
       { id:'scene-cv', nav:'tn-cv', sidebar:1 },
       { id:'scene-jobs', nav:'tn-jobs', sidebar:2 },
-      { id:'scene-interview', nav:'tn-interview', sidebar:3 }
+      { id:'scene-interview', nav:'tn-interview', sidebar:3 },
+      { id:'scene-tracker', nav:'tn-tracker', sidebar:4 }
     ];
     var current = 0;
     var pendingTimers = [];
-    var showTracker = false;
     var originalCvText = '';
 
     var canvas = document.getElementById('canvas');
@@ -1175,9 +1165,7 @@
       bars.forEach(function(bar) { bar.style.width = '0'; });
     }
 
-    function resetTrackerOverlay() {
-      var overlay = document.getElementById('tracker-overlay');
-      if (overlay) overlay.classList.remove('visible');
+    function resetTrackerScene() {
       var statusEl = document.getElementById('tracker-featured-status');
       if (statusEl) {
         statusEl.textContent = 'Preparing';
@@ -1188,11 +1176,6 @@
     }
 
     function runDashScene() {
-      if (showTracker) {
-        showTracker = false;
-        runTrackerFinale();
-        return;
-      }
       var sb = sidebarIcons[0];
       if (!sb) return;
       var r = sb.getBoundingClientRect();
@@ -1208,39 +1191,25 @@
       });
     }
 
-    function runTrackerFinale() {
-      resetTrackerOverlay();
+    function runTrackerScene() {
+      resetTrackerScene();
       var cr = canvas.getBoundingClientRect();
-      var trackerCard = document.querySelectorAll('.ph-fcard')[3];
-      if (!trackerCard) { transitionToScene(1); return; }
-      var tcr = trackerCard.getBoundingClientRect();
-      var trackerBtn = trackerCard.querySelector('.ph-fcard-btn');
-
-      moveCursor(tcr.left - cr.left + tcr.width / 2, tcr.top - cr.top + tcr.height - 10, function() {
-        if (trackerBtn) clickEffect(trackerBtn);
-        schedule(function() {
-          var overlay = document.getElementById('tracker-overlay');
-          if (overlay) overlay.classList.add('visible');
-
+      schedule(function() {
+        var statusEl = document.getElementById('tracker-featured-status');
+        if (!statusEl) { schedule(function() { transitionToScene(0); }, 1500); return; }
+        var sr = statusEl.getBoundingClientRect();
+        var crNow = canvas.getBoundingClientRect();
+        moveThenClick(sr.left - crNow.left + sr.offsetWidth / 2, sr.top - crNow.top + sr.offsetHeight / 2, function() {
+          statusEl.textContent = 'Shortlisted';
+          statusEl.style.background = '#d1fae5';
+          statusEl.style.color = '#059669';
+          statusEl.style.transform = 'scale(1.12)';
+          schedule(function() { statusEl.style.transform = 'scale(1)'; }, 300);
           schedule(function() {
-            var statusEl = document.getElementById('tracker-featured-status');
-            if (!statusEl) { schedule(function() { resetTrackerOverlay(); transitionToScene(1); }, 1500); return; }
-            var sr = statusEl.getBoundingClientRect();
-            var crNow = canvas.getBoundingClientRect();
-            moveThenClick(sr.left - crNow.left + sr.offsetWidth / 2, sr.top - crNow.top + sr.offsetHeight / 2, function() {
-              statusEl.textContent = 'Shortlisted';
-              statusEl.style.background = '#d1fae5';
-              statusEl.style.color = '#059669';
-              statusEl.style.transform = 'scale(1.12)';
-              schedule(function() { statusEl.style.transform = 'scale(1)'; }, 300);
-              schedule(function() {
-                resetTrackerOverlay();
-                schedule(function() { transitionToScene(1); }, 600);
-              }, 2000);
-            }, statusEl);
-          }, 800);
-        }, 500);
-      });
+            transitionToScene(0);
+          }, 2000);
+        }, statusEl);
+      }, 800);
     }
 
     function runCvScene() {
@@ -1289,7 +1258,7 @@
                         var skillsDisp = document.getElementById('cv-skills-display');
                         if (skillsDisp) {
                           var ns = document.createElement('span');
-                          ns.style.cssText = 'font-size:0.58rem;padding:2px 7px;border-radius:4px;background:#ede9fe;color:#5b21b6;font-weight:600;animation:ph-pop 0.3s ease both';
+                          ns.style.cssText = 'font-size:0.58rem;padding:2px 7px;border-radius:4px;background:#ede9fe;color:#5b21b6;font-weight:600;animation:ph-pop 0.5s cubic-bezier(0.34,1.56,0.64,1) both';
                           ns.textContent = 'GraphQL';
                           skillsDisp.appendChild(ns);
                         }
@@ -1370,16 +1339,13 @@
       var typingText = document.getElementById('iv-typing-text');
       var videoPhase = document.getElementById('iv-phase-video');
       var feedbackPhase = document.getElementById('iv-phase-feedback');
-      var progressBar = document.getElementById('iv-progress-bar');
-      if (!videoPhase || !feedbackPhase || !progressBar) return;
+      if (!videoPhase || !feedbackPhase) return;
 
       resetInterviewScene();
       videoPhase.style.opacity = '0';
       videoPhase.style.pointerEvents = 'none';
       feedbackPhase.style.opacity = '0';
       feedbackPhase.style.pointerEvents = 'none';
-      progressBar.style.width = '0%';
-      progressBar.style.transition = 'none';
 
       if (typingPhase && typingText) {
         typingPhase.style.opacity = '1';
@@ -1395,11 +1361,6 @@
               videoPhase.style.opacity = '1';
               videoPhase.style.pointerEvents = 'auto';
               moveCursor(550, 350, function() {
-                schedule(function() {
-                  progressBar.style.transition = 'width 1.75s linear';
-                  progressBar.style.width = '100%';
-                }, 100);
-
                 schedule(function() {
                   videoPhase.style.opacity = '0';
                   videoPhase.style.pointerEvents = 'none';
@@ -1419,8 +1380,7 @@
                     schedule(function() {
                       moveCursor(700, 500, function() {
                         schedule(function() {
-                          showTracker = true;
-                          transitionToScene(0);
+                          transitionToScene(4);
                         }, 1800);
                       });
                     }, 1200);
@@ -1435,10 +1395,6 @@
         videoPhase.style.pointerEvents = 'auto';
         moveCursor(550, 350, function() {
           schedule(function() {
-            progressBar.style.transition = 'width 1.75s linear';
-            progressBar.style.width = '100%';
-          }, 100);
-          schedule(function() {
             videoPhase.style.opacity = '0';
             videoPhase.style.pointerEvents = 'none';
             feedbackPhase.style.opacity = '1';
@@ -1447,8 +1403,7 @@
               schedule(function() {
                 moveCursor(700, 500, function() {
                   schedule(function() {
-                    showTracker = true;
-                    transitionToScene(0);
+                    transitionToScene(4);
                   }, 1800);
                 });
               }, 1200);
@@ -1470,7 +1425,7 @@
       cancelAllTimers();
       resetJobsScene();
       resetInterviewScene();
-      resetTrackerOverlay();
+      resetTrackerScene();
       var sb = sidebarIcons[idx];
       if (!sb) return;
       var cr = canvas.getBoundingClientRect();
@@ -1488,6 +1443,7 @@
         case 1: runCvScene(); break;
         case 2: runJobsScene(); break;
         case 3: runInterviewScene(); break;
+        case 4: runTrackerScene(); break;
       }
     }
 
@@ -1497,11 +1453,10 @@
     dots.forEach(function(dot, i) {
       dot.addEventListener('click', function() {
         cancelAllTimers();
-        showTracker = false;
         resetCvScene();
         resetJobsScene();
         resetInterviewScene();
-        resetTrackerOverlay();
+        resetTrackerScene();
         showScene(i);
         schedule(function() { runScene(i); }, 300);
       });
