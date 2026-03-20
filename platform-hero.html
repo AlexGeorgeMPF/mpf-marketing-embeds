@@ -14,7 +14,7 @@
   @keyframes ph-float{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-6px) scale(1.08)}}
   @keyframes ph-activity-in{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:translateX(0)}}
   @keyframes ph-score-fill{from{stroke-dashoffset:var(--circ)}to{stroke-dashoffset:var(--offset)}}
-  @keyframes ph-popover-in{from{opacity:0;transform:translateY(10px) scale(0.94)}to{opacity:1;transform:translateY(0) scale(1)}}
+  @keyframes ph-popover-in{from{opacity:0;transform:translateX(-50%) translateY(10px) scale(0.94)}to{opacity:1;transform:translateX(-50%) translateY(0) scale(1)}}
   @keyframes ph-pulse-glow{0%,100%{box-shadow:0 3px 12px rgba(124,58,237,0.4)}50%{box-shadow:0 3px 20px rgba(124,58,237,0.6)}}
   @keyframes ph-gradient-shift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
   @keyframes warm-number-breathe{0%,100%{filter:drop-shadow(0 0 4px rgba(168,85,247,0.4)) drop-shadow(0 0 10px rgba(139,92,246,0.15))}50%{filter:drop-shadow(0 0 8px rgba(168,85,247,0.7)) drop-shadow(0 0 18px rgba(139,92,246,0.3))}}
@@ -127,7 +127,7 @@
   .ph-cv-highlight{background:transparent;padding:1px 2px;border-radius:2px;transition:background 0.4s ease}
 
   /* SUGGESTION POPOVER */
-  .ph-suggestion-popover{width:260px;background:#fff;border-radius:12px;box-shadow:0 12px 40px rgba(91,33,182,0.25),0 4px 12px rgba(0,0,0,0.12);border:2px solid #c4b5fd;overflow:hidden;position:absolute;z-index:10;animation:ph-popover-in 0.3s ease both}
+  .ph-suggestion-popover{width:260px;background:#fff;border-radius:12px;box-shadow:0 12px 40px rgba(91,33,182,0.25),0 4px 12px rgba(0,0,0,0.12);border:2px solid #c4b5fd;overflow:hidden;position:absolute;z-index:10;animation:ph-popover-in 0.3s ease both;left:50%;transform:translateX(-50%)}
   .ph-sp-header{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff}
   .ph-sp-title{display:flex;align-items:center;gap:5px;font-size:0.74rem;font-weight:700}
   .ph-sp-close{background:none;border:none;color:rgba(255,255,255,0.8);cursor:pointer;padding:2px;display:flex;border-radius:4px;font-size:0.8rem}
@@ -338,11 +338,15 @@
 
   @keyframes ph-btn-click{0%{transform:scale(1)}40%{transform:scale(0.92)}100%{transform:scale(1)}}
   .ph-btn-click-effect{animation:ph-btn-click 0.35s ease forwards;box-shadow:0 0 0 4px rgba(139,92,246,0.3) !important}
+  @keyframes ph-improve-click{0%{transform:scale(1);box-shadow:0 3px 12px rgba(124,58,237,0.4)}30%{transform:scale(0.88);box-shadow:0 3px 8px rgba(124,58,237,0.5)}60%{transform:scale(1.12);box-shadow:0 0 0 8px rgba(139,92,246,0.25),0 3px 16px rgba(124,58,237,0.5)}100%{transform:scale(1);box-shadow:0 3px 12px rgba(124,58,237,0.4)}}
+  .ph-improve-click{animation:ph-improve-click 0.45s ease forwards;position:relative}
+  .ph-improve-click::after{content:'';position:absolute;inset:-4px;border-radius:12px;border:2px solid rgba(139,92,246,0.5);animation:ph-ring-expand 0.5s ease-out forwards;pointer-events:none}
+  @keyframes ph-ring-expand{0%{inset:-2px;opacity:1;border-color:rgba(139,92,246,0.6)}100%{inset:-14px;opacity:0;border-color:rgba(139,92,246,0)}}
 
-  @keyframes ph-record-pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.3);opacity:0.6}}
+  @keyframes ph-record-pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.5);opacity:0.6}}
   .ph-iv-recording{display:flex;align-items:center;gap:8px;position:relative;z-index:2;margin-top:14px}
-  .ph-iv-rec-dot{width:10px;height:10px;border-radius:50%;background:#ef4444;animation:ph-record-pulse 1.2s ease-in-out infinite;box-shadow:0 0 8px rgba(239,68,68,0.6)}
-  .ph-iv-rec-label{font-size:0.72rem;font-weight:600;color:#fca5a5;letter-spacing:0.04em}
+  .ph-iv-rec-dot{width:14px;height:14px;border-radius:50%;background:#ef4444;animation:ph-record-pulse 1.2s ease-in-out infinite;box-shadow:0 0 10px rgba(239,68,68,0.6)}
+  .ph-iv-rec-label{font-size:0.82rem;font-weight:600;color:#fca5a5;letter-spacing:0.04em}
 
   .ph-tracker-card{background:#fff;border-radius:16px;border:1px solid #e9e5f5;box-shadow:0 2px 8px rgba(91,33,182,0.06);overflow:hidden;flex:1;display:flex;flex-direction:column}
   .ph-tracker-card-hdr{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid #eee8f8;background:#faf8ff}
@@ -704,7 +708,7 @@
             </div>
 
             <!-- SUGGESTION POPOVER -->
-            <div class="ph-suggestion-popover" id="cv-popover" style="top:52px;right:16px;opacity:0;display:none">
+            <div class="ph-suggestion-popover" id="cv-popover" style="top:90px;left:50%;transform:translateX(-50%);opacity:0;display:none">
               <div class="ph-sp-header">
                 <div class="ph-sp-title">⚡ AI Suggestion</div>
                 <span class="ph-sp-close">×</span>
@@ -1357,17 +1361,44 @@
       });
     }
 
+    function burstConfetti(x, y) {
+      var colors = ['#8b5cf6', '#a78bfa', '#7c3aed', '#6d28d9', '#c4b5fd'];
+      var count = 14;
+      var container = document.createElement('div');
+      container.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:99;overflow:hidden';
+      canvas.appendChild(container);
+      for (var i = 0; i < count; i++) {
+        var particle = document.createElement('div');
+        var size = Math.random() * 4 + 3;
+        var color = colors[Math.floor(Math.random() * colors.length)];
+        var angle = (Math.PI * 2 * i) / count;
+        var velocity = Math.random() * 40 + 30;
+        var dx = Math.cos(angle) * velocity;
+        var dy = Math.sin(angle) * velocity - 15;
+        var rotation = Math.random() * 360 - 180;
+        particle.style.cssText = 'position:absolute;left:' + x + 'px;top:' + y + 'px;width:' + size + 'px;height:' + size + 'px;background:' + color + ';border-radius:50%;pointer-events:none;opacity:1;transform:translate(0,0) rotate(0deg) scale(1);transition:none';
+        container.appendChild(particle);
+        (function(p, pdx, pdy, prot) {
+          requestAnimationFrame(function() {
+            p.style.transition = 'transform 1s cubic-bezier(.2,.9,.3,1), opacity 1s ease-out';
+            p.style.transform = 'translate(' + pdx + 'px, ' + (pdy + 30) + 'px) rotate(' + prot + 'deg) scale(0)';
+            p.style.opacity = '0';
+          });
+        })(particle, dx, dy, rotation);
+      }
+      schedule(function() { if (container.parentNode) container.parentNode.removeChild(container); }, 1100);
+    }
+
     function activateToggle(id, cb) {
       var el = document.getElementById(id);
       if (!el) { if (cb) cb(); return; }
       var cr = canvas.getBoundingClientRect();
       var r = el.getBoundingClientRect();
-      moveThenClick(r.left - cr.left + r.width / 2, r.top - cr.top + r.height / 2, function() {
+      moveCursor(r.left - cr.left + r.width / 2, r.top - cr.top + r.height / 2, function() {
         el.innerHTML = toggleCheckedSvg;
-        el.style.transform = 'scale(1.15)';
-        schedule(function() { el.style.transform = 'scale(1)'; }, 200);
-        if (cb) schedule(cb, 600);
-      }, el);
+        burstConfetti(r.left - cr.left + r.width / 2, r.top - cr.top + r.height / 2);
+        if (cb) schedule(cb, 400);
+      });
     }
 
     function runTrackerScene() {
@@ -1400,7 +1431,12 @@
       var cr = canvas.getBoundingClientRect();
       var br = improveBtn.getBoundingClientRect();
       schedule(function() {
-        moveThenClick(br.left - cr.left + br.width / 2, br.top - cr.top + br.height + 4, function() {
+        moveCursor(br.left - cr.left + br.width / 2, br.top - cr.top + br.height + 4, function() {
+          improveBtn.classList.remove('ph-improve-click');
+          void improveBtn.offsetWidth;
+          improveBtn.classList.add('ph-improve-click');
+          schedule(function() { improveBtn.classList.remove('ph-improve-click'); }, 500);
+          schedule(function() {
           var hl = document.querySelector('.ph-cv-highlight');
           if (!hl) return;
           var hlr = hl.getBoundingClientRect();
@@ -1456,8 +1492,8 @@
                 }, 1200);
               }, 600);
             }, 400);
-          });
-        }, improveBtn);
+          }, 400);
+        });
       }, 800);
     }
 
@@ -1582,7 +1618,7 @@
                       });
                     }, 950);
                   });
-                }, 1750);
+                }, 1550);
               });
             }, 500);
           });
@@ -1617,7 +1653,7 @@
                 });
               }, 950);
             });
-          }, 1750);
+          }, 1550);
         });
       }
     }
