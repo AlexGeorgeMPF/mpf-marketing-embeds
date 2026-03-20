@@ -344,20 +344,25 @@
   @keyframes ph-check-strike{from{width:0}to{width:100%}}
   .ph-tracker-overlay{position:absolute;inset:0;background:rgba(30,27,75,0.35);z-index:15;opacity:0;pointer-events:none;transition:opacity 0.3s ease;display:flex;align-items:center;justify-content:center;padding:16px}
   .ph-tracker-overlay.visible{opacity:1;pointer-events:auto}
-  .ph-tracker-card{background:#fff;border-radius:16px;border:1px solid #e9e5f5;padding:20px 24px;box-shadow:0 12px 40px rgba(91,33,182,0.25),0 4px 12px rgba(0,0,0,0.15);width:380px;opacity:0;transform:scale(0.92)}
+  .ph-tracker-card{background:#fff;border-radius:16px;border:1px solid #e9e5f5;padding:16px 18px;box-shadow:0 12px 40px rgba(91,33,182,0.25),0 4px 12px rgba(0,0,0,0.15);width:460px;opacity:0;transform:scale(0.92)}
   .ph-tracker-overlay.visible .ph-tracker-card{animation:ph-modal-in 0.35s ease both}
-  .ph-tracker-hdr{display:flex;align-items:center;gap:8px;margin-bottom:16px}
-  .ph-tracker-hdr svg{color:#d946ef}
-  .ph-tracker-hdr h3{font-size:0.92rem;font-weight:800;color:#1e1b4b;font-family:'Figtree',sans-serif}
-  .ph-tracker-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;background:#f8f7fc;border:1px solid #e9e5f5;margin-bottom:8px;cursor:pointer;transition:all 0.3s ease}
-  .ph-tracker-item.checked{background:#f0fdf4;border-color:#a7f3d0}
-  .ph-tracker-check{width:24px;height:24px;border-radius:50%;border:2px solid #d4d4d8;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.3s ease}
-  .ph-tracker-item.checked .ph-tracker-check{background:#16a34a;border-color:#16a34a}
-  .ph-tracker-item.checked .ph-tracker-check svg{animation:ph-check-pop 0.4s ease both}
-  .ph-tracker-item-text{font-size:0.82rem;font-weight:600;color:#374151}
-  .ph-tracker-item.checked .ph-tracker-item-text{color:#16a34a}
-  .ph-tracker-item-badge{margin-left:auto;font-size:0.62rem;font-weight:700;padding:3px 10px;border-radius:20px;background:#ede9fe;color:#7c3aed}
-  .ph-tracker-item.checked .ph-tracker-item-badge{background:#dcfce7;color:#16a34a}
+  .ph-tracker-hdr{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+  .ph-tracker-hdr svg{color:#8b5cf6}
+  .ph-tracker-hdr h3{font-size:0.88rem;font-weight:800;color:#1e1b4b;font-family:'Figtree',sans-serif}
+  .ph-tracker-hdr .ph-tracker-count{margin-left:auto;font-size:0.62rem;font-weight:700;padding:2px 8px;border-radius:20px;background:#ede9fe;color:#7c3aed}
+  .ph-tracker-table{width:100%;border-collapse:separate;border-spacing:0}
+  .ph-tracker-table th{font-size:0.58rem;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:0.05em;padding:6px 8px;text-align:left;border-bottom:1px solid #f3f0fa}
+  .ph-tracker-table td{font-size:0.72rem;padding:8px 8px;border-bottom:1px solid #f8f7fc;vertical-align:middle}
+  .ph-tracker-table tr:last-child td{border-bottom:none}
+  .ph-tracker-table tr.featured{background:#faf8ff}
+  .ph-tracker-job-title{font-weight:700;color:#5b21b6;line-height:1.3;font-size:0.72rem}
+  .ph-tracker-job-company{font-size:0.6rem;color:#6b7280;font-weight:500;margin-top:1px}
+  .ph-tracker-vibe{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;font-size:0.62rem;font-weight:800;font-family:'Figtree',sans-serif}
+  .ph-tracker-vibe.hot{background:linear-gradient(135deg,#f5f3ff,#ede9fe);color:#7c3aed}
+  .ph-tracker-vibe.warm{background:linear-gradient(135deg,#faf5ff,#f3e8ff);color:#9333ea}
+  .ph-tracker-vibe.cool{background:linear-gradient(135deg,#f8fafc,#f1f5f9);color:#64748b}
+  .ph-tracker-status{display:inline-block;font-size:0.58rem;font-weight:700;padding:3px 9px;border-radius:20px;white-space:nowrap;transition:all 0.4s ease}
+  .ph-tracker-date{font-size:0.6rem;color:#9ca3af;white-space:nowrap}
   </style>
   </head>
   <body style="margin:0;display:flex;justify-content:center;align-items:center;min-height:100vh;background:transparent">
@@ -563,24 +568,45 @@
     <div class="ph-tracker-overlay" id="tracker-overlay">
       <div class="ph-tracker-card">
         <div class="ph-tracker-hdr">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>
           <h3>Application Tracker</h3>
+          <span class="ph-tracker-count">5 Applications</span>
         </div>
-        <div class="ph-tracker-item" id="tracker-cv">
-          <div class="ph-tracker-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="opacity:0"><polyline points="20 6 9 17 4 12"/></svg></div>
-          <span class="ph-tracker-item-text">CV Built</span>
-          <span class="ph-tracker-item-badge">Step 1</span>
-        </div>
-        <div class="ph-tracker-item" id="tracker-applied">
-          <div class="ph-tracker-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="opacity:0"><polyline points="20 6 9 17 4 12"/></svg></div>
-          <span class="ph-tracker-item-text">Applied</span>
-          <span class="ph-tracker-item-badge">Step 2</span>
-        </div>
-        <div class="ph-tracker-item" id="tracker-interview">
-          <div class="ph-tracker-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="opacity:0"><polyline points="20 6 9 17 4 12"/></svg></div>
-          <span class="ph-tracker-item-text">Interview Practised</span>
-          <span class="ph-tracker-item-badge">Step 3</span>
-        </div>
+        <table class="ph-tracker-table">
+          <thead><tr><th>Job Position</th><th>Vibe</th><th>Status</th><th>Date</th></tr></thead>
+          <tbody>
+            <tr class="featured" id="tracker-featured-row">
+              <td><div class="ph-tracker-job-title">Senior React Developer</div><div class="ph-tracker-job-company">TechCorp Ltd</div></td>
+              <td><div class="ph-tracker-vibe hot">94</div></td>
+              <td><span class="ph-tracker-status" id="tracker-featured-status" style="background:#f5f3ff;color:#7c3aed">Preparing</span></td>
+              <td><span class="ph-tracker-date">Today</span></td>
+            </tr>
+            <tr>
+              <td><div class="ph-tracker-job-title">Full Stack Engineer</div><div class="ph-tracker-job-company">Innovate Digital</div></td>
+              <td><div class="ph-tracker-vibe warm">87</div></td>
+              <td><span class="ph-tracker-status" style="background:#d1fae5;color:#059669">Shortlisted</span></td>
+              <td><span class="ph-tracker-date">2 days ago</span></td>
+            </tr>
+            <tr>
+              <td><div class="ph-tracker-job-title">UI/UX Developer</div><div class="ph-tracker-job-company">DataFlow AI</div></td>
+              <td><div class="ph-tracker-vibe warm">82</div></td>
+              <td><span class="ph-tracker-status" style="background:#fef3c7;color:#d97706">1st Interview</span></td>
+              <td><span class="ph-tracker-date">5 days ago</span></td>
+            </tr>
+            <tr>
+              <td><div class="ph-tracker-job-title">DevOps Engineer</div><div class="ph-tracker-job-company">CloudNative Inc</div></td>
+              <td><div class="ph-tracker-vibe cool">71</div></td>
+              <td><span class="ph-tracker-status" style="background:#f3f4f6;color:#6b7280">On Hold</span></td>
+              <td><span class="ph-tracker-date">1 week ago</span></td>
+            </tr>
+            <tr>
+              <td><div class="ph-tracker-job-title">JavaScript Developer</div><div class="ph-tracker-job-company">GreenTech Solutions</div></td>
+              <td><div class="ph-tracker-vibe cool">68</div></td>
+              <td><span class="ph-tracker-status" style="background:#fee2e2;color:#dc2626">Unsuccessful</span></td>
+              <td><span class="ph-tracker-date">2 weeks ago</span></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
@@ -1152,12 +1178,12 @@
     function resetTrackerOverlay() {
       var overlay = document.getElementById('tracker-overlay');
       if (overlay) overlay.classList.remove('visible');
-      var items = document.querySelectorAll('.ph-tracker-item');
-      items.forEach(function(item) {
-        item.classList.remove('checked');
-        var svg = item.querySelector('.ph-tracker-check svg');
-        if (svg) svg.style.opacity = '0';
-      });
+      var statusEl = document.getElementById('tracker-featured-status');
+      if (statusEl) {
+        statusEl.textContent = 'Preparing';
+        statusEl.style.background = '#f5f3ff';
+        statusEl.style.color = '#7c3aed';
+      }
     }
 
     function runDashScene() {
@@ -1195,31 +1221,23 @@
           var overlay = document.getElementById('tracker-overlay');
           if (overlay) overlay.classList.add('visible');
 
-          var items = ['tracker-cv', 'tracker-applied', 'tracker-interview'];
-          var delay = 800;
-
-          function clickTrackerItem(index) {
-            if (index >= items.length) {
+          schedule(function() {
+            var statusEl = document.getElementById('tracker-featured-status');
+            if (!statusEl) { schedule(function() { resetTrackerOverlay(); transitionToScene(1); }, 1500); return; }
+            var sr = statusEl.getBoundingClientRect();
+            var crNow = canvas.getBoundingClientRect();
+            moveThenClick(sr.left - crNow.left + sr.offsetWidth / 2, sr.top - crNow.top + sr.offsetHeight / 2, function() {
+              statusEl.textContent = 'Shortlisted';
+              statusEl.style.background = '#d1fae5';
+              statusEl.style.color = '#059669';
+              statusEl.style.transform = 'scale(1.12)';
+              schedule(function() { statusEl.style.transform = 'scale(1)'; }, 300);
               schedule(function() {
                 resetTrackerOverlay();
                 schedule(function() { transitionToScene(1); }, 600);
-              }, 1500);
-              return;
-            }
-            var item = document.getElementById(items[index]);
-            if (!item) { clickTrackerItem(index + 1); return; }
-            var ir = item.getBoundingClientRect();
-            var crNow = canvas.getBoundingClientRect();
-            moveCursor(ir.left - crNow.left + 20, ir.top - crNow.top + ir.height / 2, function() {
-              clickEffect(item);
-              item.classList.add('checked');
-              var svg = item.querySelector('.ph-tracker-check svg');
-              if (svg) svg.style.opacity = '1';
-              schedule(function() { clickTrackerItem(index + 1); }, 700);
-            });
-          }
-
-          schedule(function() { clickTrackerItem(0); }, delay);
+              }, 2000);
+            }, statusEl);
+          }, 800);
         }, 500);
       });
     }
@@ -1305,9 +1323,11 @@
           schedule(function() {
             clickEffect(cards[0]);
             if (!overlay) { schedule(function() { transitionToScene(3); }, 1500); return; }
-            var joCard = overlay.querySelector('.ph-jo-card');
-            if (joCard) joCard.style.animation = '';
-            overlay.classList.add('visible');
+            schedule(function() {
+              var joCard = overlay.querySelector('.ph-jo-card');
+              if (joCard) joCard.style.animation = '';
+              overlay.classList.add('visible');
+            }, 400);
 
             schedule(function() {
               if (!cvMatchBtn) { schedule(function() { transitionToScene(3); }, 1500); return; }
