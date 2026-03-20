@@ -1080,6 +1080,8 @@
       var typingText = document.getElementById('iv-typing-text');
       if (typing) { typing.style.opacity = '0'; typing.style.pointerEvents = 'none'; }
       if (typingText) typingText.textContent = '';
+      var bars = document.querySelectorAll('.ph-ifb-star-bar .fill');
+      bars.forEach(function(bar) { bar.style.width = '0'; });
     }
 
     function runDashScene() {
