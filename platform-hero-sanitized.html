@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+  <html><head><meta charset="utf-8">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Figtree:wght@600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  @keyframes ph-fade-in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes ph-slide-up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes ph-pop{0%{opacity:0;transform:scale(0.88)}60%{opacity:1;transform:scale(1.04)}100%{transform:scale(1)}}
+  @keyframes ph-ring-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+  @keyframes ph-shimmer{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+  @keyframes ph-hot-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
+  @keyframes ph-bar-grow{from{width:0}to{width:var(--bar-w)}}
+  @keyframes ph-float{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-6px) scale(1.08)}}
+  @keyframes ph-activity-in{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:translateX(0)}}
+  @keyframes ph-score-fill{from{stroke-dashoffset:var(--circ)}to{stroke-dashoffset:var(--offset)}}
+  @keyframes ph-popover-in{from{opacity:0;transform:translateY(10px) scale(0.94)}to{opacity:1;transform:translateY(0) scale(1)}}
+  @keyframes ph-pulse-glow{0%,100%{box-shadow:0 3px 12px rgba(124,58,237,0.4)}50%{box-shadow:0 3px 20px rgba(124,58,237,0.6)}}
+  @keyframes ph-gradient-shift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+  @keyframes ph-video-progress{from{width:0}to{width:100%}}
+  @keyframes ph-caption-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes ph-wave{0%{height:6px}25%{height:20px}50%{height:10px}75%{height:26px}100%{height:6px}}
+  @keyframes warm-number-breathe{0%,100%{filter:drop-shadow(0 0 4px rgba(168,85,247,0.4)) drop-shadow(0 0 10px rgba(139,92,246,0.15))}50%{filter:drop-shadow(0 0 8px rgba(168,85,247,0.7)) drop-shadow(0 0 18px rgba(139,92,246,0.3))}}
+  @keyframes ph-crossfade-in{from{opacity:0}to{opacity:1}}
+  @keyframes ph-border-shimmer{0%{background-position:100% 50%}100%{background-position:-100% 50%}}
+
+  .ph-shimmer-wrap{position:relative;display:inline-block;border-radius:18px}
+  .ph-shimmer-wrap::before{content:'';position:absolute;inset:-8px;border-radius:24px;background:linear-gradient(90deg,hsl(270,80%,55%) 0%,hsl(290,70%,50%) 25%,hsl(250,80%,60%) 50%,hsl(300,80%,70%) 60%,hsl(250,80%,60%) 70%,hsl(290,70%,50%) 85%,hsl(270,80%,55%) 100%);background-size:200% 100%;animation:ph-border-shimmer 3s ease-in-out infinite;filter:blur(14px);opacity:0.55;z-index:-1}
+  .ph-canvas{width:1100px;height:680px;border-radius:18px;overflow:hidden;background:#f8f7fc;font-family:'Inter',sans-serif;position:relative;display:flex;flex-direction:column}
+  .ph-top-bar{height:48px;background:#fff;border-bottom:1px solid #e9e5f5;display:flex;align-items:center;padding:0 16px;flex-shrink:0;z-index:10}
+  .ph-logo{width:120px;height:auto;margin-right:12px}
+  .ph-top-nav{display:flex;gap:2px;margin-left:auto}
+  .ph-top-link{font-size:11px;font-weight:600;color:#64617a;padding:6px 10px;border-radius:6px;display:flex;align-items:center;gap:4px;text-decoration:none;transition:background 0.15s}
+  .ph-top-link:hover,.ph-top-link.active{background:#f5f3ff;color:#6d28d9}
+  .ph-body{display:flex;flex:1;overflow:hidden}
+  .ph-sidebar{width:60px;background:#fff;border-right:1px solid #e9e5f5;display:flex;flex-direction:column;padding:12px 0;flex-shrink:0;align-items:center;gap:4px;overflow-y:auto}
+  .ph-sb-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#64617a;transition:all 0.15s;cursor:pointer;flex-shrink:0}
+  .ph-sb-icon:hover{background:#f5f3ff;color:#6d28d9}
+  .ph-sb-icon.active{background:#6d28d9;color:#fff}
+  .ph-sb-sep{width:28px;height:1px;background:#e9e5f5;margin:6px 0;flex-shrink:0}
+  .ph-content{flex:1;overflow:hidden;padding:16px 20px;position:relative}
+  .ph-scene{position:absolute;inset:0;padding:16px 20px;opacity:0;pointer-events:none;transition:opacity 0.5s ease}
+  .ph-scene.active{opacity:1;pointer-events:auto}
+
+  /* DASHBOARD */
+  .ph-hero-banner{border-radius:14px;background:linear-gradient(135deg,#4c1d95 0%,#6d28d9 40%,#7c3aed 70%,#a78bfa 100%);padding:18px 22px;position:relative;overflow:hidden;margin-bottom:14px}
+  .ph-hero-banner .orb1{position:absolute;top:-35px;right:-35px;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,0.04)}
+  .ph-hero-banner .orb2{position:absolute;bottom:-25px;left:40%;width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,0.03)}
+  .ph-hero-title{font-size:1.3rem;font-weight:700;color:#fff;font-family:'Figtree',sans-serif}
+  .ph-hero-title .dot{color:#a78bfa}
+  .ph-plan-badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:999px;font-size:0.62rem;font-weight:700;background:#ede9fe;color:#6d28d9;border:1px solid #c4b5fd;margin-left:8px;letter-spacing:0.03em;vertical-align:middle}
+  .ph-hero-nudge{display:flex;align-items:center;gap:6px;margin-top:6px}
+  .ph-hero-nudge svg{color:#c4b5fd;flex-shrink:0}
+  .ph-hero-nudge p{font-size:0.78rem;color:#ddd6fe;line-height:1.45;font-weight:400}
+
+  .ph-feature-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}
+  .ph-fcard{border-radius:14px;background:#fff;border:1px solid rgba(139,92,246,0.08);box-shadow:0 2px 12px rgba(91,33,182,0.06);overflow:hidden;position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;padding:18px 12px 14px}
+  .ph-fcard-border{position:absolute;top:0;left:0;right:0;height:4px}
+  .ph-fcard-icon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;position:relative}
+  .ph-fcard-icon.floating{animation:ph-float 2s ease-in-out infinite}
+  .ph-fcard-count{position:absolute;top:-5px;right:-8px;background:#7c3aed;color:#fff;font-size:0.55rem;font-weight:700;min-width:18px;height:18px;border-radius:999px;display:flex;align-items:center;justify-content:center;padding:0 4px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.15)}
+  .ph-fcard h4{font-size:0.82rem;font-weight:700;color:#1e1b4b;margin-bottom:4px;font-family:'Figtree',sans-serif}
+  .ph-fcard p{font-size:0.72rem;color:#64617a;line-height:1.55;margin-bottom:10px;flex:1}
+  .ph-fcard-btn{display:flex;align-items:center;justify-content:center;gap:4px;width:100%;padding:7px 8px;border-radius:8px;color:#fff;font-weight:600;font-size:0.72rem;text-decoration:none;border:none}
+
+  .ph-bottom-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+  .ph-panel{border-radius:14px;background:#fff;border:1px solid #e9e5f5;box-shadow:0 2px 8px rgba(91,33,182,0.06);overflow:hidden}
+  .ph-panel-hdr{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid #eee8f8;background:#faf8ff}
+  .ph-panel-hdr h3{font-size:0.78rem;font-weight:700;color:#1e1b4b}
+
+  .ph-stats-row{display:flex;gap:6px;padding:8px 10px}
+  .ph-stat-card{flex:1;padding:6px 4px;border-radius:8px;text-align:center}
+  .ph-stat-val{font-size:0.95rem;font-weight:700;line-height:1.15}
+  .ph-stat-label{font-size:0.52rem;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;margin-top:1px}
+
+  .ph-activity-list{padding:10px 14px}
+  .ph-activity-item{display:flex;gap:8px;position:relative;padding-bottom:10px}
+  .ph-activity-item:last-child{padding-bottom:0}
+  .ph-activity-icon-col{display:flex;flex-direction:column;align-items:center;width:26px;flex-shrink:0}
+  .ph-activity-icon{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .ph-activity-connector{width:2px;flex:1;background:#e9e5f5;margin-top:3px}
+  .ph-activity-text{flex:1;padding-top:1px}
+  .ph-activity-text p{font-size:0.7rem;font-weight:600;color:#1e1b4b;line-height:1.35}
+  .ph-activity-text .link{font-size:0.62rem;font-weight:600;color:#6d28d9;margin-top:1px;display:inline-block}
+  .ph-activity-text .time{font-size:0.58rem;color:#6b7280;font-weight:500;margin-top:1px;display:flex;align-items:center;gap:2px}
+
+  /* INTERVIEW HISTORY */
+  .ph-ih-row{display:flex;align-items:center;padding:6px 12px;border-bottom:1px solid #f5f3ff}
+  .ph-ih-row:last-child{border-bottom:none}
+  .ph-ih-text{flex:1;min-width:0;font-size:0.72rem;font-weight:500;color:#1e1b4b;line-height:1.35;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .ph-ih-badge{padding:2px 6px;border-radius:6px;font-size:0.62rem;font-weight:700;min-width:32px;text-align:center;margin-left:6px;flex-shrink:0}
+  .ph-ih-tag{padding:1px 5px;border-radius:5px;font-size:0.56rem;font-weight:700;margin-left:4px;flex-shrink:0}
+  .ph-ih-time{font-size:0.58rem;color:#6b7280;font-weight:500;white-space:nowrap;margin-left:6px;flex-shrink:0}
+
+  /* CV BUILDER */
+  .ph-cvb-layout{display:flex;gap:14px;height:100%}
+  .ph-cvb-left{width:340px;flex-shrink:0;display:flex;flex-direction:column;gap:10px}
+  .ph-cvb-right{flex:1;display:flex;flex-direction:column}
+  .ph-cvb-card{background:#fff;border-radius:14px;border:1px solid #e9e5f5;box-shadow:0 2px 12px rgba(91,33,182,0.06);overflow:hidden}
+  .ph-cvb-steps{display:flex;gap:4px;padding:10px 14px;border-bottom:1px solid #eee8f8;background:#faf8ff;flex-wrap:wrap}
+  .ph-cvb-step{font-size:0.62rem;font-weight:600;padding:4px 10px;border-radius:6px;color:#64617a;background:#fff;border:1px solid #e9e5f5;cursor:default}
+  .ph-cvb-step.active{background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff;border-color:transparent}
+  .ph-cvb-panel{padding:12px 14px}
+  .ph-cvb-desc{font-size:0.72rem;color:#64617a;margin-bottom:10px;line-height:1.45}
+  .ph-cvb-input{width:100%;padding:8px 12px;border-radius:8px;border:1.5px solid #e9e5f5;font-size:0.78rem;color:#1e1b4b;background:#fff;outline:none;font-family:inherit}
+  .ph-cvb-input:focus{border-color:#8b5cf6;box-shadow:0 0 0 3px rgba(139,92,246,0.12)}
+  .ph-cvb-label{font-size:0.64rem;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:#1e1b4b;margin:10px 0 6px}
+  .ph-cvb-tags{display:flex;flex-wrap:wrap;gap:6px}
+  .ph-cvb-tag{display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border-radius:20px;font-size:0.76rem;font-weight:500}
+  .ph-cvb-tag.selected{background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff;box-shadow:0 2px 6px rgba(139,92,246,0.2)}
+  .ph-cvb-tag.selected .x{background:none;border:none;color:rgba(255,255,255,0.75);cursor:pointer;padding:0;display:flex;font-size:0.7rem}
+  .ph-cvb-tag.suggested{background:#f9f5ff;color:#7c3aed;border:1.5px dashed #c4b5fd;cursor:pointer;padding:4px 11px}
+  .ph-cvb-tag.suggested .plus{font-size:0.7rem;color:#7c3aed}
+  .ph-cvb-hint{font-size:0.64rem;color:#9ca3af;margin-top:8px}
+
+  /* CV PREVIEW RIGHT */
+  .ph-cvp-header{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid #eee8f8;background:#faf8ff}
+  .ph-cvp-title{font-size:0.78rem;font-weight:700;color:#1e1b4b}
+  .ph-cvp-toolbar{display:flex;gap:6px;align-items:center}
+  .ph-improve-btn{display:inline-flex;align-items:center;gap:5px;padding:5px 14px;border-radius:8px;font-size:0.76rem;font-weight:700;background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff;border:none;cursor:pointer;animation:ph-pulse-glow 2s ease-in-out infinite}
+  .ph-improve-banner{display:flex;align-items:center;gap:6px;padding:6px 14px;background:linear-gradient(135deg,#f5f0ff,#ede5ff);border-bottom:1px solid #ddd6fe;font-size:0.7rem;font-weight:500;color:#5b21b6}
+  .ph-cv-preview-body{flex:1;overflow:hidden;background:#f2f2f2;padding:10px;position:relative}
+  .ph-cv-doc{background:#fff;padding:16px 20px;border-radius:4px;box-shadow:0 1px 6px rgba(0,0,0,0.06);position:relative}
+  .ph-cv-name{font-size:1.05rem;font-weight:800;color:#1e1b4b;font-family:'Figtree',sans-serif;margin-bottom:2px}
+  .ph-cv-subtitle{font-size:0.66rem;color:#64617a;margin-bottom:8px}
+  .ph-cv-section{margin-bottom:8px}
+  .ph-cv-section h3{font-size:0.65rem;font-weight:700;color:#4c1d95;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:3px;border-bottom:2px solid #7c3aed;display:inline-block;padding-bottom:1px}
+  .ph-cv-line{height:6px;background:#f0ecf9;border-radius:3px;margin-bottom:4px}
+  .ph-cv-line.filled{background:linear-gradient(90deg,#e9e5f5,#ddd6fe)}
+  .ph-cv-highlight{background:rgba(139,92,246,0.35);padding:1px 2px;border-radius:2px}
+
+  /* SUGGESTION POPOVER */
+  .ph-suggestion-popover{width:260px;background:#fff;border-radius:12px;box-shadow:0 12px 40px rgba(91,33,182,0.25),0 4px 12px rgba(0,0,0,0.12);border:2px solid #c4b5fd;overflow:hidden;position:absolute;z-index:10;animation:ph-popover-in 0.3s ease both}
+  .ph-sp-header{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff}
+  .ph-sp-title{display:flex;align-items:center;gap:5px;font-size:0.74rem;font-weight:700}
+  .ph-sp-close{background:none;border:none;color:rgba(255,255,255,0.8);cursor:pointer;padding:2px;display:flex;border-radius:4px;font-size:0.8rem}
+  .ph-sp-section{padding:8px 12px;border-bottom:1px solid #f3eff9}
+  .ph-sp-label{display:block;font-size:0.58rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#8b5cf6;margin-bottom:3px}
+  .ph-sp-original{font-size:0.7rem;color:#6b7280;line-height:1.45;font-style:italic;margin:0}
+  .ph-sp-result{padding:8px 12px;background:#faf8ff;border-bottom:1px solid #f3eff9}
+  .ph-sp-improved{font-size:0.72rem;color:#1e1b4b;line-height:1.5;font-weight:500;margin:0}
+  .ph-sp-actions{display:flex;gap:5px;padding:8px 12px}
+  .ph-sp-add{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:4px;padding:6px 10px;border-radius:8px;font-size:0.7rem;font-weight:600;background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff;border:none;cursor:pointer}
+  .ph-sp-regen{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:4px;padding:6px 10px;border-radius:8px;font-size:0.7rem;font-weight:600;background:#f5f3ff;color:#7c3aed;border:1px solid #ddd6fe;cursor:pointer}
+
+  /* JOB SEARCH */
+  .ph-js-hero{background:linear-gradient(135deg,#6d28d9 0%,#4c1d95 50%,#1a0a3e 100%);border-radius:14px;padding:16px 18px 14px;margin-bottom:10px;position:relative;overflow:hidden}
+  .ph-js-hero::before{content:'';position:absolute;top:-60%;right:-20%;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(186,103,239,0.15) 0%,transparent 70%);pointer-events:none}
+  .ph-js-hero::after{content:'';position:absolute;bottom:-40%;left:-10%;width:250px;height:250px;border-radius:50%;background:radial-gradient(circle,rgba(139,92,246,0.1) 0%,transparent 70%);pointer-events:none}
+  .ph-js-title{font-size:1.4rem;font-weight:700;color:#fff;margin-bottom:2px;position:relative;z-index:1}
+  .ph-js-sub{color:rgba(255,255,255,0.7);font-size:0.82rem;margin-bottom:10px;position:relative;z-index:1}
+  .ph-js-search-row{display:flex;gap:8px;position:relative;z-index:1}
+  .ph-js-input{flex:1;padding:8px 12px 8px 32px;border-radius:10px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);color:#fff;font-size:0.82rem;outline:none;font-family:inherit}
+  .ph-js-input::placeholder{color:rgba(255,255,255,0.45)}
+  .ph-js-loc{width:160px;padding:8px 12px 8px 28px;border-radius:10px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);color:#fff;font-size:0.82rem;outline:none;font-family:inherit}
+  .ph-js-loc::placeholder{color:rgba(255,255,255,0.45)}
+  .ph-js-btn{padding:8px 18px;border-radius:10px;border:none;background:linear-gradient(135deg,#BA67EF,#a44de0);color:#fff;font-weight:600;font-size:0.82rem;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:5px}
+  .ph-js-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,0.5);pointer-events:none;font-size:0.9rem}
+  .ph-js-filters{display:flex;gap:5px;padding:6px 0;flex-wrap:wrap}
+  .ph-js-chip{padding:4px 10px;border-radius:100px;background:#fff;border:1px solid #ede9fe;font-size:0.72rem;color:#6d28d9;font-weight:500}
+  .ph-js-chip.active{background:#7c3aed;color:#fff;border-color:#7c3aed}
+  .ph-js-stats{display:flex;justify-content:space-between;align-items:center;padding:4px 0 8px;font-size:0.78rem;color:#64748b}
+  .ph-js-stats strong{color:#4c1d95;font-weight:700}
+
+  /* JOB CARDS GRID */
+  .ph-js-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+  .ph-jcard{background:#fff;border-radius:14px;border:1px solid rgba(0,0,0,0.06);padding:14px;display:flex;flex-direction:column;gap:8px;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+  .ph-jcard-header{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+  .ph-jcard-info{flex:1;min-width:0}
+  .ph-jcard-company{font-size:0.78rem;color:#7c3aed;font-weight:600;margin:0}
+  .ph-jcard-title{font-size:0.88rem;font-weight:700;color:#161c52;line-height:1.3;margin:2px 0 0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .ph-jcard-meta{display:flex;flex-wrap:wrap;gap:5px;align-items:center}
+  .ph-jcard-tag{display:inline-flex;align-items:center;gap:3px;font-size:0.7rem;color:#64748b;background:#f8fafc;padding:2px 7px;border-radius:6px}
+  .ph-jcard-tag svg{font-size:0.65rem;color:#a78bfa}
+  .ph-jcard-remote{display:inline-flex;align-items:center;gap:3px;font-size:0.66rem;font-weight:600;color:#059669;background:#ecfdf5;padding:2px 7px;border-radius:6px}
+  .ph-jcard-hybrid{display:inline-flex;align-items:center;gap:3px;font-size:0.66rem;font-weight:600;color:#7c3aed;background:#f3e8ff;padding:2px 7px;border-radius:6px}
+  .ph-jcard-footer{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:8px;border-top:1px solid rgba(0,0,0,0.05)}
+  .ph-jcard-salary{font-size:0.82rem;font-weight:700;color:#059669}
+  .ph-jcard-salary small{font-weight:400;color:#94a3b8}
+  .ph-jcard-date{font-size:0.68rem;color:#94a3b8;display:flex;align-items:center;gap:3px}
+
+  /* VIBE RINGS */
+  .ph-vibe{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative;flex-shrink:0}
+  .ph-vibe::before{content:'';position:absolute;inset:0;border-radius:50%;padding:2px;mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask-composite:exclude;-webkit-mask-composite:xor}
+  .ph-vibe.cool::before{background:conic-gradient(from 0deg,rgba(199,210,254,0.25),rgba(165,180,252,0.15),rgba(199,210,254,0.25));animation:ph-ring-spin 8s linear infinite}
+  .ph-vibe.cool .vn{background-image:linear-gradient(135deg,#a5b4fc,#c7d2fe)}
+  .ph-vibe.warm::before{background:conic-gradient(from 0deg,#c4b5fd,#a78bfa,#8b5cf6,#a78bfa,#c4b5fd);animation:ph-ring-spin 5s linear infinite}
+  .ph-vibe.warm .vn{background-image:linear-gradient(135deg,#c084fc,#a855f7,#8b5cf6);filter:drop-shadow(0 0 6px rgba(168,85,247,0.5));animation:warm-number-breathe 2.5s ease-in-out infinite}
+  .ph-vibe.hot::before{padding:2.5px;background:conic-gradient(from 0deg,#f0abfc,#d946ef,#a855f7,#7c3aed,#a855f7,#d946ef,#f0abfc);animation:ph-ring-spin 1.5s linear infinite}
+  .ph-vibe.hot{animation:ph-hot-pulse 1.8s ease-in-out infinite}
+  .ph-vibe.hot .vn{background-image:linear-gradient(135deg,#fff,#f0abfc,#d946ef,#a855f7);background-size:200% 200%;animation:ph-shimmer 2s ease-in-out infinite;filter:drop-shadow(0 0 10px rgba(217,70,239,0.8)) drop-shadow(0 0 20px rgba(168,85,247,0.5))}
+  .vn{font-size:0.95rem;font-weight:900;line-height:1;background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;position:relative;z-index:1}
+
+  /* INTERVIEW */
+  .ph-iv-video{width:100%;height:100%;background:#0f0a1e;border-radius:14px;overflow:hidden;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .ph-iv-bg{position:absolute;inset:0;background:linear-gradient(135deg,#1e1b4b 0%,#312e81 50%,#4c1d95 100%)}
+  .ph-iv-avatar{width:120px;height:120px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#6d28d9);display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 5px rgba(124,58,237,0.2);position:relative;z-index:2}
+  .ph-iv-avatar svg{color:#fff;font-size:2.8rem}
+  .ph-iv-caption{position:relative;z-index:2;margin-top:16px;font-size:0.92rem;font-weight:600;color:#ddd6fe;letter-spacing:0.01em;animation:ph-caption-in 0.6s 0.5s ease both}
+  .ph-iv-progress{position:absolute;bottom:16px;left:20px;right:20px;z-index:2}
+  .ph-iv-pbar-bg{height:4px;background:rgba(255,255,255,0.15);border-radius:2px;overflow:hidden}
+  .ph-iv-pbar-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,#8b5cf6,#a78bfa)}
+  .ph-iv-pbar-label{display:flex;justify-content:space-between;margin-top:4px;font-size:0.6rem;color:rgba(255,255,255,0.5)}
+
+  /* INTERVIEW FEEDBACK */
+  .ph-ifb{width:100%;height:100%;overflow:hidden;position:relative}
+  .ph-ifb-header{padding:16px 20px;background:linear-gradient(135deg,#7c3aed 0%,#6d28d9 30%,#5b21b6 60%,#8b5cf6 100%);background-size:200% 200%;animation:ph-gradient-shift 8s ease infinite;border-radius:0 0 16px 16px;position:relative;overflow:hidden;margin-bottom:12px}
+  .ph-ifb-header::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 20% 50%,rgba(255,255,255,0.1) 0%,transparent 50%),radial-gradient(circle at 80% 20%,rgba(255,255,255,0.08) 0%,transparent 40%);pointer-events:none}
+  .ph-ifb-title{font-size:1.2rem;font-weight:800;color:#fff;font-family:'Figtree',sans-serif;margin-bottom:6px;position:relative;z-index:1;text-shadow:0 2px 8px rgba(0,0,0,0.15)}
+  .ph-ifb-badges{display:flex;gap:6px;position:relative;z-index:1}
+  .ph-ifb-badge{display:inline-block;padding:3px 12px;border-radius:20px;font-size:0.66rem;font-weight:700;letter-spacing:0.03em;backdrop-filter:blur(8px);background:rgba(255,255,255,0.2);color:#fff;border:1px solid rgba(255,255,255,0.3)}
+  .ph-ifb-qtext{background:linear-gradient(135deg,#f5f3ff 0%,#ede9fe 50%,#e9d5ff 100%);border-radius:12px;padding:12px 16px;margin-bottom:12px;font-size:0.82rem;border-left:5px solid #8b5cf6;color:#374151;position:relative}
+  .ph-ifb-qlabel{display:block;font-size:0.6rem;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:#7c3aed;margin-bottom:4px}
+  .ph-ifb-top{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+  .ph-ifb-card{background:linear-gradient(145deg,#ffffff 0%,#faf8ff 100%);border-radius:16px;padding:16px;border:1px solid #e9e5f5;box-shadow:0 4px 20px rgba(139,92,246,0.08);display:flex;flex-direction:column;align-items:center}
+  .ph-ifb-score-ring{position:relative;display:flex;align-items:center;justify-content:center;margin-bottom:8px;filter:drop-shadow(0 4px 12px rgba(139,92,246,0.2))}
+  .ph-ifb-ring-text{position:absolute;display:flex;flex-direction:column;align-items:center}
+  .ph-ifb-score-num{font-size:1.6rem;font-weight:900;color:#16a34a;line-height:1;font-family:'Figtree',sans-serif;letter-spacing:-0.02em}
+  .ph-ifb-score-level{font-size:0.58rem;font-weight:800;text-transform:uppercase;letter-spacing:0.08em;padding:2px 10px;border-radius:10px;margin-top:4px;background:linear-gradient(135deg,#ede9fe,#ddd6fe);color:#5b21b6}
+  .ph-ifb-summary{font-size:0.72rem;color:#6b7280;text-align:center;margin:0;line-height:1.5;font-style:italic}
+
+  /* Clarity card */
+  .ph-ifb-clarity{text-align:left;width:100%;align-items:flex-start}
+  .ph-ifb-clarity-hdr{display:flex;align-items:center;gap:6px;margin-bottom:8px}
+  .ph-ifb-clarity-hdr svg{font-size:1.1rem;color:#8b5cf6}
+  .ph-ifb-clarity-hdr h4{font-size:0.82rem;font-weight:800;color:#1e1b4b;margin:0}
+  .ph-ifb-clarity-score{font-size:1.6rem;font-weight:900;color:#8b5cf6;font-family:'Figtree',sans-serif;margin-bottom:6px}
+  .ph-ifb-bar-track{height:8px;background:linear-gradient(90deg,#f3f0ff,#ede9fe);border-radius:4px;overflow:hidden;margin-bottom:8px}
+  .ph-ifb-bar-fill{height:100%;border-radius:4px}
+  .ph-ifb-comm-row{display:flex;justify-content:space-between;align-items:center;padding:3px 0;border-top:1px solid #f3f0ff}
+  .ph-ifb-comm-label{font-size:0.7rem;color:#6b7280}
+  .ph-ifb-comm-val{font-size:0.7rem;font-weight:700;color:#374151;background:#f5f3ff;padding:1px 6px;border-radius:5px}
+
+  /* Filler card */
+  .ph-ifb-filler{text-align:left;width:100%;align-items:flex-start}
+  .ph-ifb-filler-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;width:100%}
+  .ph-ifb-filler-label{font-size:0.82rem;font-weight:800;color:#1e1b4b}
+  .ph-ifb-filler-status{font-size:0.58rem;font-weight:800;text-transform:uppercase;letter-spacing:0.08em;padding:3px 10px;border-radius:10px;background:linear-gradient(135deg,#dcfce7,#bbf7d0);color:#166534}
+  .ph-ifb-filler-count{display:flex;align-items:baseline;gap:6px;margin-bottom:8px}
+  .ph-ifb-filler-num{font-size:2.2rem;font-weight:900;color:#16a34a;line-height:1;font-family:'Figtree',sans-serif}
+  .ph-ifb-filler-unit{font-size:0.72rem;color:#9ca3af;font-weight:500}
+  .ph-ifb-filler-fb{font-size:0.7rem;color:#6b7280;margin:0;line-height:1.5}
+
+  .ph-scene-indicator{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:20}
+  .ph-dot{width:8px;height:8px;border-radius:50%;background:#ddd6fe;transition:all 0.3s}
+  .ph-dot.active{background:#6d28d9;width:20px;border-radius:4px}
+  </style>
+  </head>
+  <body style="margin:0;display:flex;justify-content:center;align-items:center;min-height:100vh;background:transparent">
+  <div class="ph-shimmer-wrap">
+  <div class="ph-canvas" id="canvas">
+
+  <div class="ph-top-bar">
+    <img class="ph-logo" src="DATA_URI" alt="MyPathfinder">
+    <div class="ph-top-nav">
+      <a class="ph-top-link active" id="tn-dash"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg> Dashboard</a>
+      <a class="ph-top-link" id="tn-cv"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> CV Builder</a>
+      <a class="ph-top-link" id="tn-jobs"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Job Search</a>
+      <a class="ph-top-link" id="tn-interview"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg> Interview</a>
+      <a class="ph-top-link"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg> Tracker</a>
+    </div>
+  </div>
+
+  <div class="ph-body">
+  <div class="ph-sidebar">
+    <div class="ph-sb-icon active" title="Dashboard"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div>
+    <div class="ph-sb-icon" title="CV Builder"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+    <div class="ph-sb-icon" title="Job Search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+    <div class="ph-sb-icon" title="Interview"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg></div>
+    <div class="ph-sb-icon" title="Tracker"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg></div>
+    <div class="ph-sb-sep"></div>
+    <div class="ph-sb-icon" title="Career Advice"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+    <div class="ph-sb-icon" title="Plans"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></div>
+    <div class="ph-sb-sep"></div>
+    <div class="ph-sb-icon" title="Sign Out"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></div>
+  </div>
+
+  <div class="ph-content">
+
+  <!-- SCENE 0: DASHBOARD -->
+  <div class="ph-scene active" id="scene-dash">
+    <div class="ph-hero-banner" style="animation:ph-fade-in 0.6s ease both">
+      <div class="orb1"></div><div class="orb2"></div>
+      <div style="position:relative;z-index:1">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;flex-wrap:wrap">
+          <span class="ph-hero-title">Welcome back, Alex<span class="dot">.</span></span>
+          <span class="ph-plan-badge">Sprint Pass</span>
+        </div>
+        <div class="ph-hero-nudge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+          <p>Your scores are up 12% recently — great momentum!</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="ph-feature-grid" style="animation:ph-fade-in 0.6s 0.2s ease both">
+      <div class="ph-fcard">
+        <div class="ph-fcard-border" style="background:linear-gradient(135deg,#7c3aed,#5b21b6)"></div>
+        <div class="ph-fcard-icon floating" style="background:#ede9fe">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <span class="ph-fcard-count">4</span>
+        </div>
+        <h4>CV Builder</h4>
+        <p>Share a job description to create your perfect CV in seconds.</p>
+        <div class="ph-fcard-btn" style="background:linear-gradient(135deg,#7c3aed,#5b21b6)">Launch CV Builder →</div>
+      </div>
+      <div class="ph-fcard">
+        <div class="ph-fcard-border" style="background:linear-gradient(135deg,#c026d3,#86198f)"></div>
+        <div class="ph-fcard-icon floating" style="background:#fae8ff;animation-delay:0.3s">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c026d3" stroke-width="2.2" stroke-linecap="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+          <span class="ph-fcard-count" style="background:#c026d3">3</span>
+        </div>
+        <h4>Interview Simulator</h4>
+        <p>Get real-world feedback for any interview question.</p>
+        <div class="ph-fcard-btn" style="background:linear-gradient(135deg,#c026d3,#86198f)">Practise an Interview →</div>
+      </div>
+      <div class="ph-fcard">
+        <div class="ph-fcard-border" style="background:linear-gradient(135deg,#4f46e5,#312e81)"></div>
+        <div class="ph-fcard-icon floating" style="background:#e0e7ff;animation-delay:0.6s">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <span class="ph-fcard-count" style="background:#4f46e5">12</span>
+        </div>
+        <h4>Job Search</h4>
+        <p>Discover roles matched to your skills, values and vibe.</p>
+        <div class="ph-fcard-btn" style="background:linear-gradient(135deg,#4f46e5,#312e81)">Browse Vacancies →</div>
+      </div>
+      <div class="ph-fcard">
+        <div class="ph-fcard-border" style="background:linear-gradient(135deg,#d946ef,#a21caf)"></div>
+        <div class="ph-fcard-icon floating" style="background:#fdf4ff;animation-delay:0.9s">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d946ef" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          <span class="ph-fcard-count" style="background:#d946ef">7</span>
+        </div>
+        <h4>Application Tracker</h4>
+        <p>One view, zero missed opportunities.</p>
+        <div class="ph-fcard-btn" style="background:linear-gradient(135deg,#d946ef,#a21caf)">View Progress →</div>
+      </div>
+    </div>
+
+    <div class="ph-bottom-row" style="animation:ph-fade-in 0.6s 0.4s ease both">
+      <!-- PANEL 1: Interview Stats -->
+      <div class="ph-panel">
+        <div class="ph-panel-hdr"><h3>Interview Feedback</h3></div>
+        <div class="ph-stats-row">
+          <div class="ph-stat-card" style="background:#ede9fe;border:1px solid #ddd6fe">
+            <div class="ph-stat-val" style="color:#5b21b6">73%</div>
+            <div class="ph-stat-label" style="color:#5b21b6">Avg Score</div>
+          </div>
+          <div class="ph-stat-card" style="background:#dbeafe;border:1px solid #bfdbfe">
+            <div class="ph-stat-val" style="color:#1e40af">8</div>
+            <div class="ph-stat-label" style="color:#1e40af">Interviews</div>
+          </div>
+          <div class="ph-stat-card" style="background:#fef3c7;border:1px solid #fde68a">
+            <div class="ph-stat-val" style="color:#92400e">75%</div>
+            <div class="ph-stat-label" style="color:#92400e">Pass Rate</div>
+          </div>
+        </div>
+        <div style="padding:4px 10px 6px">
+          <div style="display:flex;border-radius:6px;overflow:hidden;height:12px;background:#f3f0fa">
+            <div style="width:50%;background:#dcfce7;border-right:1px solid #fff;display:flex;align-items:center;justify-content:center"><span style="font-size:0.5rem;font-weight:700;color:#166534">4</span></div>
+            <div style="width:25%;background:#ede9fe;border-right:1px solid #fff;display:flex;align-items:center;justify-content:center"><span style="font-size:0.5rem;font-weight:700;color:#5b21b6">2</span></div>
+            <div style="width:12.5%;background:#fef3c7;border-right:1px solid #fff;display:flex;align-items:center;justify-content:center"><span style="font-size:0.5rem;font-weight:700;color:#92400e">1</span></div>
+            <div style="width:12.5%;background:#fee2e2;display:flex;align-items:center;justify-content:center"><span style="font-size:0.5rem;font-weight:700;color:#991b1b">1</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANEL 2: Interview History -->
+      <div class="ph-panel">
+        <div class="ph-panel-hdr"><h3>Interview History</h3></div>
+        <div style="padding:2px 0">
+          <div class="ph-ih-row">
+            <span class="ph-ih-text">Tell me about a time you led a team project</span>
+            <span class="ph-ih-badge" style="background:#dcfce7;color:#166534;border:1px solid #a7f3d0">82%</span>
+            <span class="ph-ih-tag" style="background:#dcfce7;color:#166534;border:1px solid #a7f3d0">Excellent</span>
+            <span class="ph-ih-time">2h ago</span>
+          </div>
+          <div class="ph-ih-row">
+            <span class="ph-ih-text">Describe a challenge you overcame at work</span>
+            <span class="ph-ih-badge" style="background:#ede9fe;color:#5b21b6;border:1px solid #c4b5fd">67%</span>
+            <span class="ph-ih-tag" style="background:#ede9fe;color:#5b21b6;border:1px solid #c4b5fd">Good</span>
+            <span class="ph-ih-time">5h ago</span>
+          </div>
+          <div class="ph-ih-row">
+            <span class="ph-ih-text">Why do you want to work here?</span>
+            <span class="ph-ih-badge" style="background:#dcfce7;color:#166534;border:1px solid #a7f3d0">78%</span>
+            <span class="ph-ih-tag" style="background:#dcfce7;color:#166534;border:1px solid #a7f3d0">Excellent</span>
+            <span class="ph-ih-time">1d ago</span>
+          </div>
+          <div class="ph-ih-row">
+            <span class="ph-ih-text">How do you handle conflict in a team?</span>
+            <span class="ph-ih-badge" style="background:#fef3c7;color:#92400e;border:1px solid #fde68a">42%</span>
+            <span class="ph-ih-tag" style="background:#fef3c7;color:#92400e;border:1px solid #fde68a">Developing</span>
+            <span class="ph-ih-time">2d ago</span>
+          </div>
+          <div class="ph-ih-row">
+            <span class="ph-ih-text">What are your greatest strengths?</span>
+            <span class="ph-ih-badge" style="background:#dcfce7;color:#166534;border:1px solid #a7f3d0">88%</span>
+            <span class="ph-ih-tag" style="background:#dcfce7;color:#166534;border:1px solid #a7f3d0">Excellent</span>
+            <span class="ph-ih-time">3d ago</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANEL 3: Recent Activity -->
+      <div class="ph-panel">
+        <div class="ph-panel-hdr"><h3>Recent Activity</h3></div>
+        <div class="ph-activity-list">
+          <div class="ph-activity-item" style="animation:ph-activity-in 0.4s 0.5s ease both">
+            <div class="ph-activity-icon-col">
+              <div class="ph-activity-icon" style="background:#ede9fe;border:1px solid #ddd6fe"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.2" stroke-linecap="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg></div>
+              <div class="ph-activity-connector"></div>
+            </div>
+            <div class="ph-activity-text">
+              <p>Scored 82% — "Tell me about a team project"</p>
+              <span class="link">Practice Again →</span>
+              <span class="time"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 2h ago</span>
+            </div>
+          </div>
+          <div class="ph-activity-item" style="animation:ph-activity-in 0.4s 0.7s ease both">
+            <div class="ph-activity-icon-col">
+              <div class="ph-activity-icon" style="background:#e0e7ff;border:1px solid #c7d2fe"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2.2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+              <div class="ph-activity-connector"></div>
+            </div>
+            <div class="ph-activity-text">
+              <p>Updated Alex Thompson's CV</p>
+              <span class="link">View in CV Builder →</span>
+              <span class="time"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 5h ago</span>
+            </div>
+          </div>
+          <div class="ph-activity-item" style="animation:ph-activity-in 0.4s 0.9s ease both">
+            <div class="ph-activity-icon-col">
+              <div class="ph-activity-icon" style="background:#d1fae5;border:1px solid #a7f3d0"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.2" stroke-linecap="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div>
+            </div>
+            <div class="ph-activity-text">
+              <p>Applied to UX Designer at TechCorp</p>
+              <span class="link">View Applications →</span>
+              <span class="time"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 1d ago</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENE 1: CV BUILDER -->
+  <div class="ph-scene" id="scene-cv">
+    <div class="ph-cvb-layout">
+      <div class="ph-cvb-left">
+        <div class="ph-cvb-card" style="flex:1;display:flex;flex-direction:column">
+          <div class="ph-cvb-steps">
+            <span class="ph-cvb-step">Personal</span>
+            <span class="ph-cvb-step">Summary</span>
+            <span class="ph-cvb-step">Experience</span>
+            <span class="ph-cvb-step">Education</span>
+            <span class="ph-cvb-step active">Skills</span>
+            <span class="ph-cvb-step">Custom</span>
+          </div>
+          <div class="ph-cvb-panel" style="flex:1;overflow-y:auto">
+            <p class="ph-cvb-desc">Highlight your key skills and competencies.</p>
+            <input class="ph-cvb-input" placeholder="Type a skill and press Enter" readonly>
+
+            <div class="ph-cvb-label">Selected Skills</div>
+            <div class="ph-cvb-tags">
+              <span class="ph-cvb-tag selected">React.js <span class="x">×</span></span>
+              <span class="ph-cvb-tag selected">TypeScript <span class="x">×</span></span>
+              <span class="ph-cvb-tag selected">Node.js <span class="x">×</span></span>
+              <span class="ph-cvb-tag selected">PostgreSQL <span class="x">×</span></span>
+              <span class="ph-cvb-tag selected">Figma <span class="x">×</span></span>
+              <span class="ph-cvb-tag selected">REST APIs <span class="x">×</span></span>
+              <span class="ph-cvb-tag selected">Git <span class="x">×</span></span>
+            </div>
+
+            <div class="ph-cvb-label">Suggested Skills</div>
+            <div class="ph-cvb-tags">
+              <span class="ph-cvb-tag suggested"><span class="plus">+</span> GraphQL</span>
+              <span class="ph-cvb-tag suggested"><span class="plus">+</span> Docker</span>
+              <span class="ph-cvb-tag suggested"><span class="plus">+</span> AWS</span>
+              <span class="ph-cvb-tag suggested"><span class="plus">+</span> Jest</span>
+              <span class="ph-cvb-tag suggested"><span class="plus">+</span> CI/CD</span>
+            </div>
+
+            <p class="ph-cvb-hint">Type a skill and press Enter or click + to add</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="ph-cvb-right">
+        <div class="ph-cvb-card" style="flex:1;display:flex;flex-direction:column">
+          <div class="ph-cvp-header">
+            <span class="ph-cvp-title">CV Preview</span>
+            <div class="ph-cvp-toolbar">
+              <button class="ph-improve-btn">⚡ Improve</button>
+            </div>
+          </div>
+          <div class="ph-improve-banner">⚡ Highlight any text on your CV to get AI-powered wording suggestions</div>
+          <div class="ph-cv-preview-body">
+            <div class="ph-cv-doc">
+              <div class="ph-cv-name">Alex Thompson</div>
+              <div class="ph-cv-subtitle">Senior Frontend Developer · London, UK · alex@email.com</div>
+              <div class="ph-cv-section">
+                <h3>Professional Summary</h3>
+                <div style="font-size:0.64rem;color:#374151;line-height:1.5;margin-top:3px">Results-driven frontend developer with 5+ years of experience building <span class="ph-cv-highlight">scalable web applications using React and TypeScript</span>. Passionate about creating intuitive user experiences and mentoring junior developers.</div>
+              </div>
+              <div class="ph-cv-section">
+                <h3>Experience</h3>
+                <div style="font-size:0.64rem;color:#1e1b4b;font-weight:700;margin-top:3px">Senior Frontend Developer — TechCorp Ltd</div>
+                <div style="font-size:0.58rem;color:#64617a;margin-bottom:3px">Jan 2022 – Present · London</div>
+                <div class="ph-cv-line filled" style="width:92%"></div>
+                <div class="ph-cv-line filled" style="width:85%"></div>
+                <div class="ph-cv-line filled" style="width:78%"></div>
+              </div>
+              <div class="ph-cv-section">
+                <h3>Skills</h3>
+                <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:3px">
+                  <span style="font-size:0.58rem;padding:2px 7px;border-radius:4px;background:#ede9fe;color:#5b21b6;font-weight:600">React.js</span>
+                  <span style="font-size:0.58rem;padding:2px 7px;border-radius:4px;background:#ede9fe;color:#5b21b6;font-weight:600">TypeScript</span>
+                  <span style="font-size:0.58rem;padding:2px 7px;border-radius:4px;background:#ede9fe;color:#5b21b6;font-weight:600">Node.js</span>
+                  <span style="font-size:0.58rem;padding:2px 7px;border-radius:4px;background:#ede9fe;color:#5b21b6;font-weight:600">PostgreSQL</span>
+                  <span style="font-size:0.58rem;padding:2px 7px;border-radius:4px;background:#ede9fe;color:#5b21b6;font-weight:600">Figma</span>
+                  <span style="font-size:0.58rem;padding:2px 7px;border-radius:4px;background:#ede9fe;color:#5b21b6;font-weight:600">REST APIs</span>
+                  <span style="font-size:0.58rem;padding:2px 7px;border-radius:4px;background:#ede9fe;color:#5b21b6;font-weight:600">Git</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- SUGGESTION POPOVER -->
+            <div class="ph-suggestion-popover" style="top:52px;right:16px;animation:ph-popover-in 0.3s 1.5s ease both;opacity:0">
+              <div class="ph-sp-header">
+                <div class="ph-sp-title">⚡ AI Suggestion</div>
+                <span class="ph-sp-close">×</span>
+              </div>
+              <div class="ph-sp-section">
+                <span class="ph-sp-label">Selected text</span>
+                <p class="ph-sp-original">scalable web applications using React and TypeScript</p>
+              </div>
+              <div class="ph-sp-result">
+                <span class="ph-sp-label">Improved version</span>
+                <p class="ph-sp-improved">high-performance, scalable web applications leveraging React 18 and TypeScript, delivering 40% faster load times</p>
+              </div>
+              <div class="ph-sp-actions">
+                <button class="ph-sp-add">+ Add</button>
+                <button class="ph-sp-regen">↻ Regenerate</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENE 2: JOB SEARCH -->
+  <div class="ph-scene" id="scene-jobs">
+    <div class="ph-js-hero" style="animation:ph-fade-in 0.5s ease both">
+      <div class="ph-js-title" style="font-family:'Figtree',sans-serif">Find Your Perfect Role</div>
+      <div class="ph-js-sub">Discover roles matched to your skills, values and vibe.</div>
+      <div class="ph-js-search-row">
+        <div style="flex:1;position:relative">
+          <svg class="ph-js-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input class="ph-js-input" placeholder="Job title, keyword, or company" readonly>
+        </div>
+        <div style="position:relative">
+          <svg style="position:absolute;left:8px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,0.5);pointer-events:none" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <input class="ph-js-loc" placeholder="Location" readonly>
+        </div>
+        <button class="ph-js-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Search</button>
+      </div>
+    </div>
+
+    <div class="ph-js-filters" style="animation:ph-fade-in 0.4s 0.2s ease both">
+      <span class="ph-js-chip active">All</span>
+      <span class="ph-js-chip">Full-Time</span>
+      <span class="ph-js-chip">Remote</span>
+      <span class="ph-js-chip">Hybrid</span>
+      <span class="ph-js-chip">Contract</span>
+    </div>
+    <div class="ph-js-stats" style="animation:ph-fade-in 0.4s 0.3s ease both"><span><strong>247</strong> jobs found</span></div>
+
+    <div class="ph-js-grid" style="animation:ph-fade-in 0.5s 0.4s ease both">
+      <!-- Card 1: HOT 94 -->
+      <div class="ph-jcard">
+        <div class="ph-jcard-header">
+          <div class="ph-jcard-info">
+            <p class="ph-jcard-company">TechCorp Ltd</p>
+            <h4 class="ph-jcard-title">Senior React Developer</h4>
+          </div>
+          <div class="ph-vibe hot"><span class="vn">94</span></div>
+        </div>
+        <div class="ph-jcard-meta">
+          <span class="ph-jcard-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> London</span>
+          <span class="ph-jcard-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg> Full Time</span>
+          <span class="ph-jcard-hybrid">✦ Hybrid</span>
+        </div>
+        <div class="ph-jcard-footer">
+          <span class="ph-jcard-salary">£85,000<small>/yr</small></span>
+          <span class="ph-jcard-date"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg> 2d ago</span>
+        </div>
+      </div>
+
+      <!-- Card 2: WARM 85 -->
+      <div class="ph-jcard">
+        <div class="ph-jcard-header">
+          <div class="ph-jcard-info">
+            <p class="ph-jcard-company">Innovate Digital</p>
+            <h4 class="ph-jcard-title">Full Stack Engineer</h4>
+          </div>
+          <div class="ph-vibe warm"><span class="vn">85</span></div>
+        </div>
+        <div class="ph-jcard-meta">
+          <span class="ph-jcard-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Manchester</span>
+          <span class="ph-jcard-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg> Full Time</span>
+          <span class="ph-jcard-remote">✦ Remote</span>
+        </div>
+        <div class="ph-jcard-footer">
+          <span class="ph-jcard-salary">£72,000<small>/yr</small></span>
+          <span class="ph-jcard-date"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg> 3d ago</span>
+        </div>
+      </div>
+
+      <!-- Card 3: HOT 92 -->
+      <div class="ph-jcard">
+        <div class="ph-jcard-header">
+          <div class="ph-jcard-info">
+            <p class="ph-jcard-company">FinServe Group</p>
+            <h4 class="ph-jcard-title">Lead Frontend Architect</h4>
+          </div>
+          <div class="ph-vibe hot"><span class="vn">92</span></div>
+        </div>
+        <div class="ph-jcard-meta">
+          <span class="ph-jcard-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Edinburgh</span>
+          <span class="ph-jcard-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg> Full Time</span>
+        </div>
+        <div class="ph-jcard-footer">
+          <span class="ph-jcard-salary">£95,000<small>/yr</small></span>
+          <span class="ph-jcard-date"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg> 1d ago</span>
+        </div>
+      </div>
+
+      <!-- Card 4: COOL 71 -->
+      <div class="ph-jcard">
+        <div class="ph-jcard-header">
+          <div class="ph-jcard-info">
+            <p class="ph-jcard-company">DataFlow AI</p>
+            <h4 class="ph-jcard-title">UI/UX Developer</h4>
+          </div>
+          <div class="ph-vibe cool"><span class="vn">71</span></div>
+        </div>
+        <div class="ph-jcard-meta">
+          <span class="ph-jcard-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Birmingham</span>
+          <span class="ph-jcard-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg> Contract</span>
+        </div>
+        <div class="ph-jcard-footer">
+          <span class="ph-jcard-salary">£55,000<small>/yr</small></span>
+          <span class="ph-jcard-date"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg> 5d ago</span>
+        </div>
+      </div>
+
+      <!-- Card 5: WARM 83 -->
+      <div class="ph-jcard">
+        <div class="ph-jcard-header">
+          <div class="ph-jcard-info">
+            <p class="ph-jcard-company">CloudNative Inc</p>
+            <h4 class="ph-jcard-title">DevOps Engineer</h4>
+          </div>
+          <div class="ph-vibe warm"><span class="vn">83</span></div>
+        </div>
+        <div class="ph-jcard-meta">
+          <span class="ph-jcard-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Leeds</span>
+          <span class="ph-jcard-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg> Full Time</span>
+          <span class="ph-jcard-remote">✦ Remote</span>
+        </div>
+        <div class="ph-jcard-footer">
+          <span class="ph-jcard-salary">£68,000<small>/yr</small></span>
+          <span class="ph-jcard-date"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg> 4d ago</span>
+        </div>
+      </div>
+
+      <!-- Card 6: COOL 66 -->
+      <div class="ph-jcard">
+        <div class="ph-jcard-header">
+          <div class="ph-jcard-info">
+            <p class="ph-jcard-company">GreenTech Solutions</p>
+            <h4 class="ph-jcard-title">JavaScript Developer</h4>
+          </div>
+          <div class="ph-vibe cool"><span class="vn">66</span></div>
+        </div>
+        <div class="ph-jcard-meta">
+          <span class="ph-jcard-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Bristol</span>
+          <span class="ph-jcard-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg> Part Time</span>
+        </div>
+        <div class="ph-jcard-footer">
+          <span class="ph-jcard-salary">£45,000<small>/yr</small></span>
+          <span class="ph-jcard-date"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg> 1w ago</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENE 3: INTERVIEW -->
+  <div class="ph-scene" id="scene-interview">
+    <!-- Phase 1: Video Player -->
+    <div id="iv-phase-video" style="width:100%;height:100%;position:absolute;inset:0;transition:opacity 0.6s ease">
+      <div class="ph-iv-video">
+        <div class="ph-iv-bg"></div>
+        <div class="ph-iv-avatar">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+        </div>
+        <div class="ph-iv-caption">Tell me about yourself</div>
+        <div class="ph-iv-progress">
+          <div class="ph-iv-pbar-bg"><div class="ph-iv-pbar-fill" id="iv-progress-bar" style="width:0%;transition:width 4s linear"></div></div>
+          <div class="ph-iv-pbar-label"><span>0:00</span><span>0:45</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 2: Feedback Results -->
+    <div id="iv-phase-feedback" style="width:100%;height:100%;position:absolute;inset:0;opacity:0;pointer-events:none;transition:opacity 0.6s ease;overflow-y:auto;padding:0">
+      <div class="ph-ifb">
+        <div class="ph-ifb-header">
+          <div class="ph-ifb-title">Great job on your interview practice!</div>
+          <div class="ph-ifb-badges">
+            <span class="ph-ifb-badge">STAR Framework</span>
+            <span class="ph-ifb-badge" style="background:rgba(255,255,255,0.15);color:#e9d5ff;border:1px solid rgba(255,255,255,0.2)">Technology</span>
+          </div>
+        </div>
+
+        <div style="padding:0 16px">
+          <div class="ph-ifb-qtext" style="animation:ph-fade-in 0.5s 0.1s ease both">
+            <span class="ph-ifb-qlabel">Question</span>
+            Tell me about yourself and your experience in software development.
+          </div>
+
+          <div class="ph-ifb-top" style="animation:ph-fade-in 0.5s 0.2s ease both">
+            <!-- Score Ring Card -->
+            <div class="ph-ifb-card">
+              <div class="ph-ifb-score-ring">
+                <svg width="110" height="110" viewBox="0 0 110 110">
+                  <circle cx="55" cy="55" r="47" fill="none" stroke="#e9e5f5" stroke-width="8"/>
+                  <circle cx="55" cy="55" r="47" fill="none" stroke="#16a34a" stroke-width="8" stroke-linecap="round" stroke-dasharray="295.31" stroke-dashoffset="53.16" transform="rotate(-90 55 55)" style="transition:stroke-dashoffset 1s ease-out"/>
+                </svg>
+                <div class="ph-ifb-ring-text">
+                  <span class="ph-ifb-score-num">82%</span>
+                  <span class="ph-ifb-score-level">Strong</span>
+                </div>
+              </div>
+              <p class="ph-ifb-summary">Clear structure with strong examples. Focus on quantifying your achievements.</p>
+            </div>
+
+            <!-- Communication Card -->
+            <div class="ph-ifb-card ph-ifb-clarity">
+              <div class="ph-ifb-clarity-hdr">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                <h4>Communication</h4>
+              </div>
+              <div class="ph-ifb-clarity-score">75%</div>
+              <div class="ph-ifb-bar-track"><div class="ph-ifb-bar-fill" style="width:75%;background:#8b5cf6"></div></div>
+              <p style="font-size:0.7rem;color:#6b7280;margin-bottom:8px;line-height:1.5">Good articulation with confident delivery. Minor areas for improvement in pacing.</p>
+              <div style="border-top:1.5px solid #f3f0ff;padding-top:6px">
+                <div class="ph-ifb-comm-row"><span class="ph-ifb-comm-label">Professional Language</span><span class="ph-ifb-comm-val">3/3</span></div>
+                <div class="ph-ifb-comm-row"><span class="ph-ifb-comm-label">Confidence</span><span class="ph-ifb-comm-val">2/3</span></div>
+              </div>
+            </div>
+
+            <!-- Filler Words Card -->
+            <div class="ph-ifb-card ph-ifb-filler">
+              <div class="ph-ifb-filler-hdr">
+                <span class="ph-ifb-filler-label">Filler Words</span>
+                <span class="ph-ifb-filler-status">Good</span>
+              </div>
+              <div class="ph-ifb-filler-count">
+                <span class="ph-ifb-filler-num">2</span>
+                <span class="ph-ifb-filler-unit">detected</span>
+              </div>
+              <p class="ph-ifb-filler-fb">Minimal filler word usage. Your speech was clear and purposeful throughout.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </div>
+  </div>
+
+  <div class="ph-scene-indicator" id="scene-dots">
+    <div class="ph-dot active" data-scene="0"></div>
+    <div class="ph-dot" data-scene="1"></div>
+    <div class="ph-dot" data-scene="2"></div>
+    <div class="ph-dot" data-scene="3"></div>
+  </div>
+
+  </div>
+
+  <script>
+  (function(){
+    var scenes = [
+      { id:'scene-dash', nav:'tn-dash', sidebar:0 },
+      { id:'scene-cv', nav:'tn-cv', sidebar:1 },
+      { id:'scene-jobs', nav:'tn-jobs', sidebar:2 },
+      { id:'scene-interview', nav:'tn-interview', sidebar:3 }
+    ];
+    var durations = [6000, 9000, 9000, 9000];
+    var current = 0;
+    var timer = null;
+    var ivPhaseTimer = null;
+
+    var sidebarIcons = document.querySelectorAll('.ph-sb-icon:not(.ph-sb-sep)');
+    var topLinks = document.querySelectorAll('.ph-top-link');
+    var dots = document.querySelectorAll('.ph-dot');
+
+    function showScene(idx) {
+      scenes.forEach(function(s, i) {
+        var el = document.getElementById(s.id);
+        el.classList.toggle('active', i === idx);
+      });
+      sidebarIcons.forEach(function(icon, i) {
+        if (i < scenes.length) icon.classList.toggle('active', i === idx);
+      });
+      topLinks.forEach(function(link, i) {
+        if (i < scenes.length) link.classList.toggle('active', i === idx);
+      });
+      dots.forEach(function(dot, i) {
+        dot.classList.toggle('active', i === idx);
+      });
+
+      clearTimeout(ivPhaseTimer);
+      if (idx === 3) {
+        var videoPhase = document.getElementById('iv-phase-video');
+        var feedbackPhase = document.getElementById('iv-phase-feedback');
+        var progressBar = document.getElementById('iv-progress-bar');
+
+        videoPhase.style.opacity = '1';
+        videoPhase.style.pointerEvents = 'auto';
+        feedbackPhase.style.opacity = '0';
+        feedbackPhase.style.pointerEvents = 'none';
+        progressBar.style.width = '0%';
+        progressBar.style.transition = 'none';
+
+        setTimeout(function() {
+          progressBar.style.transition = 'width 3.5s linear';
+          progressBar.style.width = '100%';
+        }, 100);
+
+        ivPhaseTimer = setTimeout(function() {
+          videoPhase.style.opacity = '0';
+          videoPhase.style.pointerEvents = 'none';
+          feedbackPhase.style.opacity = '1';
+          feedbackPhase.style.pointerEvents = 'auto';
+        }, 4000);
+      }
+
+      current = idx;
+    }
+
+    function nextScene() {
+      var next = (current + 1) % scenes.length;
+      showScene(next);
+      timer = setTimeout(nextScene, durations[next]);
+    }
+
+    showScene(0);
+    timer = setTimeout(nextScene, durations[0]);
+
+    dots.forEach(function(dot, i) {
+      dot.addEventListener('click', function() {
+        clearTimeout(timer);
+        showScene(i);
+        timer = setTimeout(nextScene, durations[i]);
+      });
+    });
+  })();
+  </script>
+  </div>
+  </body></html>
