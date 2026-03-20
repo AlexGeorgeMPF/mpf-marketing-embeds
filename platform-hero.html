@@ -893,8 +893,7 @@
       { id:'scene-interview', nav:'tn-interview', sidebar:3 }
     ];
     var current = 0;
-    var ivPhaseTimer = null;
-    var animTimer = null;
+    var pendingTimers = [];
 
     var canvas = document.getElementById('canvas');
     var cursor = document.getElementById('ph-cursor');
@@ -903,17 +902,28 @@
     var topLinks = document.querySelectorAll('.ph-top-link');
     var dots = document.querySelectorAll('.ph-dot');
 
+    function schedule(fn, delay) {
+      var id = setTimeout(fn, delay);
+      pendingTimers.push(id);
+      return id;
+    }
+
+    function cancelAllTimers() {
+      pendingTimers.forEach(function(id) { clearTimeout(id); });
+      pendingTimers = [];
+    }
+
     function moveCursor(x, y, cb) {
       cursor.style.left = x + 'px';
       cursor.style.top = y + 'px';
-      if (cb) setTimeout(cb, 650);
+      if (cb) schedule(cb, 650);
     }
 
     function clickCursor(cb) {
       cursorRing.classList.remove('clicking');
       void cursorRing.offsetWidth;
       cursorRing.classList.add('clicking');
-      if (cb) setTimeout(cb, 400);
+      if (cb) schedule(cb, 400);
     }
 
     function moveThenClick(x, y, cb) {
@@ -946,14 +956,15 @@
 
     function runDashScene() {
       var sb = sidebarIcons[0];
+      if (!sb) return;
       var r = sb.getBoundingClientRect();
       var cr = canvas.getBoundingClientRect();
       moveCursor(r.left - cr.left + 10, r.top - cr.top + 10, function() {
-        setTimeout(function() {
+        schedule(function() {
           moveCursor(500, 300, function() {
-            setTimeout(function() {
+            schedule(function() {
               moveCursor(800, 400, function() {
-                setTimeout(function() {
+                schedule(function() {
                   transitionToScene(1);
                 }, 1200);
               });
@@ -966,30 +977,33 @@
     function runCvScene() {
       resetCvScene();
       var improveBtn = document.querySelector('.ph-improve-btn');
+      if (!improveBtn) return;
       var cr = canvas.getBoundingClientRect();
       var br = improveBtn.getBoundingClientRect();
-      setTimeout(function() {
+      schedule(function() {
         moveThenClick(br.left - cr.left + 20, br.top - cr.top + 8, function() {
           var hl = document.querySelector('.ph-cv-highlight');
           if (hl) hl.style.background = 'rgba(250,204,21,0.6)';
-          setTimeout(function() {
+          schedule(function() {
             var pop = document.getElementById('cv-popover');
+            if (!pop) return;
             pop.style.display = 'block';
-            setTimeout(function() {
+            schedule(function() {
               pop.style.opacity = '1';
               pop.style.animation = 'ph-popover-in 0.3s ease both';
             }, 50);
-            setTimeout(function() {
+            schedule(function() {
               var addBtn = document.querySelector('.ph-sp-add');
+              if (!addBtn) return;
               var abr = addBtn.getBoundingClientRect();
               moveThenClick(abr.left - cr.left + 20, abr.top - cr.top + 8, function() {
                 pop.style.opacity = '0';
-                setTimeout(function() { pop.style.display = 'none'; }, 300);
+                schedule(function() { pop.style.display = 'none'; }, 300);
                 if (hl) {
                   hl.style.background = 'rgba(139,92,246,0.15)';
                   hl.textContent = 'high-performance, scalable web applications leveraging React 18 and TypeScript';
                 }
-                setTimeout(function() {
+                schedule(function() {
                   var suggested = document.querySelectorAll('.ph-cvb-tag.suggested');
                   if (suggested.length > 0) {
                     var sr = suggested[0].getBoundingClientRect();
@@ -1007,10 +1021,10 @@
                         ns.textContent = 'GraphQL';
                         skillsDisp.appendChild(ns);
                       }
-                      setTimeout(function() { transitionToScene(2); }, 1500);
+                      schedule(function() { transitionToScene(2); }, 1500);
                     });
                   } else {
-                    setTimeout(function() { transitionToScene(2); }, 1500);
+                    schedule(function() { transitionToScene(2); }, 1500);
                   }
                 }, 800);
               });
@@ -1022,26 +1036,26 @@
 
     function runJobsScene() {
       var cr = canvas.getBoundingClientRect();
-      setTimeout(function() {
+      schedule(function() {
         moveCursor(600, 230, function() {
-          setTimeout(function() {
+          schedule(function() {
             var cards = document.querySelectorAll('.ph-jcard');
             if (cards.length > 0) {
               var jcr = cards[0].getBoundingClientRect();
               moveCursor(jcr.left - cr.left + 80, jcr.top - cr.top + 40, function() {
-                setTimeout(function() {
+                schedule(function() {
                   if (cards.length > 2) {
                     var jcr2 = cards[2].getBoundingClientRect();
                     moveCursor(jcr2.left - cr.left + 80, jcr2.top - cr.top + 40, function() {
-                      setTimeout(function() { transitionToScene(3); }, 1500);
+                      schedule(function() { transitionToScene(3); }, 1500);
                     });
                   } else {
-                    setTimeout(function() { transitionToScene(3); }, 1500);
+                    schedule(function() { transitionToScene(3); }, 1500);
                   }
                 }, 1200);
               });
             } else {
-              setTimeout(function() { transitionToScene(3); }, 2500);
+              schedule(function() { transitionToScene(3); }, 2500);
             }
           }, 1000);
         });
@@ -1049,10 +1063,10 @@
     }
 
     function runInterviewScene() {
-      clearTimeout(ivPhaseTimer);
       var videoPhase = document.getElementById('iv-phase-video');
       var feedbackPhase = document.getElementById('iv-phase-feedback');
       var progressBar = document.getElementById('iv-progress-bar');
+      if (!videoPhase || !feedbackPhase || !progressBar) return;
 
       videoPhase.style.opacity = '1';
       videoPhase.style.pointerEvents = 'auto';
@@ -1062,28 +1076,30 @@
       progressBar.style.transition = 'none';
 
       moveCursor(550, 350, function() {
-        setTimeout(function() {
+        schedule(function() {
           progressBar.style.transition = 'width 3.5s linear';
           progressBar.style.width = '100%';
         }, 100);
 
-        ivPhaseTimer = setTimeout(function() {
+        schedule(function() {
           videoPhase.style.opacity = '0';
           videoPhase.style.pointerEvents = 'none';
           feedbackPhase.style.opacity = '1';
           feedbackPhase.style.pointerEvents = 'auto';
 
-          setTimeout(function() {
+          schedule(function() {
             var bars = document.querySelectorAll('.ph-ifb-star-bar .fill');
             bars.forEach(function(bar) {
-              bar.style.width = bar.style.getPropertyValue('--bar-w') || bar.getAttribute('style').match(/--bar-w:([^;]+)/)?.[1] || '0%';
+              var s = bar.getAttribute('style') || '';
+              var m = s.match(/--bar-w:\s*([^;]+)/);
+              if (m) bar.style.width = m[1].trim();
             });
           }, 300);
 
           moveCursor(300, 500, function() {
-            setTimeout(function() {
+            schedule(function() {
               moveCursor(700, 500, function() {
-                setTimeout(function() { transitionToScene(0); }, 1800);
+                schedule(function() { transitionToScene(0); }, 1800);
               });
             }, 1200);
           });
@@ -1092,13 +1108,14 @@
     }
 
     function transitionToScene(idx) {
+      cancelAllTimers();
       var sb = sidebarIcons[idx];
       if (!sb) return;
       var cr = canvas.getBoundingClientRect();
       var sr = sb.getBoundingClientRect();
       moveThenClick(sr.left - cr.left + 10, sr.top - cr.top + 10, function() {
         showScene(idx);
-        setTimeout(function() { runScene(idx); }, 300);
+        schedule(function() { runScene(idx); }, 300);
       });
     }
 
@@ -1112,12 +1129,14 @@
     }
 
     showScene(0);
-    setTimeout(function() { runScene(0); }, 800);
+    schedule(function() { runScene(0); }, 800);
 
     dots.forEach(function(dot, i) {
       dot.addEventListener('click', function() {
+        cancelAllTimers();
+        resetCvScene();
         showScene(i);
-        runScene(i);
+        schedule(function() { runScene(i); }, 300);
       });
     });
   })();
