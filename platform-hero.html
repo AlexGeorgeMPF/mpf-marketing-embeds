@@ -29,7 +29,7 @@
   .ph-top-link{font-size:11px;font-weight:600;color:#64617a;padding:6px 10px;border-radius:6px;display:flex;align-items:center;gap:4px;text-decoration:none;transition:background 0.15s}
   .ph-top-link:hover,.ph-top-link.active{background:#f5f3ff;color:#6d28d9}
   .ph-body{display:flex;flex:1;overflow:hidden}
-  .ph-sidebar{width:60px;background:#fff;border-right:1px solid #e9e5f5;display:flex;flex-direction:column;padding:12px 0;flex-shrink:0;align-items:center;gap:4px;overflow-y:auto}
+  .ph-sidebar{width:60px;background:#fff;border-right:1px solid #e9e5f5;display:flex;flex-direction:column;padding:12px 0;flex-shrink:0;align-items:center;gap:4px;overflow:hidden}
   .ph-sb-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#64617a;transition:all 0.15s;cursor:pointer;flex-shrink:0}
   .ph-sb-icon:hover{background:#f5f3ff;color:#6d28d9}
   .ph-sb-icon.active{background:#6d28d9;color:#fff}
@@ -352,6 +352,9 @@
   .ph-tracker-vibe.cool{background:linear-gradient(135deg,#f8fafc,#f1f5f9);color:#64748b}
   .ph-tracker-status{display:inline-block;font-size:0.58rem;font-weight:700;padding:3px 9px;border-radius:20px;white-space:nowrap;transition:all 0.4s ease}
   .ph-tracker-date{font-size:0.6rem;color:#9ca3af;white-space:nowrap}
+  .ph-tracker-table th.center,.ph-tracker-table td.center{text-align:center}
+  .ph-tracker-toggle{display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform 0.15s ease}
+  .ph-tracker-toggle svg{display:block}
   </style>
   </head>
   <body style="margin:0;display:flex;justify-content:center;align-items:center;min-height:100vh;background:transparent">
@@ -1008,37 +1011,47 @@
       </div>
       <div style="background:#fff;border-radius:14px;border:1px solid #e9e5f5;padding:4px 0;box-shadow:0 4px 16px rgba(91,33,182,0.08);flex:1">
         <table class="ph-tracker-table">
-          <thead><tr><th>Job Position</th><th>Vibe</th><th>Status</th><th>Date</th></tr></thead>
+          <thead><tr><th>Job Position</th><th>Vibe</th><th class="center">CV Built</th><th class="center">Applied</th><th class="center" style="font-size:0.52rem;line-height:1.2">Interview<br>Practised</th><th>Status</th></tr></thead>
           <tbody>
             <tr class="featured" id="tracker-featured-row">
               <td><div class="ph-tracker-job-title">Senior React Developer</div><div class="ph-tracker-job-company">TechCorp Ltd</div></td>
               <td><div class="ph-tracker-vibe hot">94</div></td>
+              <td class="center"><div class="ph-tracker-toggle" id="tracker-toggle-cv"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="1.5"><circle cx="12" cy="12" r="10"/></svg></div></td>
+              <td class="center"><div class="ph-tracker-toggle" id="tracker-toggle-applied"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="1.5"><circle cx="12" cy="12" r="10"/></svg></div></td>
+              <td class="center"><div class="ph-tracker-toggle" id="tracker-toggle-interview"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="1.5"><circle cx="12" cy="12" r="10"/></svg></div></td>
               <td><span class="ph-tracker-status" id="tracker-featured-status" style="background:#f5f3ff;color:#7c3aed">Preparing</span></td>
-              <td><span class="ph-tracker-date">Today</span></td>
             </tr>
             <tr>
               <td><div class="ph-tracker-job-title">Full Stack Engineer</div><div class="ph-tracker-job-company">Innovate Digital</div></td>
               <td><div class="ph-tracker-vibe warm">87</div></td>
+              <td class="center"><div class="ph-tracker-toggle"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div></td>
+              <td class="center"><div class="ph-tracker-toggle"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div></td>
+              <td class="center"><div class="ph-tracker-toggle"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="1.5"><circle cx="12" cy="12" r="10"/></svg></div></td>
               <td><span class="ph-tracker-status" style="background:#d1fae5;color:#059669">Shortlisted</span></td>
-              <td><span class="ph-tracker-date">2 days ago</span></td>
             </tr>
             <tr>
               <td><div class="ph-tracker-job-title">UI/UX Developer</div><div class="ph-tracker-job-company">DataFlow AI</div></td>
               <td><div class="ph-tracker-vibe warm">82</div></td>
+              <td class="center"><div class="ph-tracker-toggle"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div></td>
+              <td class="center"><div class="ph-tracker-toggle"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div></td>
+              <td class="center"><div class="ph-tracker-toggle"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div></td>
               <td><span class="ph-tracker-status" style="background:#fef3c7;color:#d97706">1st Interview</span></td>
-              <td><span class="ph-tracker-date">5 days ago</span></td>
             </tr>
             <tr>
               <td><div class="ph-tracker-job-title">DevOps Engineer</div><div class="ph-tracker-job-company">CloudNative Inc</div></td>
               <td><div class="ph-tracker-vibe cool">71</div></td>
+              <td class="center"><div class="ph-tracker-toggle"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div></td>
+              <td class="center"><div class="ph-tracker-toggle"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="1.5"><circle cx="12" cy="12" r="10"/></svg></div></td>
+              <td class="center"><div class="ph-tracker-toggle"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="1.5"><circle cx="12" cy="12" r="10"/></svg></div></td>
               <td><span class="ph-tracker-status" style="background:#f3f4f6;color:#6b7280">On Hold</span></td>
-              <td><span class="ph-tracker-date">1 week ago</span></td>
             </tr>
             <tr>
               <td><div class="ph-tracker-job-title">JavaScript Developer</div><div class="ph-tracker-job-company">GreenTech Solutions</div></td>
               <td><div class="ph-tracker-vibe cool">68</div></td>
+              <td class="center"><div class="ph-tracker-toggle"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="1.5"><circle cx="12" cy="12" r="10"/></svg></div></td>
+              <td class="center"><div class="ph-tracker-toggle"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="1.5"><circle cx="12" cy="12" r="10"/></svg></div></td>
+              <td class="center"><div class="ph-tracker-toggle"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="1.5"><circle cx="12" cy="12" r="10"/></svg></div></td>
               <td><span class="ph-tracker-status" style="background:#fee2e2;color:#dc2626">Unsuccessful</span></td>
-              <td><span class="ph-tracker-date">2 weeks ago</span></td>
             </tr>
           </tbody>
         </table>
@@ -1137,6 +1150,26 @@
       var hl = document.querySelector('.ph-cv-highlight');
       if (pop) { pop.style.display = 'none'; pop.style.opacity = '0'; pop.style.animation = ''; }
       if (hl) { hl.style.background = 'transparent'; hl.textContent = originalCvText; }
+      var skillsDisp = document.getElementById('cv-skills-display');
+      if (skillsDisp) {
+        var added = skillsDisp.querySelectorAll('span[style*="ph-pop"]');
+        added.forEach(function(el) { el.remove(); });
+        var remaining = skillsDisp.querySelectorAll('span');
+        remaining.forEach(function(el) {
+          if (el.textContent.trim() === 'GraphQL' || el.textContent.trim() === 'GraphQL ×') { el.remove(); }
+        });
+      }
+      var suggested = document.querySelectorAll('.ph-cvb-tag.selected');
+      suggested.forEach(function(tag) {
+        if (tag.textContent.replace('×','').trim() === 'GraphQL') {
+          tag.classList.remove('selected');
+          tag.classList.add('suggested');
+          tag.innerHTML = '<span class="plus">+</span> GraphQL';
+          tag.style.background = '';
+          tag.style.color = '';
+          tag.style.border = '';
+        }
+      });
     }
 
     function resetJobsScene() {
@@ -1165,6 +1198,9 @@
       bars.forEach(function(bar) { bar.style.width = '0'; });
     }
 
+    var toggleEmptySvg = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="1.5"><circle cx="12" cy="12" r="10"/></svg>';
+    var toggleCheckedSvg = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>';
+
     function resetTrackerScene() {
       var statusEl = document.getElementById('tracker-featured-status');
       if (statusEl) {
@@ -1173,6 +1209,11 @@
         statusEl.style.color = '#7c3aed';
         statusEl.style.transform = '';
       }
+      var ids = ['tracker-toggle-cv','tracker-toggle-applied','tracker-toggle-interview'];
+      ids.forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) { el.innerHTML = toggleEmptySvg; el.style.transform = ''; }
+      });
     }
 
     function runDashScene() {
@@ -1191,24 +1232,39 @@
       });
     }
 
+    function activateToggle(id, cb) {
+      var el = document.getElementById(id);
+      if (!el) { if (cb) cb(); return; }
+      var cr = canvas.getBoundingClientRect();
+      var r = el.getBoundingClientRect();
+      moveThenClick(r.left - cr.left + r.width / 2, r.top - cr.top + r.height / 2, function() {
+        el.innerHTML = toggleCheckedSvg;
+        el.style.transform = 'scale(1.15)';
+        schedule(function() { el.style.transform = 'scale(1)'; }, 200);
+        if (cb) schedule(cb, 600);
+      }, el);
+    }
+
     function runTrackerScene() {
       resetTrackerScene();
-      var cr = canvas.getBoundingClientRect();
       schedule(function() {
-        var statusEl = document.getElementById('tracker-featured-status');
-        if (!statusEl) { schedule(function() { transitionToScene(0); }, 1500); return; }
-        var sr = statusEl.getBoundingClientRect();
-        var crNow = canvas.getBoundingClientRect();
-        moveThenClick(sr.left - crNow.left + sr.offsetWidth / 2, sr.top - crNow.top + sr.offsetHeight / 2, function() {
-          statusEl.textContent = 'Shortlisted';
-          statusEl.style.background = '#d1fae5';
-          statusEl.style.color = '#059669';
-          statusEl.style.transform = 'scale(1.12)';
-          schedule(function() { statusEl.style.transform = 'scale(1)'; }, 300);
-          schedule(function() {
-            transitionToScene(0);
-          }, 2000);
-        }, statusEl);
+        activateToggle('tracker-toggle-cv', function() {
+          activateToggle('tracker-toggle-applied', function() {
+            activateToggle('tracker-toggle-interview', function() {
+              var statusEl = document.getElementById('tracker-featured-status');
+              if (statusEl) {
+                statusEl.textContent = 'Shortlisted';
+                statusEl.style.background = '#d1fae5';
+                statusEl.style.color = '#059669';
+                statusEl.style.transform = 'scale(1.12)';
+                schedule(function() { statusEl.style.transform = 'scale(1)'; }, 300);
+              }
+              schedule(function() {
+                transitionToScene(0);
+              }, 2000);
+            });
+          });
+        });
       }, 800);
     }
 
@@ -1224,53 +1280,55 @@
           if (!hl) return;
           var hlr = hl.getBoundingClientRect();
           moveCursor(hlr.left - cr.left + hlr.width / 2, hlr.top - cr.top + hlr.height / 2, function() {
-            hl.style.background = 'rgba(250,204,21,0.6)';
             schedule(function() {
-              var pop = document.getElementById('cv-popover');
-              if (!pop) return;
-              pop.style.display = 'block';
+              hl.style.background = 'rgba(250,204,21,0.6)';
               schedule(function() {
-                pop.style.opacity = '1';
-                pop.style.animation = 'ph-popover-in 0.3s ease both';
-              }, 50);
-              schedule(function() {
-                var addBtn = document.querySelector('.ph-sp-add');
-                if (!addBtn) return;
-                var abr = addBtn.getBoundingClientRect();
-                moveThenClick(abr.left - cr.left + abr.width / 2, abr.top - cr.top + abr.height / 2, function() {
-                  schedule(function() {
-                    pop.style.opacity = '0';
-                    schedule(function() { pop.style.display = 'none'; }, 300);
-                    hl.textContent = 'high-performance, scalable web applications leveraging React 18 and TypeScript';
-                    hl.style.background = 'rgba(139,92,246,0.15)';
-                  }, 200);
-                  schedule(function() {
-                    var suggested = document.querySelectorAll('.ph-cvb-tag.suggested');
-                    if (suggested.length > 0) {
-                      var sr = suggested[0].getBoundingClientRect();
-                      moveThenClick(sr.left - cr.left + 15, sr.top - cr.top + 8, function() {
-                        suggested[0].classList.remove('suggested');
-                        suggested[0].classList.add('selected');
-                        suggested[0].innerHTML = suggested[0].textContent.replace('+ ','').trim() + ' <span class="x">\u00d7</span>';
-                        suggested[0].style.background = 'linear-gradient(135deg,#8b5cf6,#7c3aed)';
-                        suggested[0].style.color = '#fff';
-                        suggested[0].style.border = 'none';
-                        var skillsDisp = document.getElementById('cv-skills-display');
-                        if (skillsDisp) {
-                          var ns = document.createElement('span');
-                          ns.style.cssText = 'font-size:0.58rem;padding:2px 7px;border-radius:4px;background:#ede9fe;color:#5b21b6;font-weight:600;animation:ph-pop 0.5s cubic-bezier(0.34,1.56,0.64,1) both';
-                          ns.textContent = 'GraphQL';
-                          skillsDisp.appendChild(ns);
-                        }
+                var pop = document.getElementById('cv-popover');
+                if (!pop) return;
+                pop.style.display = 'block';
+                schedule(function() {
+                  pop.style.opacity = '1';
+                  pop.style.animation = 'ph-popover-in 0.3s ease both';
+                }, 50);
+                schedule(function() {
+                  var addBtn = document.querySelector('.ph-sp-add');
+                  if (!addBtn) return;
+                  var abr = addBtn.getBoundingClientRect();
+                  moveThenClick(abr.left - cr.left + abr.width / 2, abr.top - cr.top + abr.height / 2, function() {
+                    schedule(function() {
+                      pop.style.opacity = '0';
+                      schedule(function() { pop.style.display = 'none'; }, 300);
+                      hl.textContent = 'high-performance, scalable web applications leveraging React 18 and TypeScript';
+                      hl.style.background = 'rgba(139,92,246,0.15)';
+                    }, 200);
+                    schedule(function() {
+                      var suggested = document.querySelectorAll('.ph-cvb-tag.suggested');
+                      if (suggested.length > 0) {
+                        var sr = suggested[0].getBoundingClientRect();
+                        moveThenClick(sr.left - cr.left + 15, sr.top - cr.top + 8, function() {
+                          suggested[0].classList.remove('suggested');
+                          suggested[0].classList.add('selected');
+                          suggested[0].innerHTML = suggested[0].textContent.replace('+ ','').trim() + ' <span class="x">\u00d7</span>';
+                          suggested[0].style.background = 'linear-gradient(135deg,#8b5cf6,#7c3aed)';
+                          suggested[0].style.color = '#fff';
+                          suggested[0].style.border = 'none';
+                          var skillsDisp = document.getElementById('cv-skills-display');
+                          if (skillsDisp) {
+                            var ns = document.createElement('span');
+                            ns.style.cssText = 'font-size:0.58rem;padding:2px 7px;border-radius:4px;background:#ede9fe;color:#5b21b6;font-weight:600;animation:ph-pop 0.5s cubic-bezier(0.34,1.56,0.64,1) both';
+                            ns.textContent = 'GraphQL';
+                            skillsDisp.appendChild(ns);
+                          }
+                          schedule(function() { transitionToScene(2); }, 1500);
+                        }, suggested[0]);
+                      } else {
                         schedule(function() { transitionToScene(2); }, 1500);
-                      }, suggested[0]);
-                    } else {
-                      schedule(function() { transitionToScene(2); }, 1500);
-                    }
-                  }, 1000);
-                }, addBtn);
-              }, 1200);
-            }, 600);
+                      }
+                    }, 1000);
+                  }, addBtn);
+                }, 1200);
+              }, 600);
+            }, 400);
           });
         }, improveBtn);
       }, 800);
@@ -1380,7 +1438,15 @@
                     schedule(function() {
                       moveCursor(700, 500, function() {
                         schedule(function() {
-                          transitionToScene(4);
+                          var sb = sidebarIcons[4];
+                          if (!sb) { transitionToScene(4); return; }
+                          var cr2 = canvas.getBoundingClientRect();
+                          var sr2 = sb.getBoundingClientRect();
+                          moveThenClick(sr2.left - cr2.left + sr2.width + 2, sr2.top - cr2.top + sr2.height + 2, function() {
+                            triggerSidebarRipple(sb);
+                            showScene(4);
+                            schedule(function() { runScene(4); }, 300);
+                          }, sb);
                         }, 1800);
                       });
                     }, 1200);
@@ -1403,7 +1469,15 @@
               schedule(function() {
                 moveCursor(700, 500, function() {
                   schedule(function() {
-                    transitionToScene(4);
+                    var sb = sidebarIcons[4];
+                    if (!sb) { transitionToScene(4); return; }
+                    var cr2 = canvas.getBoundingClientRect();
+                    var sr2 = sb.getBoundingClientRect();
+                    moveThenClick(sr2.left - cr2.left + sr2.width + 2, sr2.top - cr2.top + sr2.height + 2, function() {
+                      triggerSidebarRipple(sb);
+                      showScene(4);
+                      schedule(function() { runScene(4); }, 300);
+                    }, sb);
                   }, 1800);
                 });
               }, 1200);
