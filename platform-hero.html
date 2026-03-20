@@ -252,12 +252,61 @@
   .ph-ifb-star-bar.overall{margin-top:4px;padding-top:4px;border-top:1px solid #f0ecf9}
   .ph-ifb-star-bar.overall .label{font-weight:800;color:#1e1b4b}
 
-  /* PURPLE CURSOR */
+  /* PURPLE FINGER CURSOR */
   .ph-cursor{position:absolute;z-index:100;pointer-events:none;transition:left 0.6s cubic-bezier(0.4,0,0.2,1),top 0.6s cubic-bezier(0.4,0,0.2,1);will-change:left,top}
   .ph-cursor svg{filter:drop-shadow(0 2px 4px rgba(91,33,182,0.3))}
   @keyframes ph-cursor-click{0%{transform:scale(0);opacity:0.7}50%{transform:scale(1.2);opacity:0.3}100%{transform:scale(1.5);opacity:0}}
-  .ph-cursor-ring{position:absolute;top:0;left:0;width:20px;height:20px;border-radius:50%;background:rgba(139,92,246,0.3);transform:scale(0);pointer-events:none}
+  .ph-cursor-ring{position:absolute;top:-5px;left:3px;width:20px;height:20px;border-radius:50%;background:rgba(139,92,246,0.3);transform:scale(0);pointer-events:none}
   .ph-cursor-ring.clicking{animation:ph-cursor-click 0.4s ease forwards}
+
+  /* SIDEBAR CLICK RIPPLE */
+  @keyframes ph-sb-ripple{0%{transform:scale(0.5);opacity:0.6}100%{transform:scale(2.2);opacity:0}}
+  .ph-sb-icon{position:relative;overflow:visible}
+  .ph-sb-ripple{position:absolute;inset:0;border-radius:12px;border:2px solid #8b5cf6;opacity:0;pointer-events:none}
+  .ph-sb-ripple.active{animation:ph-sb-ripple 0.5s ease forwards}
+
+  /* JOB DETAIL OVERLAY */
+  .ph-job-overlay{position:absolute;inset:0;background:#f8f7fc;z-index:15;opacity:0;pointer-events:none;transition:opacity 0.4s ease;overflow-y:auto;padding:16px}
+  .ph-job-overlay.visible{opacity:1;pointer-events:auto}
+  .ph-jo-back{display:inline-flex;align-items:center;gap:4px;font-size:0.72rem;color:#7c3aed;font-weight:600;margin-bottom:10px;cursor:pointer}
+  .ph-jo-card{background:#fff;border-radius:16px;border:1px solid #e9e5f5;padding:18px 20px;box-shadow:0 4px 20px rgba(139,92,246,0.08)}
+  .ph-jo-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
+  .ph-jo-company{font-size:0.82rem;color:#7c3aed;font-weight:600;margin-bottom:2px}
+  .ph-jo-title{font-size:1.1rem;font-weight:800;color:#1e1b4b;font-family:'Figtree',sans-serif;margin-bottom:4px}
+  .ph-jo-meta{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+  .ph-jo-tag{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:8px;font-size:0.7rem;color:#64748b;background:#f1f5f9;font-weight:500}
+  .ph-jo-salary{font-size:1rem;font-weight:800;color:#059669;margin-bottom:12px}
+  .ph-jo-desc{font-size:0.76rem;color:#374151;line-height:1.55;margin-bottom:16px;border-top:1px solid #f3f0ff;padding-top:12px}
+  .ph-jo-actions{display:flex;gap:8px;margin-bottom:16px}
+  .ph-jo-cv-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:10px;font-size:0.78rem;font-weight:700;background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff;border:none;cursor:pointer;animation:ph-pulse-glow 2s ease-in-out infinite}
+  .ph-jo-apply-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:10px;font-size:0.78rem;font-weight:700;background:#fff;color:#7c3aed;border:2px solid #ddd6fe;cursor:pointer}
+
+  /* CV MATCH RESULT */
+  .ph-cv-match{opacity:0;transition:opacity 0.5s ease;margin-top:4px}
+  .ph-cv-match.visible{opacity:1}
+  .ph-cvm-row{display:flex;gap:16px;align-items:flex-start}
+  .ph-cvm-score{flex-shrink:0;display:flex;flex-direction:column;align-items:center}
+  .ph-cvm-ring{position:relative;display:flex;align-items:center;justify-content:center}
+  .ph-cvm-ring-text{position:absolute;display:flex;flex-direction:column;align-items:center}
+  .ph-cvm-num{font-size:1.4rem;font-weight:900;color:#16a34a;line-height:1;font-family:'Figtree',sans-serif}
+  .ph-cvm-label{font-size:0.56rem;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;padding:2px 8px;border-radius:8px;margin-top:3px;background:#dcfce7;color:#166534}
+  .ph-cvm-feedback{flex:1}
+  .ph-cvm-feedback h5{font-size:0.76rem;font-weight:800;color:#1e1b4b;margin-bottom:6px;font-family:'Figtree',sans-serif}
+  .ph-cvm-item{display:flex;align-items:flex-start;gap:6px;padding:4px 0;font-size:0.7rem;color:#374151;line-height:1.45}
+  .ph-cvm-check{color:#16a34a;font-size:0.8rem;flex-shrink:0;margin-top:1px}
+
+  /* LOADING SPINNER */
+  @keyframes ph-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+  .ph-spinner{width:20px;height:20px;border:2.5px solid #e9e5f5;border-top-color:#8b5cf6;border-radius:50%;animation:ph-spin 0.6s linear infinite;margin:8px auto}
+
+  /* INTERVIEW TYPING PHASE */
+  .ph-iv-typing{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#1e1b4b 0%,#312e81 50%,#4c1d95 100%);transition:opacity 0.5s ease}
+  .ph-iv-typing-card{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:16px;padding:24px 28px;width:80%;max-width:500px}
+  .ph-iv-typing-label{font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#a78bfa;margin-bottom:10px}
+  .ph-iv-typing-input{width:100%;padding:12px 16px;border-radius:10px;border:1.5px solid rgba(139,92,246,0.3);background:rgba(255,255,255,0.04);color:#fff;font-size:0.92rem;font-family:'Inter',sans-serif;font-weight:500;outline:none}
+  @keyframes ph-blink{0%,100%{opacity:1}50%{opacity:0}}
+  .ph-iv-typing-cursor{display:inline-block;width:2px;height:1em;background:#a78bfa;animation:ph-blink 0.8s step-end infinite;vertical-align:text-bottom;margin-left:1px}
+  .ph-iv-typing-hint{font-size:0.64rem;color:rgba(255,255,255,0.4);margin-top:10px;text-align:center}
 
   /* ELISE AVATAR */
   .ph-iv-elise{width:120px;height:120px;border-radius:50%;overflow:hidden;position:relative;z-index:2}
@@ -291,7 +340,7 @@
   <div class="ph-canvas" id="canvas">
 
   <div class="ph-cursor" id="ph-cursor" style="left:-40px;top:-40px">
-    <svg width="20" height="22" viewBox="0 0 20 22" fill="none"><path d="M1.5 1L7 20l3.5-7 7-3.5L1.5 1z" fill="#7c3aed" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg>
+    <svg width="20" height="24" viewBox="0 0 20 24" fill="none"><path d="M7.5 1a1 1 0 0 1 2 0v9h1a1 1 0 0 1 2 0v1h1a1 1 0 0 1 2 0v1.5h1a1 1 0 0 1 1 1V18a6 6 0 0 1-6 6H9.5a6 6 0 0 1-6-6v-3a1 1 0 0 1 2 0v-1L4 7.5a1 1 0 1 1 2 0L7.5 10V1z" fill="#7c3aed" stroke="#fff" stroke-width="1"/></svg>
     <div class="ph-cursor-ring" id="ph-cursor-ring"></div>
   </div>
 
@@ -308,11 +357,11 @@
 
   <div class="ph-body">
   <div class="ph-sidebar">
-    <div class="ph-sb-icon active" title="Dashboard"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div>
-    <div class="ph-sb-icon" title="CV Builder"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
-    <div class="ph-sb-icon" title="Job Search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
-    <div class="ph-sb-icon" title="Interview"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg></div>
-    <div class="ph-sb-icon" title="Tracker"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg></div>
+    <div class="ph-sb-icon active" title="Dashboard"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><div class="ph-sb-ripple"></div></div>
+    <div class="ph-sb-icon" title="CV Builder"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><div class="ph-sb-ripple"></div></div>
+    <div class="ph-sb-icon" title="Job Search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><div class="ph-sb-ripple"></div></div>
+    <div class="ph-sb-icon" title="Interview"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg><div class="ph-sb-ripple"></div></div>
+    <div class="ph-sb-icon" title="Tracker"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg><div class="ph-sb-ripple"></div></div>
     <div class="ph-sb-sep"></div>
     <div class="ph-sb-icon" title="Career Advice"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
     <div class="ph-sb-icon" title="Plans"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></div>
@@ -745,10 +794,72 @@
         </div>
       </div>
     </div>
+
+    <div class="ph-job-overlay" id="job-detail-overlay">
+      <div class="ph-jo-back">← Back to results</div>
+      <div class="ph-jo-card">
+        <div class="ph-jo-top">
+          <div>
+            <div class="ph-jo-company">TechCorp Ltd</div>
+            <div class="ph-jo-title">Senior React Developer</div>
+          </div>
+          <div class="ph-vibe hot" style="flex-shrink:0"><span class="vn">94</span></div>
+        </div>
+        <div class="ph-jo-meta">
+          <span class="ph-jo-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> London</span>
+          <span class="ph-jo-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg> Full Time</span>
+          <span class="ph-jo-tag" style="background:#f0fdf4;color:#16a34a;font-weight:600">✦ Hybrid</span>
+        </div>
+        <div class="ph-jo-salary">£85,000 <span style="font-size:0.7rem;font-weight:500;color:#6b7280">per year</span></div>
+        <div class="ph-jo-desc">We're looking for a Senior React Developer to join our growing engineering team. You'll work on cutting-edge web applications using React 18, TypeScript, and modern tooling. Strong experience with state management, testing, and CI/CD pipelines is highly valued.</div>
+        <div class="ph-jo-actions">
+          <button class="ph-jo-cv-btn" id="cv-match-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Check CV Match</button>
+          <button class="ph-jo-apply-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Apply with Elise</button>
+        </div>
+        <div class="ph-cv-match" id="cv-match-result">
+          <div id="cv-match-loading" style="text-align:center;padding:8px 0">
+            <div class="ph-spinner"></div>
+            <div style="font-size:0.68rem;color:#7c3aed;font-weight:600;margin-top:4px">Analysing your CV...</div>
+          </div>
+          <div id="cv-match-content" style="display:none">
+            <div class="ph-cvm-row">
+              <div class="ph-cvm-score">
+                <div class="ph-cvm-ring">
+                  <svg width="80" height="80" viewBox="0 0 80 80">
+                    <circle cx="40" cy="40" r="34" fill="none" stroke="#e9e5f5" stroke-width="6"/>
+                    <circle cx="40" cy="40" r="34" fill="none" stroke="#16a34a" stroke-width="6" stroke-linecap="round" stroke-dasharray="213.63" stroke-dashoffset="19.23" transform="rotate(-90 40 40)" style="transition:stroke-dashoffset 1s ease-out"/>
+                  </svg>
+                  <div class="ph-cvm-ring-text">
+                    <span class="ph-cvm-num">91%</span>
+                  </div>
+                </div>
+                <span class="ph-cvm-label">Strong Match</span>
+              </div>
+              <div class="ph-cvm-feedback">
+                <h5>Match Breakdown</h5>
+                <div class="ph-cvm-item"><span class="ph-cvm-check">✓</span> React expertise matches perfectly</div>
+                <div class="ph-cvm-item"><span class="ph-cvm-check">✓</span> 5+ years experience exceeds requirement</div>
+                <div class="ph-cvm-item"><span class="ph-cvm-check">✓</span> TypeScript proficiency is a key match</div>
+                <div class="ph-cvm-item"><span class="ph-cvm-check">✓</span> CI/CD pipeline experience aligns well</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- SCENE 3: INTERVIEW -->
   <div class="ph-scene" id="scene-interview">
+    <!-- Phase 0: Typing Question -->
+    <div id="iv-phase-typing" class="ph-iv-typing" style="opacity:0;pointer-events:none">
+      <div class="ph-iv-typing-card">
+        <div class="ph-iv-typing-label">Interview Question</div>
+        <div class="ph-iv-typing-input"><span id="iv-typing-text"></span><span class="ph-iv-typing-cursor"></span></div>
+      </div>
+      <div class="ph-iv-typing-hint">Powered by Elise AI</div>
+    </div>
+
     <!-- Phase 1: Video Player -->
     <div id="iv-phase-video" style="width:100%;height:100%;position:absolute;inset:0;transition:opacity 0.6s ease">
       <div class="ph-iv-video">
@@ -949,9 +1060,26 @@
     function resetCvScene() {
       var pop = document.getElementById('cv-popover');
       var hl = document.querySelector('.ph-cv-highlight');
-      pop.style.display = 'none';
-      pop.style.opacity = '0';
+      if (pop) { pop.style.display = 'none'; pop.style.opacity = '0'; }
       if (hl) hl.style.background = 'rgba(250,204,21,0.35)';
+    }
+
+    function resetJobsScene() {
+      var overlay = document.getElementById('job-detail-overlay');
+      var matchResult = document.getElementById('cv-match-result');
+      var matchLoading = document.getElementById('cv-match-loading');
+      var matchContent = document.getElementById('cv-match-content');
+      if (overlay) overlay.classList.remove('visible');
+      if (matchResult) matchResult.classList.remove('visible');
+      if (matchLoading) matchLoading.style.display = 'block';
+      if (matchContent) matchContent.style.display = 'none';
+    }
+
+    function resetInterviewScene() {
+      var typing = document.getElementById('iv-phase-typing');
+      var typingText = document.getElementById('iv-typing-text');
+      if (typing) { typing.style.opacity = '0'; typing.style.pointerEvents = 'none'; }
+      if (typingText) typingText.textContent = '';
     }
 
     function runDashScene() {
@@ -963,14 +1091,10 @@
         schedule(function() {
           moveCursor(500, 300, function() {
             schedule(function() {
-              moveCursor(800, 400, function() {
-                schedule(function() {
-                  transitionToScene(1);
-                }, 1200);
-              });
-            }, 800);
+              transitionToScene(1);
+            }, 600);
           });
-        }, 1500);
+        }, 700);
       });
     }
 
@@ -1035,85 +1159,160 @@
     }
 
     function runJobsScene() {
+      resetJobsScene();
       var cr = canvas.getBoundingClientRect();
+      var overlay = document.getElementById('job-detail-overlay');
+      var cvMatchBtn = document.getElementById('cv-match-btn');
+      var matchResult = document.getElementById('cv-match-result');
+      var matchLoading = document.getElementById('cv-match-loading');
+      var matchContent = document.getElementById('cv-match-content');
+
       schedule(function() {
-        moveCursor(600, 230, function() {
+        var cards = document.querySelectorAll('.ph-jcard');
+        if (cards.length === 0) { schedule(function() { transitionToScene(3); }, 1500); return; }
+        var jcr = cards[0].getBoundingClientRect();
+        moveThenClick(jcr.left - cr.left + 80, jcr.top - cr.top + 40, function() {
+          if (!overlay) { schedule(function() { transitionToScene(3); }, 1500); return; }
+          overlay.classList.add('visible');
+
           schedule(function() {
-            var cards = document.querySelectorAll('.ph-jcard');
-            if (cards.length > 0) {
-              var jcr = cards[0].getBoundingClientRect();
-              moveCursor(jcr.left - cr.left + 80, jcr.top - cr.top + 40, function() {
-                schedule(function() {
-                  if (cards.length > 2) {
-                    var jcr2 = cards[2].getBoundingClientRect();
-                    moveCursor(jcr2.left - cr.left + 80, jcr2.top - cr.top + 40, function() {
-                      schedule(function() { transitionToScene(3); }, 1500);
-                    });
-                  } else {
-                    schedule(function() { transitionToScene(3); }, 1500);
-                  }
-                }, 1200);
-              });
-            } else {
-              schedule(function() { transitionToScene(3); }, 2500);
-            }
-          }, 1000);
+            if (!cvMatchBtn) { schedule(function() { transitionToScene(3); }, 1500); return; }
+            var btnR = cvMatchBtn.getBoundingClientRect();
+            var crNow = canvas.getBoundingClientRect();
+            moveThenClick(btnR.left - crNow.left + 40, btnR.top - crNow.top + 10, function() {
+              if (matchResult) matchResult.classList.add('visible');
+              schedule(function() {
+                if (matchLoading) matchLoading.style.display = 'none';
+                if (matchContent) matchContent.style.display = 'block';
+              }, 800);
+
+              schedule(function() {
+                transitionToScene(3);
+              }, 3500);
+            });
+          }, 1200);
         });
       }, 600);
     }
 
+    function typeWriter(el, text, speed, cb) {
+      var i = 0;
+      function tick() {
+        if (i < text.length) {
+          el.textContent += text.charAt(i);
+          i++;
+          schedule(tick, speed);
+        } else if (cb) {
+          cb();
+        }
+      }
+      tick();
+    }
+
     function runInterviewScene() {
+      var typingPhase = document.getElementById('iv-phase-typing');
+      var typingText = document.getElementById('iv-typing-text');
       var videoPhase = document.getElementById('iv-phase-video');
       var feedbackPhase = document.getElementById('iv-phase-feedback');
       var progressBar = document.getElementById('iv-progress-bar');
       if (!videoPhase || !feedbackPhase || !progressBar) return;
 
-      videoPhase.style.opacity = '1';
-      videoPhase.style.pointerEvents = 'auto';
+      resetInterviewScene();
+      videoPhase.style.opacity = '0';
+      videoPhase.style.pointerEvents = 'none';
       feedbackPhase.style.opacity = '0';
       feedbackPhase.style.pointerEvents = 'none';
       progressBar.style.width = '0%';
       progressBar.style.transition = 'none';
 
-      moveCursor(550, 350, function() {
-        schedule(function() {
-          progressBar.style.transition = 'width 3.5s linear';
-          progressBar.style.width = '100%';
-        }, 100);
+      if (typingPhase && typingText) {
+        typingPhase.style.opacity = '1';
+        typingPhase.style.pointerEvents = 'auto';
+        typingText.textContent = '';
 
         schedule(function() {
-          videoPhase.style.opacity = '0';
-          videoPhase.style.pointerEvents = 'none';
-          feedbackPhase.style.opacity = '1';
-          feedbackPhase.style.pointerEvents = 'auto';
-
-          schedule(function() {
-            var bars = document.querySelectorAll('.ph-ifb-star-bar .fill');
-            bars.forEach(function(bar) {
-              var s = bar.getAttribute('style') || '';
-              var m = s.match(/--bar-w:\s*([^;]+)/);
-              if (m) bar.style.width = m[1].trim();
-            });
-          }, 300);
-
-          moveCursor(300, 500, function() {
+          typeWriter(typingText, 'Tell me about yourself?', 55, function() {
             schedule(function() {
-              moveCursor(700, 500, function() {
-                schedule(function() { transitionToScene(0); }, 1800);
+              typingPhase.style.opacity = '0';
+              typingPhase.style.pointerEvents = 'none';
+
+              videoPhase.style.opacity = '1';
+              videoPhase.style.pointerEvents = 'auto';
+              moveCursor(550, 350, function() {
+                schedule(function() {
+                  progressBar.style.transition = 'width 1.75s linear';
+                  progressBar.style.width = '100%';
+                }, 100);
+
+                schedule(function() {
+                  videoPhase.style.opacity = '0';
+                  videoPhase.style.pointerEvents = 'none';
+                  feedbackPhase.style.opacity = '1';
+                  feedbackPhase.style.pointerEvents = 'auto';
+
+                  schedule(function() {
+                    var bars = document.querySelectorAll('.ph-ifb-star-bar .fill');
+                    bars.forEach(function(bar) {
+                      var s = bar.getAttribute('style') || '';
+                      var m = s.match(/--bar-w:\s*([^;]+)/);
+                      if (m) bar.style.width = m[1].trim();
+                    });
+                  }, 300);
+
+                  moveCursor(300, 500, function() {
+                    schedule(function() {
+                      moveCursor(700, 500, function() {
+                        schedule(function() { transitionToScene(0); }, 1800);
+                      });
+                    }, 1200);
+                  });
+                }, 2000);
               });
-            }, 1200);
+            }, 500);
           });
-        }, 4000);
-      });
+        }, 400);
+      } else {
+        videoPhase.style.opacity = '1';
+        videoPhase.style.pointerEvents = 'auto';
+        moveCursor(550, 350, function() {
+          schedule(function() {
+            progressBar.style.transition = 'width 1.75s linear';
+            progressBar.style.width = '100%';
+          }, 100);
+          schedule(function() {
+            videoPhase.style.opacity = '0';
+            feedbackPhase.style.opacity = '1';
+            feedbackPhase.style.pointerEvents = 'auto';
+            moveCursor(300, 500, function() {
+              schedule(function() {
+                moveCursor(700, 500, function() {
+                  schedule(function() { transitionToScene(0); }, 1800);
+                });
+              }, 1200);
+            });
+          }, 2000);
+        });
+      }
+    }
+
+    function triggerSidebarRipple(icon) {
+      var ripple = icon.querySelector('.ph-sb-ripple');
+      if (!ripple) return;
+      ripple.classList.remove('active');
+      void ripple.offsetWidth;
+      ripple.classList.add('active');
     }
 
     function transitionToScene(idx) {
       cancelAllTimers();
+      resetJobsScene();
+      resetInterviewScene();
       var sb = sidebarIcons[idx];
       if (!sb) return;
       var cr = canvas.getBoundingClientRect();
       var sr = sb.getBoundingClientRect();
-      moveThenClick(sr.left - cr.left + 10, sr.top - cr.top + 10, function() {
+      moveThenClick(sr.left - cr.left + sr.width - 8, sr.top - cr.top + sr.height - 8, function() {
+        triggerSidebarRipple(sb);
         showScene(idx);
         schedule(function() { runScene(idx); }, 300);
       });
@@ -1135,6 +1334,8 @@
       dot.addEventListener('click', function() {
         cancelAllTimers();
         resetCvScene();
+        resetJobsScene();
+        resetInterviewScene();
         showScene(i);
         schedule(function() { runScene(i); }, 300);
       });
