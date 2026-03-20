@@ -269,8 +269,9 @@
   @keyframes ph-modal-in{from{opacity:0;transform:scale(0.92)}to{opacity:1;transform:scale(1)}}
   .ph-job-overlay{position:absolute;inset:0;background:rgba(30,27,75,0.35);z-index:15;opacity:0;pointer-events:none;transition:opacity 0.3s ease;display:flex;align-items:center;justify-content:center;padding:16px}
   .ph-job-overlay.visible{opacity:1;pointer-events:auto}
+  .ph-job-overlay.visible .ph-jo-card{animation:ph-modal-in 0.35s ease both}
   .ph-jo-back{display:inline-flex;align-items:center;gap:4px;font-size:0.72rem;color:#7c3aed;font-weight:600;margin-bottom:10px;cursor:pointer}
-  .ph-jo-card{background:#fff;border-radius:16px;border:1px solid #e9e5f5;padding:18px 20px;box-shadow:0 12px 40px rgba(91,33,182,0.25),0 4px 12px rgba(0,0,0,0.15);width:88%;max-height:90%;overflow-y:auto;animation:ph-modal-in 0.35s ease both}
+  .ph-jo-card{background:#fff;border-radius:16px;border:1px solid #e9e5f5;padding:18px 20px;box-shadow:0 12px 40px rgba(91,33,182,0.25),0 4px 12px rgba(0,0,0,0.15);width:88%;max-height:90%;overflow-y:auto;opacity:0;transform:scale(0.92)}
   .ph-jo-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
   .ph-jo-company{font-size:0.82rem;color:#7c3aed;font-weight:600;margin-bottom:2px}
   .ph-jo-title{font-size:1.1rem;font-weight:800;color:#1e1b4b;font-family:'Figtree',sans-serif;margin-bottom:4px}
@@ -797,8 +798,8 @@
     </div>
 
     <div class="ph-job-overlay" id="job-detail-overlay">
-      <div class="ph-jo-back">← Back to results</div>
       <div class="ph-jo-card">
+        <div class="ph-jo-back">← Back to results</div>
         <div class="ph-jo-top">
           <div>
             <div class="ph-jo-company">TechCorp Ltd</div>
@@ -1070,7 +1071,9 @@
       var matchResult = document.getElementById('cv-match-result');
       var matchLoading = document.getElementById('cv-match-loading');
       var matchContent = document.getElementById('cv-match-content');
+      var joCard = overlay ? overlay.querySelector('.ph-jo-card') : null;
       if (overlay) overlay.classList.remove('visible');
+      if (joCard) { joCard.style.animation = 'none'; joCard.style.opacity = '0'; joCard.style.transform = 'scale(0.92)'; }
       if (matchResult) matchResult.classList.remove('visible');
       if (matchLoading) matchLoading.style.display = 'block';
       if (matchContent) matchContent.style.display = 'none';
@@ -1178,6 +1181,8 @@
         var jcr = cards[0].getBoundingClientRect();
         moveThenClick(jcr.left - cr.left + 80, jcr.top - cr.top + 40, function() {
           if (!overlay) { schedule(function() { transitionToScene(3); }, 1500); return; }
+          var joCard = overlay.querySelector('.ph-jo-card');
+          if (joCard) joCard.style.animation = '';
           overlay.classList.add('visible');
 
           schedule(function() {
