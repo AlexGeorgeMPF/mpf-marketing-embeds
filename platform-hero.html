@@ -1438,7 +1438,19 @@
                     schedule(function() {
                       moveCursor(700, 500, function() {
                         schedule(function() {
-                          transitionToScene(4);
+                          var sb = sidebarIcons[4];
+                          if (!sb) { transitionToScene(4); return; }
+                          var cr2 = canvas.getBoundingClientRect();
+                          var sr2 = sb.getBoundingClientRect();
+                          moveThenClick(sr2.left - cr2.left + sr2.width + 2, sr2.top - cr2.top + sr2.height + 2, function() {
+                            cancelAllTimers();
+                            resetInterviewScene();
+                            resetJobsScene();
+                            resetTrackerScene();
+                            triggerSidebarRipple(sb);
+                            showScene(4);
+                            schedule(function() { runScene(4); }, 300);
+                          }, sb);
                         }, 1800);
                       });
                     }, 1200);
@@ -1461,7 +1473,19 @@
               schedule(function() {
                 moveCursor(700, 500, function() {
                   schedule(function() {
-                    transitionToScene(4);
+                    var sb = sidebarIcons[4];
+                    if (!sb) { transitionToScene(4); return; }
+                    var cr2 = canvas.getBoundingClientRect();
+                    var sr2 = sb.getBoundingClientRect();
+                    moveThenClick(sr2.left - cr2.left + sr2.width + 2, sr2.top - cr2.top + sr2.height + 2, function() {
+                      cancelAllTimers();
+                      resetInterviewScene();
+                      resetJobsScene();
+                      resetTrackerScene();
+                      triggerSidebarRipple(sb);
+                      showScene(4);
+                      schedule(function() { runScene(4); }, 300);
+                    }, sb);
                   }, 1800);
                 });
               }, 1200);
