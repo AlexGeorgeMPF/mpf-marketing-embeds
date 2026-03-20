@@ -14,12 +14,11 @@
 @keyframes cvb-flash{0%{background:#ede9fe}100%{background:transparent}}
 @keyframes cvb-shimmer{0%{background-position:100% 50%}100%{background-position:-100% 50%}}
 body{display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:transparent;padding:20px}
-.cvb-shimmer-wrap{position:relative;display:inline-block;border-radius:20px}
-.cvb-shimmer-wrap::before{content:'';position:absolute;inset:-8px;border-radius:26px;background:linear-gradient(90deg,hsl(270,80%,55%) 0%,hsl(290,70%,50%) 25%,hsl(250,80%,60%) 50%,hsl(300,80%,70%) 60%,hsl(250,80%,60%) 70%,hsl(290,70%,50%) 85%,hsl(270,80%,55%) 100%);background-size:200% 100%;animation:cvb-shimmer 3s ease-in-out infinite;filter:blur(14px);opacity:0.55;z-index:-1}
+.cvb-shimmer-wrap{border-radius:22px;padding:2px;background:linear-gradient(90deg,hsl(270,80%,55%) 0%,hsl(290,70%,50%) 25%,hsl(250,80%,60%) 50%,hsl(300,80%,70%) 60%,hsl(250,80%,60%) 70%,hsl(290,70%,50%) 85%,hsl(270,80%,55%) 100%);background-size:200% 100%;animation:cvb-shimmer 3s ease-in-out infinite;box-shadow:0 25px 50px rgba(91,33,182,0.2),0 12px 24px rgba(0,0,0,0.1)}
 </style>
 </head><body>
 <div class="cvb-shimmer-wrap">
-<div id="cvbRoot" style="width:480px;height:560px;border-radius:20px;overflow:hidden;box-shadow:0 25px 50px rgba(91,33,182,0.15),0 8px 20px rgba(0,0,0,0.06);background:#fff;position:relative;display:flex;flex-direction:column">
+<div id="cvbRoot" style="width:480px;height:560px;border-radius:20px;overflow:hidden;background:#fff;position:relative;display:flex;flex-direction:column">
   <div style="background:linear-gradient(135deg,#6d28d9 0%,#4c1d95 50%,#1a0a3e 100%);padding:1rem 1.5rem;display:flex;align-items:center;gap:0.75rem;position:relative;overflow:hidden;flex-shrink:0">
     <div style="position:absolute;top:-60%;right:-20%;width:250px;height:250px;background:radial-gradient(circle,rgba(186,103,239,0.2) 0%,transparent 70%);pointer-events:none"></div>
     <div style="width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-size:1rem">📄</div>
