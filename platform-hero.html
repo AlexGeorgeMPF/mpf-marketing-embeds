@@ -1483,7 +1483,6 @@
       var improveBtn = document.querySelector('.ph-improve-btn');
       if (!improveBtn) return;
       var cr = canvas.getBoundingClientRect();
-
       var tabSkills = document.getElementById('cvb-tab-skills');
       schedule(function() {
         if (!tabSkills) return;
@@ -1491,72 +1490,73 @@
         moveThenClick(tr.left - cr.left + tr.width / 2, tr.top - cr.top + tr.height / 2, function() {
           switchToSkillsTab();
           schedule(function() {
-      var br = improveBtn.getBoundingClientRect();
-      schedule(function() {
-        moveCursor(br.left - cr.left + br.width / 2, br.top - cr.top + br.height + 4, function() {
-          improveBtn.classList.remove('ph-improve-click');
-          void improveBtn.offsetWidth;
-          improveBtn.classList.add('ph-improve-click');
-          schedule(function() { improveBtn.classList.remove('ph-improve-click'); }, 500);
-          schedule(function() {
-          var hl = document.querySelector('.ph-cv-highlight');
-          if (!hl) return;
-          var hlr = hl.getBoundingClientRect();
-          var scalableX = hlr.left - cr.left + 30;
-          var scalableY = hlr.top - cr.top + hlr.height / 2;
-          moveCursor(scalableX, scalableY, function() {
+            var br = improveBtn.getBoundingClientRect();
             schedule(function() {
-              hl.style.background = 'rgba(250,204,21,0.6)';
-              schedule(function() {
-                var pop = document.getElementById('cv-popover');
-                if (!pop) return;
-                pop.style.display = 'block';
+              moveCursor(br.left - cr.left + br.width / 2, br.top - cr.top + br.height + 4, function() {
+                improveBtn.classList.remove('ph-improve-click');
+                void improveBtn.offsetWidth;
+                improveBtn.classList.add('ph-improve-click');
+                schedule(function() { improveBtn.classList.remove('ph-improve-click'); }, 500);
                 schedule(function() {
-                  pop.style.opacity = '1';
-                  pop.style.animation = 'ph-popover-in 0.3s ease both';
-                }, 50);
-                schedule(function() {
-                  var addBtn = document.querySelector('.ph-sp-add');
-                  if (!addBtn) return;
-                  var abr = addBtn.getBoundingClientRect();
-                  moveThenClick(abr.left - cr.left + abr.width / 2, abr.top - cr.top + abr.height / 2, function() {
+                  var hl = document.querySelector('.ph-cv-highlight');
+                  if (!hl) return;
+                  var hlr = hl.getBoundingClientRect();
+                  var scalableX = hlr.left - cr.left + 30;
+                  var scalableY = hlr.top - cr.top + hlr.height / 2;
+                  moveCursor(scalableX, scalableY, function() {
                     schedule(function() {
-                      pop.style.opacity = '0';
-                      schedule(function() { pop.style.display = 'none'; }, 300);
-                      hl.textContent = 'high-performance, scalable web applications leveraging React 18 and TypeScript, delivering 40% faster load times';
-                      hl.style.background = 'rgba(139,92,246,0.15)';
-                    }, 200);
-                    schedule(function() {
-                      var suggested = document.querySelectorAll('.ph-cvb-tag.suggested');
-                      if (suggested.length > 0) {
-                        var sr = suggested[0].getBoundingClientRect();
-                        moveThenClick(sr.left - cr.left + 15, sr.top - cr.top + 8, function() {
-                          suggested[0].classList.remove('suggested');
-                          suggested[0].classList.add('selected');
-                          suggested[0].innerHTML = suggested[0].textContent.replace('+ ','').trim() + ' <span class="x">\u00d7</span>';
-                          suggested[0].style.background = 'linear-gradient(135deg,#8b5cf6,#7c3aed)';
-                          suggested[0].style.color = '#fff';
-                          suggested[0].style.border = 'none';
-                          var skillsDisp = document.getElementById('cv-skills-display');
-                          if (skillsDisp) {
-                            var ns = document.createElement('span');
-                            ns.style.cssText = 'font-size:0.58rem;padding:2px 7px;border-radius:4px;background:#ede9fe;color:#5b21b6;font-weight:600;animation:ph-pop 0.5s cubic-bezier(0.34,1.56,0.64,1) both';
-                            ns.textContent = 'GraphQL';
-                            skillsDisp.appendChild(ns);
-                          }
-                          schedule(function() { transitionToScene(2); }, 1500);
-                        }, suggested[0]);
-                      } else {
-                        schedule(function() { transitionToScene(2); }, 1500);
-                      }
-                    }, 1000);
-                  }, addBtn);
-                }, 1200);
-              }, 600);
+                      hl.style.background = 'rgba(250,204,21,0.6)';
+                      schedule(function() {
+                        var pop = document.getElementById('cv-popover');
+                        if (!pop) return;
+                        pop.style.display = 'block';
+                        schedule(function() {
+                          pop.style.opacity = '1';
+                          pop.style.animation = 'ph-popover-in 0.3s ease both';
+                        }, 50);
+                        schedule(function() {
+                          var addBtn = document.querySelector('.ph-sp-add');
+                          if (!addBtn) return;
+                          var abr = addBtn.getBoundingClientRect();
+                          moveThenClick(abr.left - cr.left + abr.width / 2, abr.top - cr.top + abr.height / 2, function() {
+                            schedule(function() {
+                              pop.style.opacity = '0';
+                              schedule(function() { pop.style.display = 'none'; }, 300);
+                              hl.textContent = 'high-performance, scalable web applications leveraging React 18 and TypeScript, delivering 40% faster load times';
+                              hl.style.background = 'rgba(139,92,246,0.15)';
+                            }, 200);
+                            schedule(function() {
+                              var suggested = document.querySelectorAll('.ph-cvb-tag.suggested');
+                              if (suggested.length > 0) {
+                                var sr = suggested[0].getBoundingClientRect();
+                                moveThenClick(sr.left - cr.left + 15, sr.top - cr.top + 8, function() {
+                                  suggested[0].classList.remove('suggested');
+                                  suggested[0].classList.add('selected');
+                                  suggested[0].innerHTML = suggested[0].textContent.replace('+ ','').trim() + ' <span class="x">\u00d7</span>';
+                                  suggested[0].style.background = 'linear-gradient(135deg,#8b5cf6,#7c3aed)';
+                                  suggested[0].style.color = '#fff';
+                                  suggested[0].style.border = 'none';
+                                  var skillsDisp = document.getElementById('cv-skills-display');
+                                  if (skillsDisp) {
+                                    var ns = document.createElement('span');
+                                    ns.style.cssText = 'font-size:0.58rem;padding:2px 7px;border-radius:4px;background:#ede9fe;color:#5b21b6;font-weight:600;animation:ph-pop 0.5s cubic-bezier(0.34,1.56,0.64,1) both';
+                                    ns.textContent = 'GraphQL';
+                                    skillsDisp.appendChild(ns);
+                                  }
+                                  schedule(function() { transitionToScene(2); }, 1500);
+                                }, suggested[0]);
+                              } else {
+                                schedule(function() { transitionToScene(2); }, 1500);
+                              }
+                            }, 1000);
+                          }, addBtn);
+                        }, 1200);
+                      }, 600);
+                    }, 400);
+                  });
+                }, 400);
+              });
             }, 400);
-          });
-          }, 400);
-        });
           }, 600);
         }, tabSkills);
       }, 800);
