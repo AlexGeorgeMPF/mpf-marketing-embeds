@@ -89,43 +89,68 @@
   .ph-ih-tag{padding:1px 5px;border-radius:5px;font-size:0.56rem;font-weight:700;margin-left:4px;flex-shrink:0}
   .ph-ih-time{font-size:0.58rem;color:#6b7280;font-weight:500;white-space:nowrap;margin-left:6px;flex-shrink:0}
 
-  /* CV BUILDER */
+  /* CV BUILDER — Platform-accurate layout */
   .ph-cvb-layout{display:flex;gap:0;height:100%}
-  .ph-cvb-nav{width:130px;flex-shrink:0;background:#fff;border-right:1px solid #e9e5f5;border-radius:14px 0 0 14px;display:flex;flex-direction:column;padding:10px 6px;gap:2px;border:1px solid #e9e5f5;border-right:none}
-  .ph-cvb-editor{flex:1;display:flex;flex-direction:column;min-width:0}
-  .ph-cvb-right{width:380px;flex-shrink:0;display:flex;flex-direction:column}
-  .ph-cvb-card{background:#fff;border-radius:14px;border:1px solid #e9e5f5;box-shadow:0 2px 12px rgba(91,33,182,0.06);overflow:hidden}
-  .ph-cvb-steps{display:flex;flex-direction:column;gap:2px}
-  .ph-cvb-step{font-size:0.66rem;font-weight:600;padding:7px 10px;border-radius:8px;color:#64617a;background:#fff;border:1px solid transparent;cursor:default;text-align:left;display:flex;align-items:center;gap:6px}
-  .ph-cvb-step:hover{background:#f5f3ff}
-  .ph-cvb-step.active{background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff;border-color:transparent}
-  .ph-cvb-panel{padding:12px 14px}
-  .ph-cvb-desc{font-size:0.72rem;color:#64617a;margin-bottom:10px;line-height:1.45}
-  .ph-cvb-input{width:100%;padding:8px 12px;border-radius:8px;border:1.5px solid #e9e5f5;font-size:0.78rem;color:#1e1b4b;background:#fff;outline:none;font-family:inherit}
+  .ph-cvb-nav{width:160px;flex-shrink:0;background:#fff;border-right:1px solid #e9ecef;display:flex;flex-direction:column;padding:14px 0;gap:0}
+  .ph-cvb-progress-wrap{padding:0 12px;margin-bottom:12px}
+  .ph-cvb-progress-bar{height:5px;background:#f0f0f0;border-radius:3px;overflow:hidden}
+  .ph-cvb-progress-fill{height:100%;width:72%;background:linear-gradient(135deg,#8b5cf6,#BA67EF);border-radius:3px}
+  .ph-cvb-progress-label{font-size:0.58rem;color:#6b7280;margin-top:4px;display:flex;justify-content:space-between}
+  .ph-cvb-progress-label strong{color:#8b5cf6;font-weight:700}
+  .ph-cvb-sidebar-hdr{padding:0 12px 8px;border-bottom:1px solid #f0f0f0;margin-bottom:4px}
+  .ph-cvb-sidebar-hdr h6{font-size:0.58rem;text-transform:uppercase;letter-spacing:1px;color:#9ca3af;margin:0;font-weight:600}
+  .ph-cvb-steps{display:flex;flex-direction:column;gap:0}
+  .ph-cvb-step{font-size:0.72rem;font-weight:500;padding:7px 12px;color:#4b5563;background:#fff;border:none;cursor:default;text-align:left;display:flex;align-items:center;gap:7px;border-left:3px solid transparent;transition:all 0.15s}
+  .ph-cvb-step:hover{background:#f9f5ff;color:#7c3aed}
+  .ph-cvb-step.active{background:#f3f0ff;color:#7c3aed;border-left-color:#8b5cf6;font-weight:600}
+  .ph-cvb-step.pinned{background:#f9f5ff;border-left-color:#e9d5ff}
+  .ph-cvb-step-icon{width:22px;height:22px;min-width:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;background:#f3f4f6;color:#6b7280;font-size:0.7rem;transition:all 0.2s}
+  .ph-cvb-step.active .ph-cvb-step-icon{background:linear-gradient(135deg,#8b5cf6,#BA67EF);color:#fff;box-shadow:0 2px 6px rgba(139,92,246,0.3)}
+  .ph-cvb-editor{flex:1;display:flex;flex-direction:column;min-width:0;background:#fafbfc}
+  .ph-cvb-titlebar{padding:6px 18px;background:#faf9ff;border-bottom:1px solid #ede9f6;display:flex;align-items:center;gap:5px}
+  .ph-cvb-titlebar-icon{font-size:0.65rem;color:#a78bfa;opacity:0.7}
+  .ph-cvb-titlebar-text{font-size:0.72rem;font-weight:600;color:#4c1d95}
+  .ph-cvb-editor-header{display:flex;justify-content:space-between;align-items:center;padding:10px 18px;background:#fff;border-bottom:1px solid #e9ecef}
+  .ph-cvb-editor-title{font-size:0.88rem;font-weight:700;color:#1f2937;margin:0;display:flex;align-items:center;gap:6px}
+  .ph-cvb-section-icon{width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#8b5cf6,#BA67EF);color:#fff;font-size:0.7rem}
+  .ph-cvb-panel{padding:16px 18px;flex:1;overflow-y:auto}
+  .ph-cvb-desc{font-size:0.72rem;color:#6b7280;margin-bottom:14px;line-height:1.5}
+  .ph-cvb-form-group{margin-bottom:12px}
+  .ph-cvb-label{font-size:0.68rem;font-weight:600;color:#374151;margin-bottom:4px;display:block}
+  .ph-cvb-input{width:100%;padding:7px 10px;border-radius:8px;border:1.5px solid #e5e7eb;font-size:0.75rem;color:#1e1b4b;background:#fff;outline:none;font-family:inherit}
   .ph-cvb-input:focus{border-color:#8b5cf6;box-shadow:0 0 0 3px rgba(139,92,246,0.12)}
-  .ph-cvb-label{font-size:0.64rem;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:#1e1b4b;margin:10px 0 6px}
-  .ph-cvb-tags{display:flex;flex-wrap:wrap;gap:6px}
-  .ph-cvb-tag{display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border-radius:20px;font-size:0.76rem;font-weight:500}
+  .ph-cvb-tags{display:flex;flex-wrap:wrap;gap:5px}
+  .ph-cvb-tag{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:18px;font-size:0.68rem;font-weight:500}
   .ph-cvb-tag.selected{background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff;box-shadow:0 2px 6px rgba(139,92,246,0.2)}
-  .ph-cvb-tag.selected .x{background:none;border:none;color:rgba(255,255,255,0.75);cursor:pointer;padding:0;display:flex;font-size:0.7rem}
-  .ph-cvb-tag.suggested{background:#f9f5ff;color:#7c3aed;border:1.5px dashed #c4b5fd;cursor:pointer;padding:4px 11px}
-  .ph-cvb-tag.suggested .plus{font-size:0.7rem;color:#7c3aed}
-  .ph-cvb-hint{font-size:0.64rem;color:#9ca3af;margin-top:8px}
+  .ph-cvb-tag.selected .x{background:none;border:none;color:rgba(255,255,255,0.75);cursor:pointer;padding:0;display:flex;font-size:0.62rem}
+  .ph-cvb-tag.suggested{background:#f9f5ff;color:#7c3aed;border:1.5px dashed #c4b5fd;cursor:pointer;padding:3px 10px}
+  .ph-cvb-tag.suggested .plus{font-size:0.62rem;color:#7c3aed}
+  .ph-cvb-hint{font-size:0.58rem;color:#9ca3af;margin-top:6px}
+  .ph-cvb-right{width:50%;min-width:300px;flex-shrink:0;display:flex;flex-direction:column;background:#f0f1f3}
 
-  /* CV PREVIEW RIGHT */
-  .ph-cvp-header{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid #eee8f8;background:#faf8ff}
-  .ph-cvp-title{font-size:0.78rem;font-weight:700;color:#1e1b4b}
-  .ph-cvp-toolbar{display:flex;gap:6px;align-items:center}
-  .ph-improve-btn{display:inline-flex;align-items:center;gap:5px;padding:5px 14px;border-radius:8px;font-size:0.76rem;font-weight:700;background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff;border:none;cursor:pointer;animation:ph-pulse-glow 2s ease-in-out infinite}
-  .ph-improve-banner{display:flex;align-items:center;gap:6px;padding:6px 14px;background:linear-gradient(135deg,#f5f0ff,#ede5ff);border-bottom:1px solid #ddd6fe;font-size:0.7rem;font-weight:500;color:#5b21b6}
-  .ph-cv-preview-body{flex:1;overflow:hidden;background:#f2f2f2;padding:10px;position:relative}
-  .ph-cv-doc{background:#fff;padding:16px 20px;border-radius:4px;box-shadow:0 1px 6px rgba(0,0,0,0.06);position:relative}
-  .ph-cv-name{font-size:1.05rem;font-weight:800;color:#1e1b4b;font-family:'Figtree',sans-serif;margin-bottom:2px}
-  .ph-cv-subtitle{font-size:0.66rem;color:#64617a;margin-bottom:8px}
-  .ph-cv-section{margin-bottom:8px}
-  .ph-cv-section h3{font-size:0.65rem;font-weight:700;color:#4c1d95;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:3px;border-bottom:2px solid #7c3aed;display:inline-block;padding-bottom:1px}
-  .ph-cv-line{height:6px;background:#f0ecf9;border-radius:3px;margin-bottom:4px}
-  .ph-cv-line.filled{background:linear-gradient(90deg,#e9e5f5,#ddd6fe)}
+  /* CV PREVIEW RIGHT — Platform-accurate */
+  .ph-cvp-header{display:flex;justify-content:space-between;align-items:center;padding:8px 14px;background:#fff;border-bottom:1px solid #e9ecef}
+  .ph-cvp-title{font-size:0.76rem;font-weight:700;color:#1f2937}
+  .ph-cvp-toolbar{display:flex;gap:5px;align-items:center}
+  .ph-cvp-zoom{width:26px;height:26px;border-radius:6px;border:1px solid #e5e7eb;background:#fff;display:flex;align-items:center;justify-content:center;font-size:0.65rem;color:#6b7280;cursor:pointer}
+  .ph-improve-btn{display:inline-flex;align-items:center;gap:4px;padding:4px 12px;border-radius:8px;font-size:0.68rem;font-weight:700;background:linear-gradient(135deg,#f5f0ff,#ede5ff);color:#7c3aed;border:2px solid #c4b5fd;cursor:pointer;transition:all 0.2s}
+  .ph-improve-btn.active{background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff;border-color:transparent;animation:ph-pulse-glow 2s ease-in-out infinite}
+  .ph-improve-banner{display:flex;align-items:center;gap:5px;padding:5px 14px;background:linear-gradient(135deg,#f5f0ff,#ede5ff);border-bottom:1px solid #ddd6fe;font-size:0.62rem;font-weight:500;color:#5b21b6}
+  .ph-cv-preview-body{flex:1;overflow:hidden;background:inherit;padding:8px;position:relative;display:flex;justify-content:center}
+  .ph-cv-doc{background:#fff;width:100%;max-width:480px;padding:18px 24px;border-radius:2px;box-shadow:0 1px 4px rgba(0,0,0,0.08);position:relative;font-family:'Arial','Helvetica',sans-serif;font-size:10px;color:#2d2d2d;line-height:1.5}
+  .ph-cv-name{font-size:16px;font-weight:700;color:#1a1a1a;text-transform:uppercase;letter-spacing:0.3px;margin-bottom:1px;font-family:'Arial','Helvetica',sans-serif}
+  .ph-cv-headline{font-size:10px;font-weight:400;color:#555;margin:0 0 6px}
+  .ph-cv-contact{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:9px;color:#444;margin-bottom:10px;padding-bottom:8px;border-bottom:2px solid #1a1a1a}
+  .ph-cv-section{margin-bottom:6px}
+  .ph-cv-section-title{font-size:10px;font-weight:700;color:#1a1a1a;text-transform:uppercase;letter-spacing:0.4px;margin:10px 0 4px;padding-bottom:3px;border-bottom:1px solid #d0d0d0}
+  .ph-cv-entry{margin-bottom:8px}
+  .ph-cv-entry-header{display:flex;justify-content:space-between;align-items:baseline;margin:4px 0 1px}
+  .ph-cv-job-title{font-size:10px;font-weight:700;color:#1a1a1a;margin:0}
+  .ph-cv-dates{font-size:9px;color:#666;white-space:nowrap;font-weight:400}
+  .ph-cv-company{font-size:9.5px;font-weight:600;color:#444;font-style:italic;margin:0 0 2px}
+  .ph-cv-bullets{margin:1px 0 6px;padding-left:12px;list-style:disc}
+  .ph-cv-bullets li{margin-bottom:1px;font-size:9px;line-height:1.45;color:#333}
+  .ph-cv-skills-text{font-size:9px;color:#333;line-height:1.6;margin-top:2px}
   .ph-cv-highlight{background:transparent;padding:1px 2px;border-radius:2px;transition:background 0.4s ease}
 
   /* SUGGESTION POPOVER */
@@ -627,143 +652,185 @@
   <!-- SCENE 1: CV BUILDER -->
   <div class="ph-scene" id="scene-cv">
     <div class="ph-cvb-layout">
+      <!-- SIDEBAR — matches .cvb-sidebar -->
       <div class="ph-cvb-nav">
-        <div style="font-size:0.72rem;font-weight:800;color:#1e1b4b;padding:4px 10px 8px;font-family:'Figtree',sans-serif">CV Builder</div>
+        <div class="ph-cvb-progress-wrap">
+          <div class="ph-cvb-progress-bar"><div class="ph-cvb-progress-fill"></div></div>
+          <div class="ph-cvb-progress-label"><span>Progress</span><strong>72%</strong></div>
+        </div>
+        <div class="ph-cvb-sidebar-hdr"><h6>Sections</h6></div>
         <div class="ph-cvb-steps" id="cvb-step-tabs">
-          <span class="ph-cvb-step"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Personal</span>
-          <span class="ph-cvb-step"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="17" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="17" y1="18" x2="3" y2="18"/></svg> Summary</span>
-          <span class="ph-cvb-step active" id="cvb-tab-experience"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg> Experience</span>
-          <span class="ph-cvb-step"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 10 3 12 0v-5"/></svg> Education</span>
-          <span class="ph-cvb-step" id="cvb-tab-skills"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Skills</span>
-          <span class="ph-cvb-step"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg> Custom</span>
+          <span class="ph-cvb-step pinned"><span class="ph-cvb-step-icon"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span> Personal</span>
+          <span class="ph-cvb-step"><span class="ph-cvb-step-icon"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="17" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="17" y1="18" x2="3" y2="18"/></svg></span> Summary</span>
+          <span class="ph-cvb-step active" id="cvb-tab-experience"><span class="ph-cvb-step-icon"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span> Experience</span>
+          <span class="ph-cvb-step"><span class="ph-cvb-step-icon"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 10 3 12 0v-5"/></svg></span> Education</span>
+          <span class="ph-cvb-step" id="cvb-tab-skills"><span class="ph-cvb-step-icon"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span> Skills</span>
+          <span class="ph-cvb-step"><span class="ph-cvb-step-icon"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span> Languages</span>
+          <span class="ph-cvb-step pinned"><span class="ph-cvb-step-icon"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></span> Custom</span>
         </div>
       </div>
 
+      <!-- EDITOR — matches .cvb-editor -->
       <div class="ph-cvb-editor">
-        <div class="ph-cvb-card" style="flex:1;display:flex;flex-direction:column;border-radius:0">
-          <div style="padding:10px 14px;border-bottom:1px solid #eee8f8;background:#faf8ff">
-            <span style="font-size:0.76rem;font-weight:700;color:#1e1b4b" id="cvb-editor-title">Experience</span>
-          </div>
-          <div class="ph-cvb-panel" style="flex:1;overflow-y:auto" id="cvb-panel-content">
-            <div id="cvb-experience-panel">
-              <p class="ph-cvb-desc">Add your work experience, most recent first.</p>
-              <div class="ph-cvb-label">Job Title</div>
-              <input class="ph-cvb-input" value="Senior Frontend Developer" readonly style="margin-bottom:8px">
-              <div class="ph-cvb-label">Company</div>
-              <input class="ph-cvb-input" value="TechCorp Ltd" readonly style="margin-bottom:8px">
-              <div class="ph-cvb-label">Duration</div>
-              <div style="display:flex;gap:8px;margin-bottom:8px">
+        <div class="ph-cvb-titlebar">
+          <span class="ph-cvb-titlebar-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span>
+          <span class="ph-cvb-titlebar-text">Alex's Career CV</span>
+        </div>
+        <div class="ph-cvb-editor-header">
+          <h2 class="ph-cvb-editor-title" id="cvb-editor-title"><span class="ph-cvb-section-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span> Experience</h2>
+        </div>
+        <div class="ph-cvb-panel" id="cvb-panel-content">
+          <div id="cvb-experience-panel">
+            <p class="ph-cvb-desc">Add your work experience, most recent first.</p>
+            <div class="ph-cvb-form-group">
+              <label class="ph-cvb-label">Job Title</label>
+              <input class="ph-cvb-input" value="Senior Frontend Developer" readonly>
+            </div>
+            <div class="ph-cvb-form-group">
+              <label class="ph-cvb-label">Company</label>
+              <input class="ph-cvb-input" value="TechCorp Ltd" readonly>
+            </div>
+            <div class="ph-cvb-form-group">
+              <label class="ph-cvb-label">Duration</label>
+              <div style="display:flex;gap:6px">
                 <input class="ph-cvb-input" value="Jan 2022" readonly style="flex:1">
                 <input class="ph-cvb-input" value="Present" readonly style="flex:1">
               </div>
-              <div class="ph-cvb-label">Key Achievements</div>
-              <div style="font-size:0.7rem;color:#374151;line-height:1.55;padding:8px 12px;background:#faf8ff;border-radius:8px;border:1px solid #e9e5f5">
-                <div style="margin-bottom:4px">• Led migration of legacy jQuery codebase to React 18</div>
-                <div style="margin-bottom:4px">• Mentored 4 junior developers</div>
+            </div>
+            <div class="ph-cvb-form-group">
+              <label class="ph-cvb-label">Key Achievements</label>
+              <div style="font-size:0.68rem;color:#374151;line-height:1.55;padding:7px 10px;background:#faf8ff;border-radius:8px;border:1.5px solid #e5e7eb">
+                <div style="margin-bottom:3px">• Led migration of legacy jQuery codebase to React 18</div>
+                <div style="margin-bottom:3px">• Mentored 4 junior developers</div>
                 <div>• Architected a component library used across 3 product teams</div>
               </div>
             </div>
-            <div id="cvb-skills-panel" style="display:none">
-              <p class="ph-cvb-desc">Highlight your key skills and competencies.</p>
+          </div>
+          <div id="cvb-skills-panel" style="display:none">
+            <p class="ph-cvb-desc">Highlight your key skills and competencies.</p>
+            <div class="ph-cvb-form-group">
+              <label class="ph-cvb-label">Add Skill</label>
               <input class="ph-cvb-input" placeholder="Type a skill and press Enter" readonly>
-
-              <div class="ph-cvb-label">Selected Skills</div>
-              <div class="ph-cvb-tags">
-                <span class="ph-cvb-tag selected">React.js <span class="x">×</span></span>
-                <span class="ph-cvb-tag selected">TypeScript <span class="x">×</span></span>
-                <span class="ph-cvb-tag selected">Node.js <span class="x">×</span></span>
-                <span class="ph-cvb-tag selected">PostgreSQL <span class="x">×</span></span>
-                <span class="ph-cvb-tag selected">Figma <span class="x">×</span></span>
-                <span class="ph-cvb-tag selected">REST APIs <span class="x">×</span></span>
-                <span class="ph-cvb-tag selected">Git <span class="x">×</span></span>
-              </div>
-
-              <div class="ph-cvb-label">Suggested Skills</div>
-              <div class="ph-cvb-tags">
-                <span class="ph-cvb-tag suggested"><span class="plus">+</span> GraphQL</span>
-                <span class="ph-cvb-tag suggested"><span class="plus">+</span> Docker</span>
-                <span class="ph-cvb-tag suggested"><span class="plus">+</span> AWS</span>
-                <span class="ph-cvb-tag suggested"><span class="plus">+</span> Jest</span>
-                <span class="ph-cvb-tag suggested"><span class="plus">+</span> CI/CD</span>
-              </div>
-
-              <p class="ph-cvb-hint">Type a skill and press Enter or click + to add</p>
             </div>
+            <label class="ph-cvb-label" style="margin-top:4px">Selected Skills</label>
+            <div class="ph-cvb-tags" style="margin-bottom:10px">
+              <span class="ph-cvb-tag selected">React.js <span class="x">×</span></span>
+              <span class="ph-cvb-tag selected">TypeScript <span class="x">×</span></span>
+              <span class="ph-cvb-tag selected">Node.js <span class="x">×</span></span>
+              <span class="ph-cvb-tag selected">PostgreSQL <span class="x">×</span></span>
+              <span class="ph-cvb-tag selected">Figma <span class="x">×</span></span>
+              <span class="ph-cvb-tag selected">REST APIs <span class="x">×</span></span>
+              <span class="ph-cvb-tag selected">Git <span class="x">×</span></span>
+            </div>
+            <label class="ph-cvb-label">Suggested Skills</label>
+            <div class="ph-cvb-tags">
+              <span class="ph-cvb-tag suggested"><span class="plus">+</span> GraphQL</span>
+              <span class="ph-cvb-tag suggested"><span class="plus">+</span> Docker</span>
+              <span class="ph-cvb-tag suggested"><span class="plus">+</span> AWS</span>
+              <span class="ph-cvb-tag suggested"><span class="plus">+</span> Jest</span>
+              <span class="ph-cvb-tag suggested"><span class="plus">+</span> CI/CD</span>
+            </div>
+            <p class="ph-cvb-hint">Type a skill and press Enter or click + to add</p>
           </div>
         </div>
       </div>
 
+      <!-- PREVIEW — matches .cvb-preview -->
       <div class="ph-cvb-right">
-        <div class="ph-cvb-card" style="flex:1;display:flex;flex-direction:column">
-          <div class="ph-cvp-header">
-            <span class="ph-cvp-title">CV Preview</span>
-            <div class="ph-cvp-toolbar">
-              <button class="ph-improve-btn">⚡ Improve</button>
+        <div class="ph-cvp-header">
+          <span class="ph-cvp-title">CV Preview</span>
+          <div class="ph-cvp-toolbar">
+            <span class="ph-cvp-zoom">−</span>
+            <span class="ph-cvp-zoom">+</span>
+            <button class="ph-improve-btn">⚡ Improve</button>
+          </div>
+        </div>
+        <div class="ph-improve-banner">⚡ Highlight text on your CV for AI-powered suggestions</div>
+        <div class="ph-cv-preview-body">
+          <div class="ph-cv-doc">
+            <div class="ph-cv-name">Alex Thompson</div>
+            <div class="ph-cv-headline">Senior Frontend Developer</div>
+            <div class="ph-cv-contact">
+              <span>alex@email.com</span>
+              <span>+44 7700 900123</span>
+              <span>London, UK</span>
+              <span>linkedin.com/in/alexthompson</span>
+            </div>
+            <div class="ph-cv-section">
+              <div class="ph-cv-section-title">Professional Profile</div>
+              <div style="font-size:9px;color:#333;line-height:1.5;margin-top:2px">Results-driven frontend developer with 5+ years of experience building <span class="ph-cv-highlight">scalable web applications using React and TypeScript</span>. Passionate about creating intuitive user experiences and mentoring junior developers.</div>
+            </div>
+            <div class="ph-cv-section">
+              <div class="ph-cv-section-title">Career History</div>
+              <div class="ph-cv-entry">
+                <div class="ph-cv-entry-header">
+                  <p class="ph-cv-job-title">Senior Frontend Developer</p>
+                  <span class="ph-cv-dates">Jan 2022 – Present</span>
+                </div>
+                <p class="ph-cv-company">TechCorp Ltd</p>
+                <ul class="ph-cv-bullets">
+                  <li>Led migration of legacy jQuery codebase to React 18, improving performance by 40%</li>
+                  <li>Mentored 4 junior developers through code reviews and pair programming</li>
+                  <li>Architected a component library used across 3 product teams</li>
+                </ul>
+              </div>
+              <div class="ph-cv-entry">
+                <div class="ph-cv-entry-header">
+                  <p class="ph-cv-job-title">Frontend Developer</p>
+                  <span class="ph-cv-dates">Mar 2019 – Dec 2021</span>
+                </div>
+                <p class="ph-cv-company">StartupHub</p>
+                <ul class="ph-cv-bullets">
+                  <li>Built responsive dashboards serving 50k+ monthly active users</li>
+                  <li>Integrated Stripe payments, reducing checkout abandonment by 18%</li>
+                  <li>Implemented CI/CD pipelines with GitHub Actions</li>
+                </ul>
+              </div>
+              <div class="ph-cv-entry">
+                <div class="ph-cv-entry-header">
+                  <p class="ph-cv-job-title">Junior Developer</p>
+                  <span class="ph-cv-dates">Sep 2017 – Feb 2019</span>
+                </div>
+                <p class="ph-cv-company">Digital Agency Co</p>
+                <ul class="ph-cv-bullets">
+                  <li>Developed client-facing web apps for 12+ SME clients</li>
+                  <li>Collaborated with design team to deliver pixel-perfect UIs</li>
+                </ul>
+              </div>
+            </div>
+            <div class="ph-cv-section">
+              <div class="ph-cv-section-title">Education &amp; Qualifications</div>
+              <div class="ph-cv-entry">
+                <div class="ph-cv-entry-header">
+                  <p class="ph-cv-job-title">BSc Computer Science</p>
+                  <span class="ph-cv-dates">2015 – 2019</span>
+                </div>
+                <p class="ph-cv-company">University of Manchester</p>
+                <div style="font-size:9px;color:#333">First Class Honours</div>
+              </div>
+            </div>
+            <div class="ph-cv-section">
+              <div class="ph-cv-section-title">Key Skills</div>
+              <div class="ph-cv-skills-text" id="cv-skills-display">React.js &nbsp;•&nbsp; TypeScript &nbsp;•&nbsp; Node.js &nbsp;•&nbsp; PostgreSQL &nbsp;•&nbsp; Figma &nbsp;•&nbsp; REST APIs &nbsp;•&nbsp; Git</div>
             </div>
           </div>
-          <div class="ph-improve-banner">⚡ Highlight any text on your CV to get AI-powered wording suggestions</div>
-          <div class="ph-cv-preview-body">
-            <div class="ph-cv-doc">
-              <div class="ph-cv-name">Alex Thompson</div>
-              <div class="ph-cv-subtitle">Senior Frontend Developer · London, UK · alex@email.com</div>
-              <div class="ph-cv-section">
-                <h3>Professional Summary</h3>
-                <div style="font-size:0.64rem;color:#374151;line-height:1.5;margin-top:3px">Results-driven frontend developer with 5+ years of experience building <span class="ph-cv-highlight">scalable web applications using React and TypeScript</span>. Passionate about creating intuitive user experiences and mentoring junior developers.</div>
-              </div>
-              <div class="ph-cv-section">
-                <h3>Experience</h3>
-                <div style="font-size:0.64rem;color:#1e1b4b;font-weight:700;margin-top:3px">Senior Frontend Developer — TechCorp Ltd</div>
-                <div style="font-size:0.58rem;color:#64617a;margin-bottom:3px">Jan 2022 – Present · London</div>
-                <div style="font-size:0.6rem;color:#374151;line-height:1.45;margin-bottom:2px">• Led migration of legacy jQuery codebase to React 18, improving performance by 40%</div>
-                <div style="font-size:0.6rem;color:#374151;line-height:1.45;margin-bottom:2px">• Mentored 4 junior developers through code reviews and pair programming</div>
-                <div style="font-size:0.6rem;color:#374151;line-height:1.45;margin-bottom:2px">• Architected a component library used across 3 product teams, reducing dev time by 25%</div>
-                <div style="font-size:0.64rem;color:#1e1b4b;font-weight:700;margin-top:6px">Frontend Developer — StartupHub</div>
-                <div style="font-size:0.58rem;color:#64617a;margin-bottom:3px">Mar 2019 – Dec 2021 · Remote</div>
-                <div style="font-size:0.6rem;color:#374151;line-height:1.45;margin-bottom:2px">• Built responsive dashboards serving 50k+ monthly active users</div>
-                <div style="font-size:0.6rem;color:#374151;line-height:1.45;margin-bottom:2px">• Integrated Stripe payments and reduced checkout abandonment by 18%</div>
-                <div style="font-size:0.6rem;color:#374151;line-height:1.45;margin-bottom:2px">• Implemented CI/CD pipelines with GitHub Actions, cutting release cycles from 2 weeks to 2 days</div>
-                <div style="font-size:0.64rem;color:#1e1b4b;font-weight:700;margin-top:6px">Junior Developer — Digital Agency Co</div>
-                <div style="font-size:0.58rem;color:#64617a;margin-bottom:3px">Sep 2017 – Feb 2019 · Manchester</div>
-                <div style="font-size:0.6rem;color:#374151;line-height:1.45;margin-bottom:2px">• Developed client-facing web apps for 12+ SME clients using Vue.js and Node.js</div>
-                <div style="font-size:0.6rem;color:#374151;line-height:1.45">• Collaborated with design team to deliver pixel-perfect UIs on tight deadlines</div>
-              </div>
-              <div class="ph-cv-section">
-                <h3>Education</h3>
-                <div style="font-size:0.64rem;color:#1e1b4b;font-weight:700;margin-top:3px">BSc Computer Science — University of Manchester</div>
-                <div style="font-size:0.58rem;color:#64617a">2015 – 2019 · First Class Honours</div>
-              </div>
-              <div class="ph-cv-section">
-                <h3>Skills</h3>
-                <div id="cv-skills-display" style="display:flex;flex-wrap:wrap;gap:4px;margin-top:3px">
-                  <span style="font-size:0.58rem;padding:2px 7px;border-radius:4px;background:#ede9fe;color:#5b21b6;font-weight:600">React.js</span>
-                  <span style="font-size:0.58rem;padding:2px 7px;border-radius:4px;background:#ede9fe;color:#5b21b6;font-weight:600">TypeScript</span>
-                  <span style="font-size:0.58rem;padding:2px 7px;border-radius:4px;background:#ede9fe;color:#5b21b6;font-weight:600">Node.js</span>
-                  <span style="font-size:0.58rem;padding:2px 7px;border-radius:4px;background:#ede9fe;color:#5b21b6;font-weight:600">PostgreSQL</span>
-                  <span style="font-size:0.58rem;padding:2px 7px;border-radius:4px;background:#ede9fe;color:#5b21b6;font-weight:600">Figma</span>
-                  <span style="font-size:0.58rem;padding:2px 7px;border-radius:4px;background:#ede9fe;color:#5b21b6;font-weight:600">REST APIs</span>
-                  <span style="font-size:0.58rem;padding:2px 7px;border-radius:4px;background:#ede9fe;color:#5b21b6;font-weight:600">Git</span>
-                </div>
-              </div>
-            </div>
 
-            <!-- SUGGESTION POPOVER -->
-            <div class="ph-suggestion-popover" id="cv-popover" style="top:90px;left:50%;transform:translateX(-50%);opacity:0;display:none">
-              <div class="ph-sp-header">
-                <div class="ph-sp-title">⚡ AI Suggestion</div>
-                <span class="ph-sp-close">×</span>
-              </div>
-              <div class="ph-sp-section">
-                <span class="ph-sp-label">Selected text</span>
-                <p class="ph-sp-original">scalable web applications using React and TypeScript</p>
-              </div>
-              <div class="ph-sp-result">
-                <span class="ph-sp-label">Improved version</span>
-                <p class="ph-sp-improved">high-performance, scalable web applications leveraging React 18 and TypeScript, delivering 40% faster load times</p>
-              </div>
-              <div class="ph-sp-actions">
-                <button class="ph-sp-add">+ Add</button>
-                <button class="ph-sp-regen">↻ Regenerate</button>
-              </div>
+          <div class="ph-suggestion-popover" id="cv-popover" style="top:80px;left:50%;transform:translateX(-50%);opacity:0;display:none">
+            <div class="ph-sp-header">
+              <div class="ph-sp-title">⚡ AI Suggestion</div>
+              <span class="ph-sp-close">×</span>
+            </div>
+            <div class="ph-sp-section">
+              <span class="ph-sp-label">Selected text</span>
+              <p class="ph-sp-original">scalable web applications using React and TypeScript</p>
+            </div>
+            <div class="ph-sp-result">
+              <span class="ph-sp-label">Improved version</span>
+              <p class="ph-sp-improved">high-performance, scalable web applications leveraging React 18 and TypeScript, delivering 40% faster load times</p>
+            </div>
+            <div class="ph-sp-actions">
+              <button class="ph-sp-add">+ Add</button>
+              <button class="ph-sp-regen">↻ Regenerate</button>
             </div>
           </div>
         </div>
@@ -1315,23 +1382,20 @@
       current = idx;
     }
 
+    var originalSkillsText = 'React.js \u00a0\u2022\u00a0 TypeScript \u00a0\u2022\u00a0 Node.js \u00a0\u2022\u00a0 PostgreSQL \u00a0\u2022\u00a0 Figma \u00a0\u2022\u00a0 REST APIs \u00a0\u2022\u00a0 Git';
+    var expEditorIcon = '<span class="ph-cvb-section-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span>';
+    var skillsEditorIcon = '<span class="ph-cvb-section-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>';
+
     function resetCvScene() {
       var pop = document.getElementById('cv-popover');
       var hl = document.querySelector('.ph-cv-highlight');
       if (pop) { pop.style.display = 'none'; pop.style.opacity = '0'; pop.style.animation = ''; }
       if (hl) { hl.style.background = 'transparent'; hl.textContent = originalCvText; }
       var skillsDisp = document.getElementById('cv-skills-display');
-      if (skillsDisp) {
-        var added = skillsDisp.querySelectorAll('span[style*="ph-pop"]');
-        added.forEach(function(el) { el.remove(); });
-        var remaining = skillsDisp.querySelectorAll('span');
-        remaining.forEach(function(el) {
-          if (el.textContent.trim() === 'GraphQL' || el.textContent.trim() === 'GraphQL ×') { el.remove(); }
-        });
-      }
+      if (skillsDisp) { skillsDisp.textContent = ''; skillsDisp.innerHTML = originalSkillsText; }
       var suggested = document.querySelectorAll('.ph-cvb-tag.selected');
       suggested.forEach(function(tag) {
-        if (tag.textContent.replace('×','').trim() === 'GraphQL') {
+        if (tag.textContent.replace('\u00d7','').trim() === 'GraphQL') {
           tag.classList.remove('selected');
           tag.classList.add('suggested');
           tag.innerHTML = '<span class="plus">+</span> GraphQL';
@@ -1340,6 +1404,8 @@
           tag.style.border = '';
         }
       });
+      var improveBtn = document.querySelector('.ph-improve-btn');
+      if (improveBtn) improveBtn.classList.remove('active');
       var expPanel = document.getElementById('cvb-experience-panel');
       var skillsPanel = document.getElementById('cvb-skills-panel');
       var tabExp = document.getElementById('cvb-tab-experience');
@@ -1349,7 +1415,7 @@
       if (skillsPanel) skillsPanel.style.display = 'none';
       if (tabExp) { tabExp.classList.add('active'); }
       if (tabSkills) { tabSkills.classList.remove('active'); }
-      if (editorTitle) editorTitle.textContent = 'Experience';
+      if (editorTitle) editorTitle.innerHTML = expEditorIcon + ' Experience';
     }
 
     function resetJobsScene() {
@@ -1488,7 +1554,7 @@
       if (tabSkills) tabSkills.classList.add('active');
       if (expPanel) expPanel.style.display = 'none';
       if (skillsPanel) skillsPanel.style.display = 'block';
-      if (editorTitle) editorTitle.textContent = 'Skills';
+      if (editorTitle) editorTitle.innerHTML = skillsEditorIcon + ' Skills';
     }
 
     function runCvScene() {
@@ -1506,6 +1572,7 @@
             var br = improveBtn.getBoundingClientRect();
             schedule(function() {
               moveCursor(br.left - cr.left + br.width / 2, br.top - cr.top + br.height + 4, function() {
+                improveBtn.classList.add('active');
                 improveBtn.classList.remove('ph-improve-click');
                 void improveBtn.offsetWidth;
                 improveBtn.classList.add('ph-improve-click');
@@ -1551,10 +1618,7 @@
                                   suggested[0].style.border = 'none';
                                   var skillsDisp = document.getElementById('cv-skills-display');
                                   if (skillsDisp) {
-                                    var ns = document.createElement('span');
-                                    ns.style.cssText = 'font-size:0.58rem;padding:2px 7px;border-radius:4px;background:#ede9fe;color:#5b21b6;font-weight:600;animation:ph-pop 0.5s cubic-bezier(0.34,1.56,0.64,1) both';
-                                    ns.textContent = 'GraphQL';
-                                    skillsDisp.appendChild(ns);
+                                    skillsDisp.innerHTML = originalSkillsText + ' \u00a0\u2022\u00a0 <span style="animation:ph-pop 0.5s cubic-bezier(0.34,1.56,0.64,1) both;display:inline-block">GraphQL</span>';
                                   }
                                   schedule(function() { transitionToScene(2); }, 1500);
                                 }, suggested[0]);
