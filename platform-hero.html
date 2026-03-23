@@ -391,10 +391,12 @@
   .ph-tracker-table th.center,.ph-tracker-table td.center{text-align:center}
   .ph-tracker-toggle{display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform 0.15s ease}
   .ph-tracker-toggle svg{display:block}
+  .ph-scale-wrap{width:100%;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;background:transparent}
   </style>
   </head>
-  <body style="margin:0;display:flex;justify-content:center;align-items:center;min-height:100vh;background:transparent">
-  <div class="ph-shimmer-wrap">
+  <body style="margin:0;background:transparent;overflow:hidden">
+  <div class="ph-scale-wrap" id="ph-scale-wrap">
+  <div class="ph-shimmer-wrap" id="ph-shimmer-wrap">
   <div class="ph-canvas" id="canvas">
 
   <div class="ph-cursor" id="ph-cursor" style="left:-40px;top:-40px">
@@ -1713,4 +1715,29 @@
   })();
   </script>
   </div>
+  </div>
+  <script>
+  (function() {
+    var DESIGN_W = 1100;
+    var DESIGN_H = 680;
+    var wrap = document.getElementById('ph-scale-wrap');
+    var shimmer = document.getElementById('ph-shimmer-wrap');
+    function applyScale() {
+      var ww = wrap.clientWidth;
+      var wh = wrap.clientHeight;
+      var sx = ww / (DESIGN_W + 4);
+      var sy = wh / (DESIGN_H + 4);
+      var s = Math.min(sx, sy, 1);
+      shimmer.style.transform = 'scale(' + s + ')';
+      shimmer.style.transformOrigin = 'center center';
+      shimmer.style.flexShrink = '0';
+    }
+    applyScale();
+    if (window.ResizeObserver) {
+      new ResizeObserver(applyScale).observe(wrap);
+    } else {
+      window.addEventListener('resize', applyScale);
+    }
+  })();
+  </script>
   </body></html>
