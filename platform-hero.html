@@ -124,7 +124,7 @@
   .ph-cvb-tag.suggested{background:#f9f5ff;color:#7c3aed;border:1.5px dashed #c4b5fd;cursor:pointer;padding:3px 10px}
   .ph-cvb-tag.suggested .plus{font-size:0.62rem;color:#7c3aed}
   .ph-cvb-hint{font-size:0.58rem;color:#9ca3af;margin-top:6px}
-  .ph-cvb-right{width:50%;min-width:300px;flex-shrink:0;display:flex;flex-direction:column;background:#f0f1f3}
+  .ph-cvb-right{width:58%;min-width:300px;flex-shrink:0;display:flex;flex-direction:column;background:#f0f1f3}
 
   /* CV PREVIEW RIGHT — Platform-accurate */
   .ph-cvp-header{display:flex;justify-content:space-between;align-items:center;padding:8px 14px;background:#fff;border-bottom:1px solid #e9ecef}
@@ -134,22 +134,21 @@
   .ph-improve-btn{display:inline-flex;align-items:center;gap:4px;padding:4px 12px;border-radius:8px;font-size:0.68rem;font-weight:700;background:linear-gradient(135deg,#f5f0ff,#ede5ff);color:#7c3aed;border:2px solid #c4b5fd;cursor:pointer;transition:all 0.2s}
   .ph-improve-btn.active{background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff;border-color:transparent;animation:ph-pulse-glow 2s ease-in-out infinite}
   .ph-improve-banner{display:flex;align-items:center;gap:5px;padding:5px 14px;background:linear-gradient(135deg,#f5f0ff,#ede5ff);border-bottom:1px solid #ddd6fe;font-size:0.62rem;font-weight:500;color:#5b21b6}
-  .ph-cv-preview-body{flex:1;overflow-y:auto;overflow-x:hidden;background:inherit;padding:8px;position:relative;display:flex;justify-content:center;scroll-behavior:smooth}
-  .ph-cv-preview-body::-webkit-scrollbar{width:0;display:none}
-  .ph-cv-preview-body{-ms-overflow-style:none;scrollbar-width:none}
-  .ph-cv-doc{background:#fff;width:100%;max-width:480px;padding:18px 24px;border-radius:2px;box-shadow:0 1px 4px rgba(0,0,0,0.08);position:relative;font-family:'Arial','Helvetica',sans-serif;font-size:10px;color:#2d2d2d;line-height:1.5}
-  .ph-cv-name{font-size:16px;font-weight:700;color:#1a1a1a;text-transform:uppercase;letter-spacing:0.3px;margin-bottom:1px;font-family:'Arial','Helvetica',sans-serif}
-  .ph-cv-headline{font-size:10px;font-weight:400;color:#555;margin:0 0 6px}
-  .ph-cv-contact{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:9px;color:#444;margin-bottom:10px;padding-bottom:8px;border-bottom:2px solid #1a1a1a}
-  .ph-cv-section{margin-bottom:6px}
-  .ph-cv-section-title{font-size:10px;font-weight:700;color:#1a1a1a;text-transform:uppercase;letter-spacing:0.4px;margin:10px 0 4px;padding-bottom:3px;border-bottom:1px solid #d0d0d0}
-  .ph-cv-entry{margin-bottom:8px}
-  .ph-cv-entry-header{display:flex;justify-content:space-between;align-items:baseline;margin:4px 0 1px}
-  .ph-cv-job-title{font-size:10px;font-weight:700;color:#1a1a1a;margin:0}
-  .ph-cv-dates{font-size:9px;color:#666;white-space:nowrap;font-weight:400}
-  .ph-cv-company{font-size:9.5px;font-weight:600;color:#444;font-style:italic;margin:0 0 2px}
-  .ph-cv-bullets{margin:1px 0 6px;padding-left:12px;list-style:disc}
-  .ph-cv-bullets li{margin-bottom:1px;font-size:9px;line-height:1.45;color:#333}
+  .ph-cv-preview-body{flex:1;overflow:hidden;background:inherit;padding:6px;position:relative;display:flex;justify-content:center}
+  .ph-cv-doc{background:#fff;width:100%;max-width:480px;padding:14px 20px;border-radius:2px;box-shadow:0 1px 4px rgba(0,0,0,0.08);position:relative;font-family:'Arial','Helvetica',sans-serif;font-size:9px;color:#2d2d2d;line-height:1.45;min-height:100%;display:flex;flex-direction:column}
+  .ph-cv-name{font-size:14px;font-weight:700;color:#1a1a1a;text-transform:uppercase;letter-spacing:0.3px;margin-bottom:1px;font-family:'Arial','Helvetica',sans-serif}
+  .ph-cv-headline{font-size:9px;font-weight:400;color:#555;margin:0 0 4px}
+  .ph-cv-contact{display:flex;flex-wrap:wrap;gap:3px 10px;font-size:8px;color:#444;margin-bottom:6px;padding-bottom:6px;border-bottom:2px solid #1a1a1a}
+  .ph-cv-section{margin-bottom:3px}
+  .ph-cv-section:last-child{margin-top:auto}
+  .ph-cv-section-title{font-size:9px;font-weight:700;color:#1a1a1a;text-transform:uppercase;letter-spacing:0.4px;margin:6px 0 3px;padding-bottom:2px;border-bottom:1px solid #d0d0d0}
+  .ph-cv-entry{margin-bottom:4px}
+  .ph-cv-entry-header{display:flex;justify-content:space-between;align-items:baseline;margin:2px 0 1px}
+  .ph-cv-job-title{font-size:9px;font-weight:700;color:#1a1a1a;margin:0}
+  .ph-cv-dates{font-size:8px;color:#666;white-space:nowrap;font-weight:400}
+  .ph-cv-company{font-size:8.5px;font-weight:600;color:#444;font-style:italic;margin:0 0 1px}
+  .ph-cv-bullets{margin:1px 0 3px;padding-left:12px;list-style:disc}
+  .ph-cv-bullets li{font-size:8px;line-height:1.4;margin-bottom:1px;color:#333}
   .ph-cv-skills-text{font-size:9px;color:#333;line-height:1.6;margin-top:2px}
   .ph-cv-highlight{background:transparent;padding:1px 2px;border-radius:2px;transition:background 0.4s ease}
 
@@ -758,7 +757,7 @@
             </div>
             <div class="ph-cv-section">
               <div class="ph-cv-section-title">Professional Profile</div>
-              <div style="font-size:9px;color:#333;line-height:1.5;margin-top:2px">Results-driven frontend developer with 5+ years of experience building <span class="ph-cv-highlight">scalable web applications using React and TypeScript</span>. Passionate about creating intuitive user experiences and mentoring junior developers.</div>
+              <div style="font-size:8px;color:#333;line-height:1.4;margin-top:2px">Results-driven frontend developer with 5+ years of experience building <span class="ph-cv-highlight">scalable web applications using React and TypeScript</span>. Passionate about creating intuitive user experiences and mentoring junior developers.</div>
             </div>
             <div class="ph-cv-section">
               <div class="ph-cv-section-title">Career History</div>
@@ -806,7 +805,7 @@
                   <span class="ph-cv-dates">2015 – 2019</span>
                 </div>
                 <p class="ph-cv-company">University of Manchester</p>
-                <div style="font-size:9px;color:#333">First Class Honours</div>
+                <div style="font-size:8px;color:#333">First Class Honours</div>
               </div>
             </div>
             <div class="ph-cv-section">
@@ -1603,10 +1602,6 @@
                               schedule(function() { pop.style.display = 'none'; }, 300);
                               hl.textContent = 'high-performance, scalable web applications leveraging React 18 and TypeScript, delivering 40% faster load times';
                               hl.style.background = 'rgba(139,92,246,0.15)';
-                              var previewBody = document.querySelector('.ph-cv-preview-body');
-                              if (previewBody) {
-                                previewBody.scrollTo({top: previewBody.scrollHeight, behavior:'smooth'});
-                              }
                             }, 200);
                             schedule(function() {
                               var suggested = document.querySelectorAll('.ph-cvb-tag.suggested');
