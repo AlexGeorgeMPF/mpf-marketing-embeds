@@ -1029,9 +1029,6 @@
                 <div class="ph-cvm-item"><span class="ph-cvm-check">✓</span> React expertise matches perfectly</div>
                 <div class="ph-cvm-item"><span class="ph-cvm-check">✓</span> 5+ years experience exceeds requirement</div>
                 <div class="ph-cvm-item"><span class="ph-cvm-check">✓</span> TypeScript proficiency is a key match</div>
-                <h5 style="margin-top:8px">Suggestions to Improve</h5>
-                <div class="ph-cvm-item"><span class="ph-cvm-warn">⚠</span> Add Docker to your skills section</div>
-                <div class="ph-cvm-item"><span class="ph-cvm-warn">⚠</span> Highlight CI/CD pipeline experience</div>
               </div>
             </div>
           </div>
@@ -1169,7 +1166,7 @@
           </div>
         </div>
 
-        <div class="ph-ifb-bottom-split" style="animation:ph-fade-in 0.5s 0.4s ease both">
+        <div class="ph-ifb-bottom-split" style="animation:ph-fade-in 0.5s 0.4s ease both;padding:0 16px">
           <div class="ph-ifb-star">
             <h4>STAR Method Breakdown</h4>
             <div class="ph-ifb-star-bars">
@@ -1210,7 +1207,7 @@
   </div>
 
   <!-- SCENE 4: APPLICATION TRACKER -->
-  <div class="ph-scene" id="scene-tracker">
+  <div class="ph-scene" id="scene-tracker" style="padding:0">
     <div style="padding:0;height:100%;display:flex;flex-direction:column">
       <div class="ph-tracker-card">
         <div class="ph-tracker-card-hdr">
@@ -1610,6 +1607,11 @@
                             schedule(function() {
                               var suggested = document.querySelectorAll('.ph-cvb-tag.suggested');
                               if (suggested.length > 0) {
+                                var skillsDisp = document.getElementById('cv-skills-display');
+                                if (skillsDisp) {
+                                  skillsDisp.scrollIntoView({behavior:'smooth',block:'center'});
+                                }
+                                schedule(function() {
                                 var sr = suggested[0].getBoundingClientRect();
                                 moveThenClick(sr.left - cr.left + 15, sr.top - cr.top + 8, function() {
                                   suggested[0].classList.remove('suggested');
@@ -1618,16 +1620,12 @@
                                   suggested[0].style.background = 'linear-gradient(135deg,#8b5cf6,#7c3aed)';
                                   suggested[0].style.color = '#fff';
                                   suggested[0].style.border = 'none';
-                                  var skillsDisp = document.getElementById('cv-skills-display');
                                   if (skillsDisp) {
                                     skillsDisp.innerHTML = originalSkillsText + ' \u00a0\u2022\u00a0 <span style="animation:ph-pop 0.5s cubic-bezier(0.34,1.56,0.64,1) both;display:inline-block">GraphQL</span>';
-                                    var previewBody = document.querySelector('.ph-cv-preview-body');
-                                    if (previewBody) {
-                                      skillsDisp.scrollIntoView({behavior:'smooth',block:'center'});
-                                    }
                                   }
                                   schedule(function() { transitionToScene(2); }, 1500);
                                 }, suggested[0]);
+                                }, 500);
                               } else {
                                 schedule(function() { transitionToScene(2); }, 1500);
                               }
