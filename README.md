@@ -12,9 +12,9 @@
   | `cv-builder-mobile.html` | https://alexgeorgempf.github.io/mpf-marketing-embeds/cv-builder-mobile.html | 480x560 |
   | `cv-desktop-improve.html` | https://alexgeorgempf.github.io/mpf-marketing-embeds/cv-desktop-improve.html | 900x680 |
   | `platform-hero.html` | https://alexgeorgempf.github.io/mpf-marketing-embeds/platform-hero.html | 1100x680 |
-  | `interview-simulator.html` | https://alexgeorgempf.github.io/mpf-marketing-embeds/interview-simulator.html | 480x560 |
-  | `job-search-vibe.html` | https://alexgeorgempf.github.io/mpf-marketing-embeds/job-search-vibe.html | 480x560 |
-  | `application-tracker.html` | https://alexgeorgempf.github.io/mpf-marketing-embeds/application-tracker.html | 480x560 |
+  | `carousel-interview-simulator.html` | https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-interview-simulator.html | 480x560 |
+  | `carousel-job-search-vibe.html` | https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-job-search-vibe.html | 480x560 |
+  | `carousel-application-tracker.html` | https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-application-tracker.html | 480x560 |
 
   ## Webflow Iframe Embed Codes
 
@@ -45,17 +45,17 @@
 
   ### Interview Simulator
   ```html
-  <iframe src="https://alexgeorgempf.github.io/mpf-marketing-embeds/interview-simulator.html" width="480" height="600" style="border:none;overflow:hidden" scrolling="no" loading="lazy"></iframe>
+  <iframe src="https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-interview-simulator.html" width="480" height="600" style="border:none;overflow:hidden" scrolling="no" loading="lazy"></iframe>
   ```
 
   ### Job Search Vibe
   ```html
-  <iframe src="https://alexgeorgempf.github.io/mpf-marketing-embeds/job-search-vibe.html" width="480" height="600" style="border:none;overflow:hidden" scrolling="no" loading="lazy"></iframe>
+  <iframe src="https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-job-search-vibe.html" width="480" height="600" style="border:none;overflow:hidden" scrolling="no" loading="lazy"></iframe>
   ```
 
   ### Application Tracker
   ```html
-  <iframe src="https://alexgeorgempf.github.io/mpf-marketing-embeds/application-tracker.html" width="480" height="600" style="border:none;overflow:hidden" scrolling="no" loading="lazy"></iframe>
+  <iframe src="https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-application-tracker.html" width="480" height="600" style="border:none;overflow:hidden" scrolling="no" loading="lazy"></iframe>
   ```
 
   ## GitHub Repository
