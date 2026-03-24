@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+@keyframes at-fade-in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes at-row-in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes at-check-pop{0%{transform:scale(0)}60%{transform:scale(1.3)}100%{transform:scale(1)}}
+@keyframes at-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes at-cursor-blink{0%,100%{opacity:1}50%{opacity:0}}
+@keyframes at-modal-in{from{opacity:0;transform:scale(0.95) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+@keyframes at-badge-flash{0%{transform:scale(0.8);opacity:0}50%{transform:scale(1.1)}100%{transform:scale(1);opacity:1}}
+@keyframes shimmer-border{0%{background-position:100% 50%}100%{background-position:-100% 50%}}
+body{display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:transparent;padding:20px}
+.at-shimmer-wrap{border-radius:22px;padding:2px;background:linear-gradient(90deg,hsl(270,80%,55%) 0%,hsl(290,70%,50%) 25%,hsl(250,80%,60%) 50%,hsl(300,80%,70%) 60%,hsl(250,80%,60%) 70%,hsl(290,70%,50%) 85%,hsl(270,80%,55%) 100%);background-size:200% 100%;animation:shimmer-border 3s ease-in-out infinite;box-shadow:0 25px 50px rgba(91,33,182,0.2),0 12px 24px rgba(0,0,0,0.1)}
+</style>
+</head><body>
+<div class="at-shimmer-wrap">
+<div id="atRoot" style="width:480px;height:560px;border-radius:20px;overflow:hidden;background:#fff;position:relative;display:flex;flex-direction:column">
+
+  <div style="background:linear-gradient(135deg,#6d28d9 0%,#4c1d95 50%,#1a0a3e 100%);padding:1rem 1.25rem;display:flex;align-items:center;gap:0.75rem;position:relative;overflow:hidden;flex-shrink:0">
+    <div style="position:absolute;top:-60%;right:-20%;width:250px;height:250px;background:radial-gradient(circle,rgba(186,103,239,0.2) 0%,transparent 70%);pointer-events:none"></div>
+    <div style="width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px)">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
+    </div>
+    <div style="position:relative;z-index:1">
+      <h4 style="font-size:1.1rem;font-weight:700;color:#fff;margin:0">Application Tracker</h4>
+      <p style="font-size:0.72rem;color:rgba(255,255,255,0.6);margin:0">Track your job applications</p>
+    </div>
+    <button id="atAddBtn" style="margin-left:auto;padding:6px 12px;border-radius:8px;border:none;background:rgba(255,255,255,0.15);color:#fff;font-weight:600;font-size:0.72rem;cursor:pointer;display:flex;align-items:center;gap:4px;transition:all 200ms ease;position:relative;z-index:1">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Add Job
+    </button>
+  </div>
+
+  <div id="atStats" style="display:grid;grid-template-columns:repeat(2,1fr);gap:6px;padding:10px 1.25rem 0;flex-shrink:0"></div>
+
+  <div id="atPipeline" style="padding:8px 1.25rem 0;flex-shrink:0">
+    <div id="atPipelineBar" style="display:flex;border-radius:6px;overflow:hidden;height:8px;background:#f3f0fa"></div>
+  </div>
+
+  <div id="atRows" style="flex:1;padding:8px 1.25rem 12px;overflow:hidden">
+    <div id="atRowList" style="display:flex;flex-direction:column;gap:6px"></div>
+  </div>
+
+  <div id="atModal" style="display:none;position:absolute;inset:0;z-index:20;background:rgba(0,0,0,0.4);align-items:center;justify-content:center;padding:1rem"></div>
+
+</div>
+</div>
+
+<script>
+(function(){
+var EXISTING_ROWS=[
+  {role:'Product Designer',company:'Spotify',location:'London',cv:true,applied:true,interview:true,status:'2nd Interview',statusValue:'2ndInterview'},
+  {role:'UX Researcher',company:'Meta',location:'Remote',cv:true,applied:true,interview:false,status:'Shortlisted',statusValue:'shortListed'},
+  {role:'Frontend Engineer',company:'Revolut',location:'Manchester',cv:true,applied:false,interview:false,status:'Preparing',statusValue:'prep'}
+];
+
+var STATUS_STYLES={
+  prep:{color:'#7c3aed',bg:'#f5f3ff'},
+  appSent:{color:'#2563eb',bg:'#dbeafe'},
+  shortListed:{color:'#059669',bg:'#d1fae5'},
+  '1stInterview':{color:'#d97706',bg:'#fef3c7'},
+  '2ndInterview':{color:'#ea580c',bg:'#ffedd5'},
+  OfferAccepted:{color:'#059669',bg:'#d1fae5'},
+  UnSuccessful:{color:'#dc2626',bg:'#fee2e2'}
+};
+
+var PIPELINE=[
+  {label:'Preparing',color:'#5b21b6',bg:'#ede9fe',scolor:'#7c3aed',sbg:'#ede9fe'},
+  {label:'Applied',color:'#1e40af',bg:'#dbeafe',scolor:'#2563eb',sbg:'#dbeafe'},
+  {label:'Shortlisted',color:'#065f46',bg:'#d1fae5',scolor:'#059669',sbg:'#d1fae5'},
+  {label:'Interviewing',color:'#92400e',bg:'#fef3c7',scolor:'#d97706',sbg:'#fef3c7'}
+];
+
+var TYPING_ROLE='Senior Frontend Developer';
+var TYPING_COMPANY='TechCorp';
+var TYPING_LOCATION='London';
+
+function checkIconSVG(checked,size){
+  size=size||14;
+  if(checked)return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>';
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg>';
+}
+
+function renderStats(counts){
+  var el=document.getElementById('atStats');
+  el.innerHTML='';
+  var labels=['Preparing','Applied','Shortlisted','Interviewing'];
+  var vals=[counts.prep,counts.applied,counts.shortlisted,counts.interviewing];
+  labels.forEach(function(l,i){
+    var p=PIPELINE[i];
+    el.innerHTML+='<div style="padding:8px 6px;border-radius:8px;background:'+p.bg+';text-align:center"><p style="font-size:1.1rem;font-weight:800;color:'+p.color+';margin:0 0 1px">'+vals[i]+'</p><p style="font-size:0.55rem;font-weight:600;color:'+p.color+';margin:0;opacity:0.8">'+l+'</p></div>';
+  });
+}
+
+function renderPipeline(counts){
+  var bar=document.getElementById('atPipelineBar');
+  var total=counts.prep+counts.applied+counts.shortlisted+counts.interviewing;
+  var vals=[counts.prep,counts.applied,counts.shortlisted,counts.interviewing];
+  bar.innerHTML='';
+  vals.forEach(function(c,i){
+    if(c===0)return;
+    var p=PIPELINE[i];
+    bar.innerHTML+='<div style="width:'+((c/total)*100)+'%;background-color:'+p.bg+';border-right:2px solid #fff;min-width:14px;display:flex;align-items:center;justify-content:center;transition:width 0.4s ease"><span style="font-size:0.45rem;font-weight:700;color:'+p.scolor+'">'+c+'</span></div>';
+  });
+}
+
+function existingRowHTML(row){
+  var st=STATUS_STYLES[row.statusValue]||STATUS_STYLES.prep;
+  var checks=[{label:'CV',c:row.cv},{label:'Applied',c:row.applied},{label:'Interview',c:row.interview}];
+  var checksH=checks.map(function(item){
+    return '<div style="display:flex;align-items:center;gap:3px">'+checkIconSVG(item.c,14)+'<span style="font-size:0.58rem;font-weight:500;color:'+(item.c?'#059669':'#9ca3af')+'">'+item.label+'</span></div>';
+  }).join('');
+  return '<div style="padding:10px 12px;border-radius:10px;background:#fff;border:1px solid #f0ebfa;display:flex;flex-direction:column;gap:6px"><div style="display:flex;align-items:center;gap:8px"><div style="flex:1"><p style="font-size:0.82rem;font-weight:600;color:#1e1b4b;margin:0">'+row.role+'</p><p style="font-size:0.68rem;color:#7c3aed;font-weight:600;margin:1px 0 0">'+row.company+' · '+row.location+'</p></div><span style="font-size:0.62rem;font-weight:600;padding:3px 8px;border-radius:100px;color:'+st.color+';background-color:'+st.bg+'">'+row.status+'</span></div><div style="display:flex;align-items:center;gap:12px">'+checksH+'</div></div>';
+}
+
+function renderExistingRows(){
+  var el=document.getElementById('atRowList');
+  EXISTING_ROWS.forEach(function(r){el.innerHTML+=existingRowHTML(r);});
+}
+
+function run(){
+  var addBtn=document.getElementById('atAddBtn');
+  addBtn.style.background='rgba(255,255,255,0.15)';
+  addBtn.style.color='#fff';
+  addBtn.style.animation='';
+  var baseCounts={prep:3,applied:2,shortlisted:2,interviewing:1};
+  renderStats(baseCounts);
+  renderPipeline(baseCounts);
+  document.getElementById('atRowList').innerHTML='';
+  renderExistingRows();
+  document.getElementById('atModal').style.display='none';
+
+  setTimeout(function(){
+    addBtn.style.background='#fff';
+    addBtn.style.color='#7c3aed';
+    addBtn.style.animation='at-pulse 0.6s ease';
+
+    setTimeout(function(){
+      addBtn.style.background='rgba(255,255,255,0.15)';
+      addBtn.style.color='#fff';
+      addBtn.style.animation='';
+
+      var modal=document.getElementById('atModal');
+      modal.style.display='flex';
+      modal.style.animation='at-fade-in 0.2s ease both';
+
+      var modalContent='<div style="width:100%;max-width:380px;background:#fff;border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,0.2);animation:at-modal-in 0.3s ease both;overflow:hidden"><div style="padding:14px 18px;border-bottom:1px solid #e9e5f5;display:flex;align-items:center;justify-content:space-between"><div><h5 style="margin:0;font-weight:700;color:#1e1b4b;font-size:0.92rem">Add New Application</h5><p style="margin:1px 0 0;font-size:0.68rem;color:#6b7280">Track a job you\'re applying for</p></div><div style="width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#9ca3af;font-size:1rem">×</div></div><div style="padding:14px 18px"><div style="margin-bottom:10px"><label style="display:block;font-size:0.7rem;font-weight:600;color:#1e1b4b;margin-bottom:3px">Job Title</label><div id="atFieldRole" style="width:100%;padding:8px 12px;border:2px solid #ddd6fe;border-radius:8px;font-size:0.82rem;color:#9ca3af;background:#fff;transition:all 200ms ease;display:flex;align-items:center">e.g. Product Manager</div></div><div style="margin-bottom:10px"><label style="display:block;font-size:0.7rem;font-weight:600;color:#1e1b4b;margin-bottom:3px">Company</label><div id="atFieldCompany" style="width:100%;padding:8px 12px;border:2px solid #ddd6fe;border-radius:8px;font-size:0.82rem;color:#9ca3af;background:#fff;transition:all 200ms ease;display:flex;align-items:center">e.g. Google</div></div><div style="margin-bottom:10px"><label style="display:block;font-size:0.7rem;font-weight:600;color:#1e1b4b;margin-bottom:3px">Location</label><div id="atFieldLocation" style="width:100%;padding:8px 12px;border:2px solid #ddd6fe;border-radius:8px;font-size:0.82rem;color:#9ca3af;background:#fff;transition:all 200ms ease;display:flex;align-items:center">e.g. London</div></div><div style="margin-bottom:10px"><label style="display:block;font-size:0.7rem;font-weight:600;color:#1e1b4b;margin-bottom:3px">Status</label><div style="width:100%;padding:8px 12px;border:2px solid #ddd6fe;border-radius:8px;font-size:0.82rem;color:#7c3aed;font-weight:600;background:#f5f3ff;display:flex;align-items:center;justify-content:space-between">Preparing Application<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></div></div><button id="atSaveBtn" style="width:100%;padding:10px;border-radius:10px;border:none;background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff;font-weight:700;font-size:0.85rem;cursor:pointer;margin-top:6px;display:flex;align-items:center;justify-content:center;gap:6px;transition:all 200ms ease">Save Application</button></div></div>';
+      modal.innerHTML=modalContent;
+
+      var roleIdx=0,compIdx=0,locIdx=0;
+      function typeField(id,text,idx,cb){
+        var el=document.getElementById(id);
+        function tick(){
+          var chars=Math.floor(Math.random()*2)+1;
+          idx=Math.min(idx+chars,text.length);
+          el.style.border='2px solid #a78bfa';
+          el.style.boxShadow='0 0 0 3px rgba(139,92,246,0.15)';
+          el.style.color='#1e1b4b';
+          el.innerHTML=text.slice(0,idx)+'<span style="display:inline-block;width:2px;height:1em;background:#8b5cf6;margin-left:1px;animation:at-cursor-blink 0.8s ease infinite"></span>';
+          if(idx<text.length)setTimeout(tick,50);
+          else{
+            el.style.border='2px solid #ddd6fe';
+            el.style.boxShadow='none';
+            el.innerHTML=text;
+            cb();
+          }
+        }
+        tick();
+      }
+
+      typeField('atFieldRole',TYPING_ROLE,0,function(){
+        typeField('atFieldCompany',TYPING_COMPANY,0,function(){
+          typeField('atFieldLocation',TYPING_LOCATION,0,function(){
+            setTimeout(function(){
+              var btn=document.getElementById('atSaveBtn');
+              btn.style.background='#059669';
+              btn.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Saved!';
+
+              setTimeout(function(){
+                modal.style.display='none';
+                var rl=document.getElementById('atRowList');
+                var newRowDiv=document.createElement('div');
+                newRowDiv.id='atNewRow';
+                rl.insertBefore(newRowDiv,rl.firstChild);
+                updateNewRow(false,false,false,'prep','Preparing Application',false);
+                var counts={prep:4,applied:2,shortlisted:2,interviewing:1};
+                renderStats(counts);renderPipeline(counts);
+
+                setTimeout(function(){
+                  updateNewRow(true,false,false,'prep','Preparing Application',false);
+                  setTimeout(function(){
+                    updateNewRow(true,true,false,'shortListed','Shortlisted',false);
+                    var c2={prep:3,applied:3,shortlisted:2,interviewing:1};
+                    renderStats(c2);renderPipeline(c2);
+                    setTimeout(function(){
+                      var c3={prep:3,applied:2,shortlisted:3,interviewing:1};
+                      renderStats(c3);renderPipeline(c3);
+                      setTimeout(function(){
+                        updateNewRow(true,true,true,'shortListed','Shortlisted',false);
+                        var c4={prep:3,applied:2,shortlisted:2,interviewing:2};
+                        renderStats(c4);renderPipeline(c4);
+                        setTimeout(function(){
+                          updateNewRow(true,true,true,'1stInterview','1st Interview',true);
+                          setTimeout(function(){
+                            setTimeout(run,2500);
+                          },2000);
+                        },1200);
+                      },1200);
+                    },1200);
+                  },1200);
+                },1500);
+              },600);
+            },800);
+          });
+        });
+      });
+    },800);
+  },2000);
+}
+
+function updateNewRow(cv,applied,interview,statusVal,statusLabel,isUpdated){
+  var el=document.getElementById('atNewRow');
+  if(!el)return;
+  var st=STATUS_STYLES[statusVal]||STATUS_STYLES.prep;
+  var highlight=interview||isUpdated;
+  var checks=[{label:'CV',c:cv},{label:'Applied',c:applied},{label:'Interview',c:interview}];
+  var checksH=checks.map(function(item){
+    var icon=item.c?'<div style="display:inline-flex;animation:at-check-pop 0.4s ease both">'+checkIconSVG(true,14)+'</div>':checkIconSVG(false,14);
+    return '<div style="display:flex;align-items:center;gap:3px;position:relative">'+icon+'<span style="font-size:0.58rem;font-weight:500;color:'+(item.c?'#059669':'#9ca3af')+'">'+item.label+'</span></div>';
+  }).join('');
+
+  el.innerHTML='<div style="padding:10px 12px;border-radius:10px;background:'+(highlight?'#faf8ff':'#fff')+';border:'+(highlight?'1.5px solid #ddd6fe':'1px solid #f0ebfa')+';display:flex;flex-direction:column;gap:6px;animation:at-row-in 0.5s ease both;box-shadow:'+(interview&&!isUpdated?'0 0 0 2px rgba(124,58,237,0.1)':'none')+';transition:all 300ms ease"><div style="display:flex;align-items:center;gap:8px"><div style="flex:1"><p style="font-size:0.82rem;font-weight:600;color:#1e1b4b;margin:0">Senior Frontend Developer</p><p style="font-size:0.68rem;color:#7c3aed;font-weight:600;margin:1px 0 0">TechCorp · London</p></div><span style="font-size:0.62rem;font-weight:600;padding:3px 8px;border-radius:100px;color:'+st.color+';background-color:'+st.bg+';'+(isUpdated?'animation:at-badge-flash 0.4s ease both;':'')+'transition:all 300ms ease">'+statusLabel+'</span></div><div style="display:flex;align-items:center;gap:12px">'+checksH+'</div></div>';
+}
+
+run();
+})();
+</script>
+</body></html>

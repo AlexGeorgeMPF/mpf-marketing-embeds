@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+@keyframes js-fade-in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes js-card-in{from{opacity:0;transform:translateY(-16px) scale(0.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes js-cursor-blink{0%,100%{opacity:1}50%{opacity:0}}
+@keyframes js-ring-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes js-hot-shimmer{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+@keyframes js-warm-breathe{0%,100%{filter:drop-shadow(0 0 4px rgba(168,85,247,0.4))}50%{filter:drop-shadow(0 0 8px rgba(168,85,247,0.7))}}
+@keyframes js-vibe-pop{0%{transform:scale(0);opacity:0}50%{transform:scale(1.2)}100%{transform:scale(1);opacity:1}}
+@keyframes js-slide-down{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes js-row-select{0%{transform:scale(1)}30%{transform:scale(0.95)}60%{transform:scale(1.05)}100%{transform:scale(1)}}
+@keyframes shimmer-border{0%{background-position:100% 50%}100%{background-position:-100% 50%}}
+body{display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:transparent;padding:20px}
+.js-shimmer-wrap{border-radius:22px;padding:2px;background:linear-gradient(90deg,hsl(270,80%,55%) 0%,hsl(290,70%,50%) 25%,hsl(250,80%,60%) 50%,hsl(300,80%,70%) 60%,hsl(250,80%,60%) 70%,hsl(290,70%,50%) 85%,hsl(270,80%,55%) 100%);background-size:200% 100%;animation:shimmer-border 3s ease-in-out infinite;box-shadow:0 25px 50px rgba(91,33,182,0.2),0 12px 24px rgba(0,0,0,0.1)}
+</style>
+</head><body>
+<div class="js-shimmer-wrap">
+<div id="jsRoot" style="width:480px;height:560px;border-radius:20px;overflow:hidden;background:#fff;position:relative;display:flex;flex-direction:column">
+
+  <div style="background:linear-gradient(135deg,#6d28d9 0%,#4c1d95 50%,#1a0a3e 100%);padding:1rem 1.25rem 0.9rem;position:relative;overflow:hidden;flex-shrink:0">
+    <div style="position:absolute;top:-60%;right:-20%;width:250px;height:250px;background:radial-gradient(circle,rgba(186,103,239,0.2) 0%,transparent 70%);pointer-events:none"></div>
+    <h4 style="font-size:1.1rem;font-weight:700;color:#fff;margin:0 0 2px;position:relative;z-index:1">Job Search</h4>
+    <p style="font-size:0.72rem;color:rgba(255,255,255,0.6);margin:0 0 10px;position:relative;z-index:1">Discover roles that match your vibe</p>
+    <div style="display:flex;gap:8px;position:relative;z-index:1">
+      <div style="flex:1;position:relative">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);z-index:2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <div id="jsSearchBox" style="width:100%;padding:10px 10px 10px 36px;border-radius:10px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);backdrop-filter:blur(4px);color:#fff;font-size:0.82rem;height:38px;display:flex;align-items:center">
+          <span style="color:rgba(255,255,255,0.45)">Search job titles, skills...</span>
+        </div>
+      </div>
+      <button style="padding:10px 14px;border-radius:10px;border:none;background:linear-gradient(135deg,#BA67EF,#a44de0);color:#fff;font-weight:600;font-size:0.82rem;cursor:pointer;display:flex;align-items:center;gap:4px;white-space:nowrap;flex-shrink:0">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Search
+      </button>
+    </div>
+    <div style="position:relative;z-index:1;margin-top:8px">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);z-index:2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      <div style="width:100%;padding:10px 10px 10px 36px;border-radius:10px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.45);font-size:0.82rem;height:38px;display:flex;align-items:center">London</div>
+    </div>
+  </div>
+
+  <div id="jsChipBar" style="display:flex;align-items:center;gap:6px;padding:8px 1.25rem;border-bottom:1px solid #f0ebfa;flex-shrink:0;flex-wrap:wrap;position:relative">
+    <span style="padding:4px 10px;border-radius:100px;background:#7c3aed;color:#fff;border:1px solid #7c3aed;font-size:0.72rem;font-weight:500">Vibe</span>
+    <span style="padding:4px 10px;border-radius:100px;background:#fff;color:#5b21b6;border:1px solid #ede9fe;font-size:0.72rem;font-weight:500">Location</span>
+    <span style="padding:4px 10px;border-radius:100px;background:#fff;color:#5b21b6;border:1px solid #ede9fe;font-size:0.72rem;font-weight:500">Industry</span>
+    <span style="padding:4px 10px;border-radius:100px;background:#fff;color:#5b21b6;border:1px solid #ede9fe;font-size:0.72rem;font-weight:500">Salary</span>
+    <div style="flex:1"></div>
+    <div id="jsVibeFilter" style="display:none"></div>
+  </div>
+
+  <div style="flex:1;position:relative;overflow:hidden">
+    <div id="jsEmpty" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:1;transition:opacity 400ms ease">
+      <div style="text-align:center">
+        <div style="width:48px;height:48px;border-radius:50%;background:#f5f3ff;display:flex;align-items:center;justify-content:center;margin:0 auto 10px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+        <p style="font-size:0.85rem;font-weight:600;color:#5b21b6;margin:0 0 2px">Search for your next role</p>
+        <p style="font-size:0.72rem;color:#6b7280;margin:0">Enter a job title to get started</p>
+      </div>
+    </div>
+
+    <div id="jsCards" style="position:absolute;inset:0;padding:12px 1.25rem;opacity:0;transition:opacity 400ms ease;pointer-events:none;overflow:hidden">
+      <div id="jsCardList" style="display:flex;flex-direction:column;gap:10px"></div>
+    </div>
+
+    <div id="jsFilterPopup" style="display:none;position:absolute;inset:0;z-index:20;align-items:center;justify-content:center;pointer-events:none"></div>
+  </div>
+
+</div>
+</div>
+
+<script>
+(function(){
+var SEARCH_TEXT='Frontend Developer';
+var JOB_CARDS=[
+  {company:'Monzo',initials:'MZ',title:'Senior Frontend Developer',salary:'£75k – £85k',location:'London (Hybrid)',tags:['React','TypeScript','Next.js'],vibeScore:94,vibeLabel:'Hot'},
+  {company:'Deliveroo',initials:'DL',title:'Frontend Engineer',salary:'£60k – £72k',location:'London',tags:['Vue.js','Node.js'],vibeScore:87,vibeLabel:'Warm'},
+  {company:'Sky',initials:'SK',title:'UI Developer',salary:'£50k – £60k',location:'Osterley',tags:['Angular','CSS'],vibeScore:72,vibeLabel:'Cool'},
+  {company:'Revolut',initials:'RV',title:'Staff Frontend Engineer',salary:'£90k – £110k',location:'London (Remote)',tags:['React','GraphQL'],vibeScore:91,vibeLabel:'Hot'},
+  {company:'Canva',initials:'CV',title:'Lead Frontend Developer',salary:'£80k – £95k',location:'London (Hybrid)',tags:['React','Figma API','TypeScript'],vibeScore:92,vibeLabel:'Hot'}
+];
+
+function vibeRingHTML(score,label,size,animate){
+  var isHot=label==='Hot',isWarm=label==='Warm';
+  var numGrad=isHot?'linear-gradient(135deg,#fff,#f0abfc,#d946ef,#a855f7)':isWarm?'linear-gradient(135deg,#c084fc,#a855f7,#8b5cf6)':'linear-gradient(135deg,#a5b4fc,#c7d2fe)';
+  var ringBg=isHot?'conic-gradient(from 0deg,#f0abfc,#d946ef,#a855f7,#7c3aed,#a855f7,#d946ef,#f0abfc)':isWarm?'conic-gradient(from 0deg,#c4b5fd,#a78bfa,#8b5cf6,#a78bfa,#c4b5fd)':'conic-gradient(from 0deg,rgba(199,210,254,0.25),rgba(165,180,252,0.15),rgba(199,210,254,0.25))';
+  var ringSpeed=isHot?'1.5s':isWarm?'5s':'8s';
+  var pad=isHot?'2.5px':'2px';
+  var fs=size>40?'1.2rem':'1rem';
+  var filter=isHot?'drop-shadow(0 0 10px rgba(217,70,239,0.8)) drop-shadow(0 0 20px rgba(168,85,247,0.5))':isWarm?'drop-shadow(0 0 6px rgba(168,85,247,0.5)) drop-shadow(0 0 12px rgba(139,92,246,0.2))':'drop-shadow(0 0 2px rgba(165,180,252,0.2))';
+  var animStyle=animate?(isHot?'animation:js-hot-shimmer 2s ease-in-out infinite;background-size:200% 200%;':isWarm?'animation:js-warm-breathe 2.5s ease-in-out infinite;':''):'';
+  var ringAnim=animate?'animation:js-ring-spin '+ringSpeed+' linear infinite;':'';
+  return '<div style="width:'+size+'px;height:'+size+'px;border-radius:50%;position:relative;display:flex;align-items:center;justify-content:center"><div style="position:absolute;inset:0;border-radius:50%;padding:'+pad+';-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;background:'+ringBg+';'+ringAnim+'"></div><span style="font-size:'+fs+';font-weight:900;line-height:1;letter-spacing:-0.5px;background-image:'+numGrad+';-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:'+filter+';position:relative;z-index:1;'+animStyle+'">'+score+'</span></div>';
+}
+
+function cardHTML(card,i,showVibe){
+  var tagsH=card.tags.map(function(t){return '<span style="font-size:0.62rem;font-weight:500;padding:2px 8px;border-radius:4px;background:#f5f3ff;color:#7c3aed">'+t+'</span>';}).join('');
+  var vibeH=showVibe?'<div style="animation:js-vibe-pop 0.35s ease '+i*0.1+'s both;flex-shrink:0">'+vibeRingHTML(card.vibeScore,card.vibeLabel,40,true)+'</div>':'';
+  return '<div style="background:#fff;border-radius:12px;border:1px solid rgba(0,0,0,0.06);padding:12px 14px;box-shadow:0 1px 3px rgba(0,0,0,0.04);animation:js-card-in 0.35s ease '+i*0.1+'s both;height:100px;box-sizing:border-box;overflow:hidden"><div style="display:flex;align-items:center;gap:10px;margin-bottom:6px"><div style="width:36px;height:36px;border-radius:8px;background:#f5f3ff;display:flex;align-items:center;justify-content:center;color:#8b5cf6;font-size:0.72rem;font-weight:700;flex-shrink:0">'+card.initials+'</div><div style="flex:1;min-width:0"><p style="font-size:0.82rem;font-weight:700;color:#1e1b4b;margin:0;line-height:1.3">'+card.title+'</p><p style="font-size:0.68rem;color:#7c3aed;font-weight:600;margin:1px 0 0">'+card.company+'</p></div>'+vibeH+'</div><div style="display:flex;align-items:center;gap:8px;font-size:0.68rem;color:#6b7280;margin-bottom:6px"><span style="display:flex;align-items:center;gap:3px"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>'+card.location+'</span><span style="color:#16a34a;font-weight:600">'+card.salary+'</span></div><div style="display:flex;gap:4px;flex-wrap:wrap">'+tagsH+'</div></div>';
+}
+
+function renderCards(cards,showVibe){
+  var cl=document.getElementById('jsCardList');
+  cl.innerHTML='';
+  cards.forEach(function(c,i){cl.innerHTML+=cardHTML(c,i,showVibe);});
+}
+
+function showVibeFilter(show,text,applied){
+  var el=document.getElementById('jsVibeFilter');
+  if(!show){el.style.display='none';return;}
+  el.style.display='flex';
+  el.style.cssText='display:flex;align-items:center;gap:4px;padding:4px 10px;border-radius:100px;font-size:0.72rem;font-weight:600;transition:all 0.3s ease;';
+  if(applied){
+    el.style.background='#7c3aed';el.style.border='1px solid #7c3aed';el.style.color='#fff';
+    el.innerHTML='<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>90+ Hot';
+  }else{
+    el.style.background='#f5f3ff';el.style.border='1px solid #ddd6fe';el.style.color='#7c3aed';
+    el.innerHTML='<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>Vibe Filter <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg>';
+  }
+}
+
+function showFilterPopup(show,clicked){
+  var el=document.getElementById('jsFilterPopup');
+  if(!show){el.style.display='none';return;}
+  el.style.display='flex';
+  var opts=[{label:'90+ Hot',isHot:true},{label:'80+ Warm',isHot:false},{label:'70+ Cool',isHot:false},{label:'All Vibes',isHot:false}];
+  var rows=opts.map(function(o){
+    var sel=o.isHot&&clicked;
+    return '<div style="padding:14px 18px;border-radius:10px;font-size:0.88rem;font-weight:'+(sel?'700':'500')+';color:'+(sel?'#fff':'#374151')+';background:'+(sel?'#7c3aed':'transparent')+';display:flex;align-items:center;justify-content:space-between;'+(sel?'animation:js-row-select 0.3s ease both;':'')+'">'+o.label+(sel?'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>':'')+'</div>';
+  }).join('');
+  el.innerHTML='<div style="background:#fff;border-radius:16px;border:1px solid #e9e5f5;box-shadow:0 12px 40px rgba(124,58,237,0.18);padding:20px;min-width:340px;animation:js-slide-down 0.25s ease both;pointer-events:auto"><p style="font-size:0.92rem;font-weight:700;color:#5b21b6;margin:0 0 10px;text-align:center">Filter by Vibe Score</p>'+rows+'</div>';
+}
+
+function run(){
+  var sb=document.getElementById('jsSearchBox');
+  sb.innerHTML='<span style="color:rgba(255,255,255,0.45)">Search job titles, skills...</span>';
+  document.getElementById('jsEmpty').style.opacity='1';
+  document.getElementById('jsEmpty').style.pointerEvents='auto';
+  document.getElementById('jsCards').style.opacity='0';
+  document.getElementById('jsCards').style.pointerEvents='none';
+  showVibeFilter(false);
+  showFilterPopup(false);
+
+  setTimeout(function(){
+    var ci=0;
+    function typeChar(){
+      var chars=Math.floor(Math.random()*2)+1;
+      ci=Math.min(ci+chars,SEARCH_TEXT.length);
+      sb.innerHTML='<span style="color:#fff">'+SEARCH_TEXT.slice(0,ci)+'</span><span style="display:inline-block;width:2px;height:1em;background:#c4b5fd;margin-left:1px;animation:js-cursor-blink 0.8s ease infinite"></span>';
+      if(ci<SEARCH_TEXT.length)setTimeout(typeChar,80);
+      else setTimeout(afterTyped,600);
+    }
+    typeChar();
+
+    function afterTyped(){
+      sb.innerHTML='<span style="color:#fff">'+SEARCH_TEXT+'</span>';
+      document.getElementById('jsEmpty').style.opacity='0';
+      document.getElementById('jsEmpty').style.pointerEvents='none';
+      document.getElementById('jsCards').style.opacity='1';
+      document.getElementById('jsCards').style.pointerEvents='auto';
+      renderCards(JOB_CARDS,false);
+
+      setTimeout(function(){
+        renderCards(JOB_CARDS,true);
+        showVibeFilter(true,'Vibe Filter',false);
+
+        setTimeout(function(){
+          showFilterPopup(true,false);
+
+          setTimeout(function(){
+            showFilterPopup(true,true);
+
+            setTimeout(function(){
+              showFilterPopup(false);
+              showVibeFilter(true,'90+ Hot',true);
+              var hotCards=JOB_CARDS.filter(function(c){return c.vibeScore>=90;});
+              renderCards(hotCards,true);
+
+              setTimeout(function(){
+                setTimeout(run,2500);
+              },2500);
+            },400);
+          },800);
+        },1800);
+      },800);
+    }
+  },1800);
+}
+run();
+})();
+</script>
+</body></html>
