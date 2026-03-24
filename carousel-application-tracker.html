@@ -7,11 +7,273 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
-<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:transparent}</style>
-  <script type="module" crossorigin src="./assets/app-tracker-DpvCSnyk.js"></script>
-  <link rel="modulepreload" crossorigin href="./assets/ShimmerWrap-DcNdHtKj.js">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:transparent}
+@keyframes shimmer-border{0%{background-position:100% 50%}100%{background-position:-100% 50%}}
+@keyframes at-fade-in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes at-row-in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes at-check-pop{0%{transform:scale(0)}60%{transform:scale(1.3)}100%{transform:scale(1)}}
+@keyframes at-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes at-cursor-blink{0%,100%{opacity:1}50%{opacity:0}}
+@keyframes at-modal-in{from{opacity:0;transform:scale(0.95) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+@keyframes at-badge-flash{0%{transform:scale(0.8);opacity:0}50%{transform:scale(1.1)}100%{transform:scale(1);opacity:1}}
+</style>
 </head>
 <body>
 <div id="root"></div>
+<script>
+(function(){
+var DESIGN_W=480,DESIGN_H=560;
+var TYPING_ROLE='Senior Frontend Developer';
+var TYPING_COMPANY='TechCorp';
+var TYPING_LOCATION='London';
+
+var EXISTING_ROWS=[
+  {role:'Product Designer',company:'Spotify',location:'London',cv:true,applied:true,interview:true,status:'2nd Interview',statusValue:'2ndInterview'},
+  {role:'UX Researcher',company:'Meta',location:'Remote',cv:true,applied:true,interview:false,status:'Shortlisted',statusValue:'shortListed'},
+  {role:'Frontend Engineer',company:'Revolut',location:'Manchester',cv:true,applied:false,interview:false,status:'Preparing',statusValue:'prep'}
+];
+
+var statusStyles={
+  prep:{color:'#7c3aed',bg:'#f5f3ff'},
+  appSent:{color:'#2563eb',bg:'#dbeafe'},
+  shortListed:{color:'#059669',bg:'#d1fae5'},
+  '1stInterview':{color:'#d97706',bg:'#fef3c7'},
+  '2ndInterview':{color:'#ea580c',bg:'#ffedd5'},
+  OfferAccepted:{color:'#059669',bg:'#d1fae5'},
+  UnSuccessful:{color:'#dc2626',bg:'#fee2e2'}
+};
+
+var pipelineStages=[
+  {label:'Preparing',color:'#7c3aed',bg:'#ede9fe'},
+  {label:'Applied',color:'#2563eb',bg:'#dbeafe'},
+  {label:'Shortlisted',color:'#059669',bg:'#d1fae5'},
+  {label:'Interviewing',color:'#d97706',bg:'#fef3c7'}
+];
+
+var phase='tracker-idle',typedRole=0,typedCompany=0,typedLocation=0,confettiIndex=-1,scale=1;
+var container,inner;
+var confettiParticles=[];
+for(var pi=0;pi<10;pi++){
+  confettiParticles.push({
+    x:(Math.random()-0.5)*60,y:-(Math.random()*40+15),
+    r:Math.random()*360,
+    color:['#7c3aed','#d946ef','#f59e0b','#059669','#2563eb','#f0abfc'][Math.floor(Math.random()*6)],
+    size:Math.random()*3+2,
+    delay:Math.random()*0.15
+  });
+}
+
+function getScale(){if(!container)return 1;return Math.min(container.clientWidth/DESIGN_W,1);}
+
+function getPipelineCounts(){
+  var base={prep:3,applied:2,shortlisted:2,interviewing:1};
+  if(phase==='row-added'||phase==='check-cv')return{prep:4,applied:2,shortlisted:2,interviewing:1};
+  if(phase==='check-applied')return{prep:3,applied:3,shortlisted:2,interviewing:1};
+  if(phase==='check-shortlisted')return{prep:3,applied:2,shortlisted:3,interviewing:1};
+  if(phase==='check-interview'||phase==='status-update'||phase==='pause')return{prep:3,applied:2,shortlisted:2,interviewing:2};
+  return base;
+}
+
+function checkIconHTML(checked,size){
+  size=size||16;
+  return checked
+    ?'<svg width="'+size+'" height="'+size+'" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>'
+    :'<svg width="'+size+'" height="'+size+'" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg>';
+}
+
+function confettiBurstHTML(active,ci){
+  if(!active)return'';
+  var keyframes='';var dots='';
+  confettiParticles.forEach(function(p,i){
+    keyframes+='@keyframes at-confetti-'+ci+'-'+i+'{0%{opacity:1;transform:translate(0,0) rotate(0deg) scale(1)}100%{opacity:0;transform:translate('+p.x+'px,'+p.y+'px) rotate('+p.r+'deg) scale(0)}}';
+    dots+='<div style="position:absolute;left:50%;top:50%;width:'+p.size+'px;height:'+p.size+'px;border-radius:'+(p.size>3?'2px':'50%')+';background:'+p.color+';animation:at-confetti-'+ci+'-'+i+' 0.6s ease-out '+p.delay+'s both"></div>';
+  });
+  return '<div style="position:absolute;inset:0;pointer-events:none;overflow:visible;z-index:10"><style>'+keyframes+'</style>'+dots+'</div>';
+}
+
+function render(){
+  var showNewRow=phase==='row-added'||phase==='check-cv'||phase==='check-applied'||phase==='check-shortlisted'||phase==='check-interview'||phase==='status-update'||phase==='pause';
+  var showModal=phase==='modal-open'||phase==='modal-save';
+  var newRowCv=phase==='check-cv'||phase==='check-applied'||phase==='check-shortlisted'||phase==='check-interview'||phase==='status-update'||phase==='pause';
+  var newRowApplied=phase==='check-applied'||phase==='check-shortlisted'||phase==='check-interview'||phase==='status-update'||phase==='pause';
+  var newRowInterview=phase==='check-interview'||phase==='status-update'||phase==='pause';
+  var isStatusUpdated=phase==='status-update'||phase==='pause';
+  var afterApplied=phase==='check-applied'||phase==='check-shortlisted'||phase==='check-interview'||isStatusUpdated;
+  var newRowStatus=isStatusUpdated?'1stInterview':afterApplied?'shortListed':'prep';
+  var newRowStatusLabel=isStatusUpdated?'1st Interview':afterApplied?'Shortlisted':'Preparing Application';
+
+  var counts=getPipelineCounts();
+  var totalPipeline=counts.prep+counts.applied+counts.shortlisted+counts.interviewing;
+
+  var statsHTML='';
+  [{label:'Preparing',count:counts.prep,color:'#5b21b6',bg:'#ede9fe'},{label:'Applied',count:counts.applied,color:'#1e40af',bg:'#dbeafe'},{label:'Shortlisted',count:counts.shortlisted,color:'#065f46',bg:'#d1fae5'},{label:'Interviewing',count:counts.interviewing,color:'#92400e',bg:'#fef3c7'}].forEach(function(s){
+    statsHTML+='<div style="padding:8px 6px;border-radius:8px;background:'+s.bg+';text-align:center"><p style="font-size:1.1rem;font-weight:800;color:'+s.color+';margin:0 0 1px">'+s.count+'</p><p style="font-size:0.55rem;font-weight:600;color:'+s.color+';margin:0;opacity:0.8">'+s.label+'</p></div>';
+  });
+
+  var barHTML='';
+  var barCounts=[counts.prep,counts.applied,counts.shortlisted,counts.interviewing];
+  pipelineStages.forEach(function(stage,i){
+    if(barCounts[i]===0)return;
+    barHTML+='<div style="width:'+((barCounts[i]/totalPipeline)*100)+'%;background-color:'+stage.bg+';border-right:2px solid #fff;min-width:14px;display:flex;align-items:center;justify-content:center;transition:width 0.4s ease"><span style="font-size:0.45rem;font-weight:700;color:'+stage.color+'">'+barCounts[i]+'</span></div>';
+  });
+
+  var newRowHTML='';
+  if(showNewRow){
+    var st=statusStyles[newRowStatus]||statusStyles.prep;
+    var highlight=phase==='check-interview'||isStatusUpdated;
+    var checksHTML='';
+    [{label:'CV',checked:newRowCv,ci:0},{label:'Applied',checked:newRowApplied,ci:1},{label:'Interview',checked:newRowInterview,ci:2}].forEach(function(item){
+      checksHTML+='<div style="display:flex;align-items:center;gap:3px;position:relative">';
+      if(item.checked){
+        checksHTML+='<div style="position:relative;display:inline-flex;animation:at-check-pop 0.4s ease both">'+checkIconHTML(true,14)+confettiBurstHTML(confettiIndex===item.ci,item.ci)+'</div>';
+      }else{
+        checksHTML+=checkIconHTML(false,14);
+      }
+      checksHTML+='<span style="font-size:0.58rem;font-weight:500;color:'+(item.checked?'#059669':'#9ca3af')+'">'+item.label+'</span></div>';
+    });
+    newRowHTML='<div style="padding:10px 12px;border-radius:10px;background:'+(highlight?'#faf8ff':'#fff')+';border:'+(highlight?'1.5px solid #ddd6fe':'1px solid #f0ebfa')+';display:flex;flex-direction:column;gap:6px;animation:at-row-in 0.5s ease both;box-shadow:'+(phase==='check-interview'?'0 0 0 2px rgba(124,58,237,0.1)':'none')+';transition:all 300ms ease">'
+      +'<div style="display:flex;align-items:center;gap:8px"><div style="flex:1"><p style="font-size:0.82rem;font-weight:600;color:#1e1b4b;margin:0">Senior Frontend Developer</p><p style="font-size:0.68rem;color:#7c3aed;font-weight:600;margin:1px 0 0">TechCorp · London</p></div>'
+      +'<span style="font-size:0.62rem;font-weight:600;padding:3px 8px;border-radius:100px;color:'+st.color+';background-color:'+st.bg+';'+(isStatusUpdated?'animation:at-badge-flash 0.4s ease both;':'')+'transition:all 300ms ease">'+newRowStatusLabel+'</span></div>'
+      +'<div style="display:flex;align-items:center;gap:12px">'+checksHTML+'</div>'
+      +'</div>';
+  }
+
+  var existingRowsHTML='';
+  EXISTING_ROWS.forEach(function(row){
+    var st=statusStyles[row.statusValue]||statusStyles.prep;
+    var checksHTML='';
+    [{label:'CV',checked:row.cv},{label:'Applied',checked:row.applied},{label:'Interview',checked:row.interview}].forEach(function(item){
+      checksHTML+='<div style="display:flex;align-items:center;gap:3px">'+checkIconHTML(item.checked,14)+'<span style="font-size:0.58rem;font-weight:500;color:'+(item.checked?'#059669':'#9ca3af')+'">'+item.label+'</span></div>';
+    });
+    existingRowsHTML+='<div style="padding:10px 12px;border-radius:10px;background:#fff;border:1px solid #f0ebfa;display:flex;flex-direction:column;gap:6px">'
+      +'<div style="display:flex;align-items:center;gap:8px"><div style="flex:1"><p style="font-size:0.82rem;font-weight:600;color:#1e1b4b;margin:0">'+row.role+'</p><p style="font-size:0.68rem;color:#7c3aed;font-weight:600;margin:1px 0 0">'+row.company+' · '+row.location+'</p></div>'
+      +'<span style="font-size:0.62rem;font-weight:600;padding:3px 8px;border-radius:100px;color:'+st.color+';background-color:'+st.bg+'">'+row.status+'</span></div>'
+      +'<div style="display:flex;align-items:center;gap:12px">'+checksHTML+'</div></div>';
+  });
+
+  var modalHTML='';
+  if(showModal){
+    var fields=[
+      {label:'Job Title',value:TYPING_ROLE.slice(0,typedRole),placeholder:'e.g. Product Manager',active:typedRole>0&&typedRole<TYPING_ROLE.length},
+      {label:'Company',value:TYPING_COMPANY.slice(0,typedCompany),placeholder:'e.g. Google',active:typedCompany>0&&typedCompany<TYPING_COMPANY.length},
+      {label:'Location',value:TYPING_LOCATION.slice(0,typedLocation),placeholder:'e.g. London',active:typedLocation>0&&typedLocation<TYPING_LOCATION.length}
+    ];
+    var fieldsHTML='';
+    fields.forEach(function(f){
+      fieldsHTML+='<div style="margin-bottom:10px"><label style="display:block;font-size:0.7rem;font-weight:600;color:#1e1b4b;margin-bottom:3px">'+f.label+'</label>'
+        +'<div style="width:100%;padding:8px 12px;border:2px solid '+(f.active?'#a78bfa':'#ddd6fe')+';border-radius:8px;font-size:0.82rem;color:'+(f.value?'#1e1b4b':'#9ca3af')+';background:#fff;box-shadow:'+(f.active?'0 0 0 3px rgba(139,92,246,0.15)':'none')+';transition:all 200ms ease;display:flex;align-items:center">'
+        +(f.value||f.placeholder)
+        +(f.active?'<span style="display:inline-block;width:2px;height:1em;background:#8b5cf6;margin-left:1px;animation:at-cursor-blink 0.8s ease infinite"></span>':'')
+        +'</div></div>';
+    });
+
+    var btnContent=phase==='modal-save'?'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Saved!':'Save Application';
+    var btnBg=phase==='modal-save'?'#059669':'linear-gradient(135deg,#7c3aed,#6d28d9)';
+
+    modalHTML='<div style="position:absolute;inset:0;z-index:20;background:rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;animation:at-fade-in 0.2s ease both;padding:1rem">'
+      +'<div style="width:100%;max-width:380px;background:#fff;border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,0.2);animation:at-modal-in 0.3s ease both;overflow:hidden">'
+        +'<div style="padding:14px 18px;border-bottom:1px solid #e9e5f5;display:flex;align-items:center;justify-content:space-between">'
+          +'<div><h5 style="margin:0;font-weight:700;color:#1e1b4b;font-size:0.92rem">Add New Application</h5><p style="margin:1px 0 0;font-size:0.68rem;color:#6b7280">Track a job you\'re applying for</p></div>'
+          +'<div style="width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#9ca3af;font-size:1rem">×</div>'
+        +'</div>'
+        +'<div style="padding:14px 18px">'
+          +fieldsHTML
+          +'<div style="margin-bottom:10px"><label style="display:block;font-size:0.7rem;font-weight:600;color:#1e1b4b;margin-bottom:3px">Status</label>'
+            +'<div style="width:100%;padding:8px 12px;border:2px solid #ddd6fe;border-radius:8px;font-size:0.82rem;color:#7c3aed;font-weight:600;background:#f5f3ff;display:flex;align-items:center;justify-content:space-between">Preparing Application<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></div>'
+          +'</div>'
+          +'<button style="width:100%;padding:10px;border-radius:10px;border:none;background:'+btnBg+';color:#fff;font-weight:700;font-size:0.85rem;cursor:pointer;margin-top:6px;display:flex;align-items:center;justify-content:center;gap:6px;transition:all 200ms ease">'+btnContent+'</button>'
+        +'</div>'
+      +'</div>'
+    +'</div>';
+  }
+
+  scale=getScale();
+  inner.innerHTML=
+    '<div style="border-radius:20px;padding:2px;background:linear-gradient(90deg,hsl(270,80%,55%) 0%,hsl(290,70%,50%) 25%,hsl(250,80%,60%) 50%,hsl(300,80%,70%) 60%,hsl(250,80%,60%) 70%,hsl(290,70%,50%) 85%,hsl(270,80%,55%) 100%);background-size:200% 100%;animation:shimmer-border 3s ease-in-out infinite;box-shadow:0 25px 50px rgba(91,33,182,0.2),0 12px 24px rgba(0,0,0,0.1);transform:scale('+scale+');transform-origin:center center;flex-shrink:0">'
+      +'<div style="width:'+DESIGN_W+'px;height:'+DESIGN_H+'px;border-radius:18px;overflow:hidden;background:#fff;display:flex;flex-direction:column;position:relative">'
+        +'<div style="background:linear-gradient(135deg,#6d28d9 0%,#4c1d95 50%,#1a0a3e 100%);padding:1rem 1.25rem;display:flex;align-items:center;gap:0.75rem;position:relative;overflow:hidden;flex-shrink:0">'
+          +'<div style="position:absolute;top:-60%;right:-20%;width:250px;height:250px;background:radial-gradient(circle,rgba(186,103,239,0.2) 0%,transparent 70%);pointer-events:none"></div>'
+          +'<div style="width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg></div>'
+          +'<div style="position:relative;z-index:1"><h4 style="font-size:1.1rem;font-weight:700;color:#fff;margin:0">Application Tracker</h4><p style="font-size:0.72rem;color:rgba(255,255,255,0.6);margin:0">Track your job applications</p></div>'
+          +'<button style="margin-left:auto;padding:6px 12px;border-radius:8px;border:none;background:'+(phase==='add-click'?'#fff':'rgba(255,255,255,0.15)')+';color:'+(phase==='add-click'?'#7c3aed':'#fff')+';font-weight:600;font-size:0.72rem;cursor:pointer;display:flex;align-items:center;gap:4px;'+(phase==='add-click'?'animation:at-pulse 0.6s ease;':'')+'transition:all 200ms ease;position:relative;z-index:1"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add Job</button>'
+        +'</div>'
+        +'<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:6px;padding:10px 1.25rem 0;flex-shrink:0">'+statsHTML+'</div>'
+        +'<div style="padding:8px 1.25rem 0;flex-shrink:0"><div style="display:flex;border-radius:6px;overflow:hidden;height:8px;background:#f3f0fa">'+barHTML+'</div></div>'
+        +'<div style="flex:1;padding:8px 1.25rem 12px;overflow:hidden"><div style="display:flex;flex-direction:column;gap:6px">'+newRowHTML+existingRowsHTML+'</div></div>'
+        +modalHTML
+      +'</div>'
+    +'</div>';
+}
+
+function nextPhase(){
+  var timings={
+    'tracker-idle':['add-click',2000],
+    'add-click':['modal-open',800],
+    'row-added':['check-cv',1500],
+    'check-cv':['check-applied',1200],
+    'check-applied':['check-shortlisted',1200],
+    'check-shortlisted':['check-interview',1200],
+    'check-interview':['status-update',1200],
+    'status-update':['pause',2000]
+  };
+
+  if(phase==='modal-open'){
+    if(typedRole<TYPING_ROLE.length){
+      var c=Math.floor(Math.random()*2)+1;
+      typedRole=Math.min(typedRole+c,TYPING_ROLE.length);
+      render();
+      setTimeout(nextPhase,50);
+    }else if(typedCompany<TYPING_COMPANY.length){
+      var c=Math.floor(Math.random()*2)+1;
+      typedCompany=Math.min(typedCompany+c,TYPING_COMPANY.length);
+      render();
+      setTimeout(nextPhase,60);
+    }else if(typedLocation<TYPING_LOCATION.length){
+      var c=Math.floor(Math.random()*2)+1;
+      typedLocation=Math.min(typedLocation+c,TYPING_LOCATION.length);
+      render();
+      setTimeout(nextPhase,60);
+    }else{
+      render();
+      setTimeout(function(){phase='modal-save';render();nextPhase();},800);
+    }
+    return;
+  }
+  if(phase==='modal-save'){
+    setTimeout(function(){phase='row-added';render();nextPhase();},600);
+    return;
+  }
+  if(phase==='check-cv'){confettiIndex=0;}
+  if(phase==='check-applied'){confettiIndex=1;}
+  if(phase==='check-shortlisted'){confettiIndex=-1;}
+  if(phase==='check-interview'){confettiIndex=2;}
+
+  if(phase==='pause'){
+    render();
+    setTimeout(function(){phase='tracker-idle';typedRole=0;typedCompany=0;typedLocation=0;confettiIndex=-1;render();nextPhase();},2500);
+    return;
+  }
+  var next=timings[phase];
+  if(next){
+    setTimeout(function(){phase=next[0];render();nextPhase();},next[1]);
+  }
+}
+
+function init(){
+  container=document.getElementById('root');
+  container.style.cssText='width:100%;height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;background:linear-gradient(145deg,#f8f6ff 0%,#ede9fe 30%,#e8e0ff 60%,#f3eeff 100%);font-family:Inter,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;overflow:hidden';
+  inner=document.createElement('div');
+  inner.style.cssText='display:flex;align-items:center;justify-content:center;width:100%;height:100%';
+  container.appendChild(inner);
+  window.addEventListener('resize',function(){render();});
+  render();
+  nextPhase();
+}
+
+if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}else{init();}
+})();
+</script>
 </body>
 </html>

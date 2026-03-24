@@ -7,11 +7,343 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
-<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:transparent}</style>
-  <script type="module" crossorigin src="./assets/interview-C5eNwNWe.js"></script>
-  <link rel="modulepreload" crossorigin href="./assets/ShimmerWrap-DcNdHtKj.js">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:transparent}
+@keyframes shimmer-border{0%{background-position:100% 50%}100%{background-position:-100% 50%}}
+@keyframes iv-fade-in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes iv-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes iv-cursor-blink{0%,100%{opacity:1}50%{opacity:0}}
+@keyframes iv-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes iv-question-in{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:translateX(0)}}
+@keyframes iv-score-pop{0%{transform:scale(0);opacity:0}50%{transform:scale(1.15)}100%{transform:scale(1);opacity:1}}
+@keyframes iv-ring-fill{from{stroke-dashoffset:301.59}}
+@keyframes iv-score-shimmer{0%{background-position:200% 50%}100%{background-position:-200% 50%}}
+@keyframes iv-glow{0%,100%{box-shadow:0 0 20px 4px rgba(124,58,237,0.15)}50%{box-shadow:0 0 40px 12px rgba(124,58,237,0.45)}}
+@keyframes iv-thinking-dot{0%,80%,100%{transform:translateY(0);opacity:0.4}40%{transform:translateY(-6px);opacity:1}}
+@keyframes iv-mic-pulse{0%{transform:scale(1)}50%{transform:scale(1.12)}100%{transform:scale(1)}}
+@keyframes iv-wave-ring{0%{transform:scale(0.8);opacity:0.6}100%{transform:scale(2.2);opacity:0}}
+@keyframes iv-progress{from{width:0%}to{width:100%}}
+@keyframes iv-card-in{from{opacity:0;transform:translateY(8px) scale(0.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes iv-check-pop{0%{transform:scale(0)}60%{transform:scale(1.3)}100%{transform:scale(1)}}
+</style>
 </head>
 <body>
 <div id="root"></div>
+<script>
+(function(){
+var DESIGN_W=480,DESIGN_H=560;
+var ELISE_AVATAR='https://alexgeorgempf.github.io/mpf-marketing-embeds/images/elise-avatar.png';
+var JD_TEXT='Senior Frontend Developer at TechCorp UK. Must have 5+ years React/TypeScript experience, proven leadership of cross-functional teams, and expertise in performance optimisation for enterprise-scale applications...';
+
+var categoryColors={
+  Behavioural:{bg:'#f3f0ff',text:'#7c3aed'},
+  Competency:{bg:'#eff6ff',text:'#2563eb'},
+  Technical:{bg:'#ecfdf5',text:'#059669'},
+  Situational:{bg:'#fffbeb',text:'#d97706'}
+};
+var difficultyColors={Easy:'#16a34a',Medium:'#d97706',Hard:'#dc2626'};
+
+var QUESTIONS=[
+  {text:'Tell me about a time you led a complex frontend migration.',category:'Behavioural',difficulty:'Medium'},
+  {text:'How do you approach performance optimisation in large-scale React apps?',category:'Technical',difficulty:'Hard'},
+  {text:'Describe how you have managed competing priorities across teams.',category:'Competency',difficulty:'Medium'},
+  {text:'Walk me through your testing strategy for a mission-critical feature.',category:'Technical',difficulty:'Easy'}
+];
+
+var sourceCards=[
+  {key:'custom',title:'Your Own Question',icon:'M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z'},
+  {key:'jd',title:'Paste a Job Description',icon:'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z'},
+  {key:'tracker',title:'From Your Applications',icon:'M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z'}
+];
+
+var phase='setup-idle',typedChars=0,visibleQuestions=0,checkedCount=0,timerSec=0,scale=1;
+var container,inner,timerInterval=null;
+
+var ringR=48,circ=2*Math.PI*ringR,overallScore=82;
+
+function getScale(){if(!container)return 1;return Math.min(container.clientWidth/DESIGN_W,1);}
+
+function isSetup(){return phase.indexOf('setup')===0;}
+function isQuestions(){return phase.indexOf('questions')===0;}
+function isInterview(){return phase.indexOf('interview')===0;}
+function isResults(){return phase.indexOf('results')===0||phase==='pause';}
+function phaseIndex(){return isSetup()?0:isQuestions()?1:isInterview()?2:3;}
+function phaseLabel(){return isSetup()?'Setup':isQuestions()?'Questions':isInterview()?'Interview':'Results';}
+
+function diffBg(d){return d==='Easy'?'#dcfce7':d==='Hard'?'#fee2e2':'#fef3c7';}
+
+function render(){
+  var activeSource=phase!=='setup-idle'?'jd':null;
+  var pi=phaseIndex();
+
+  var phaseDotsHTML='';
+  ['Setup','Qs','Int','Results'].forEach(function(label,i){
+    phaseDotsHTML+='<span style="font-size:0.6rem;font-weight:'+(pi===i?700:500)+';color:'+(pi===i?'#fff':'rgba(255,255,255,0.4)')+';padding:3px 6px;border-radius:6px;background:'+(pi===i?'rgba(255,255,255,0.18)':'transparent')+';transition:all 300ms ease">'+label+'</span>';
+  });
+
+  var sourceCardsHTML='';
+  sourceCards.forEach(function(opt){
+    var active=activeSource===opt.key;
+    var isJdIdle=opt.key==='jd'&&phase==='setup-idle';
+    sourceCardsHTML+='<div style="display:flex;align-items:center;gap:10px;padding:12px 14px;border:'+(active?'2px solid #7c3aed':isJdIdle?'2px solid #a78bfa':'2px solid #e9e5f5')+';border-radius:12px;background-color:'+(active?'#f5f3ff':isJdIdle?'#faf8ff':'#fff')+';transition:all 0.2s ease;'+(isJdIdle?'animation:iv-pulse 2s ease-in-out infinite':'')+'">'
+      +'<div style="width:32px;height:32px;border-radius:8px;background:'+(active?'linear-gradient(135deg,#7c3aed,#6d28d9)':'linear-gradient(135deg,#ede9fe,#ddd6fe)')+';display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="'+(active?'#fff':'#6d28d9')+'" stroke-width="2"><path d="'+opt.icon+'"/></svg></div>'
+      +'<span style="font-size:0.82rem;font-weight:600;color:#1e1b4b;flex:1">'+opt.title+'</span>'
+      +(active?'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>':'')
+      +'</div>';
+  });
+
+  var pasteAreaHTML='';
+  if(phase==='setup-paste'||phase==='setup-generating'){
+    var content='';
+    if(phase==='setup-paste'){
+      content=JD_TEXT.slice(0,typedChars)+'<span style="display:inline-block;width:2px;height:1em;background:#8b5cf6;margin-left:1px;vertical-align:text-bottom;animation:iv-cursor-blink 0.8s ease infinite"></span>';
+    }else{
+      content='<span>'+JD_TEXT+'</span>';
+    }
+    pasteAreaHTML='<div style="border:'+(phase==='setup-paste'?'2px solid #a78bfa':'2px solid #ddd6fe')+';border-radius:10px;background:#fff;padding:10px 12px;font-size:0.78rem;color:#1e1b4b;line-height:1.6;margin-bottom:12px;animation:iv-fade-in 0.3s ease both;min-height:60px">'+content+'</div>';
+  }
+
+  var generatingHTML='';
+  if(phase==='setup-generating'){
+    generatingHTML='<div style="animation:iv-fade-in 0.3s ease both;text-align:center;padding:8px 0">'
+      +'<div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#6d28d9);display:flex;align-items:center;justify-content:center;margin:0 auto 10px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" style="animation:iv-spin 1s linear infinite"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg></div>'
+      +'<p style="font-size:0.82rem;font-weight:700;color:#1e1b4b;margin:0 0 4px">Elise is crafting your questions...</p>'
+      +'<div style="height:5px;border-radius:100px;background:#ede9fe;overflow:hidden;max-width:240px;margin:0 auto"><div style="height:100%;border-radius:100px;background:linear-gradient(90deg,#8b5cf6,#d946ef);animation:iv-progress 2.2s ease both"></div></div>'
+    +'</div>';
+  }
+
+  var questionsHTML='';
+  for(var qi=0;qi<visibleQuestions&&qi<QUESTIONS.length;qi++){
+    var q=QUESTIONS[qi];
+    var checked=qi<checkedCount;
+    var cat=categoryColors[q.category]||categoryColors.Behavioural;
+    var dbg=diffBg(q.difficulty);
+    questionsHTML+='<div style="display:flex;align-items:flex-start;gap:8px;padding:10px 12px;border:'+(checked?'1.5px solid #c4b5fd':'1.5px solid #e9e5f5')+';border-radius:10px;background-color:'+(checked?'#faf8ff':'#fff')+';animation:iv-question-in 0.35s ease both">'
+      +'<div style="width:20px;height:20px;border-radius:6px;border:'+(checked?'2px solid #7c3aed':'2px solid #d1d5db')+';background-color:'+(checked?'#7c3aed':'#fff')+';display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;transition:all 0.15s ease">'
+        +(checked?'<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>':'')
+      +'</div>'
+      +'<div style="flex:1;min-width:0">'
+        +'<p style="font-size:0.78rem;font-weight:500;color:#1e1b4b;margin:0 0 4px;line-height:1.4">'+q.text+'</p>'
+        +'<div style="display:flex;gap:4px">'
+          +'<span style="font-size:0.62rem;font-weight:600;padding:2px 6px;border-radius:4px;background:'+cat.bg+';color:'+cat.text+'">'+q.category+'</span>'
+          +'<span style="font-size:0.62rem;font-weight:600;padding:2px 6px;border-radius:4px;background:'+dbg+';color:'+difficultyColors[q.difficulty]+'">'+q.difficulty+'</span>'
+        +'</div>'
+      +'</div>'
+    +'</div>';
+  }
+
+  var startBtnHTML='';
+  if(phase==='questions-ready'){
+    startBtnHTML='<div style="display:flex;justify-content:flex-end;margin-top:12px"><button style="padding:8px 18px;border-radius:10px;border:none;background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff;font-size:0.82rem;font-weight:700;animation:iv-pulse 1.5s ease-in-out infinite;cursor:pointer;display:flex;align-items:center;gap:4px">Start Interview<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button></div>';
+  }
+
+  var interviewCenterHTML='';
+  if(phase==='interview-active'){
+    var waveRings='';
+    for(var wi=0;wi<3;wi++){
+      waveRings+='<div style="position:absolute;inset:0;border-radius:50%;border:1.5px solid rgba(167,139,250,0.4);animation:iv-wave-ring 2s ease-out '+wi*0.6+'s infinite"></div>';
+    }
+    interviewCenterHTML='<div style="position:relative;width:48px;height:48px;display:flex;align-items:center;justify-content:center">'+waveRings
+      +'<div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#6d28d9);display:flex;align-items:center;justify-content:center;animation:iv-mic-pulse 1.5s ease-in-out infinite;box-shadow:0 0 16px 4px rgba(124,58,237,0.3)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></div>'
+    +'</div>';
+  }
+  if(phase==='interview-thinking'){
+    interviewCenterHTML='<div style="display:flex;gap:6px">';
+    for(var di=0;di<3;di++){
+      interviewCenterHTML+='<div style="width:8px;height:8px;border-radius:50%;background:#a78bfa;animation:iv-thinking-dot 1.4s ease-in-out '+di*0.2+'s infinite"></div>';
+    }
+    interviewCenterHTML+='</div>';
+  }
+
+  var timerStr=Math.floor(timerSec/60)+':'+String(timerSec%60).padStart(2,'0');
+
+  var dashOffset=circ-(circ*overallScore)/100;
+
+  var starBreakdownHTML='';
+  if(phase==='results-overall'||phase==='results-breakdown'||phase==='pause'){
+    var starItems=[{label:'Situation',score:85},{label:'Action',score:78},{label:'Result',score:83}];
+    starBreakdownHTML='<div style="display:flex;gap:6px;margin-bottom:8px;animation:iv-fade-in 0.3s ease both">';
+    starItems.forEach(function(item){
+      var color=item.score>=75?'#16a34a':item.score>=55?'#7c3aed':'#d97706';
+      var bg=item.score>=75?'#dcfce7':item.score>=55?'#f3f0ff':'#fef3c7';
+      starBreakdownHTML+='<div style="flex:1;padding:8px 6px;border-radius:10px;background:#fff;border:1.5px solid '+bg+';box-shadow:0 1px 3px rgba(0,0,0,0.04);display:flex;flex-direction:column;align-items:center;gap:2px"><span style="font-size:1.1rem;font-weight:800;color:'+color+';line-height:1">'+item.score+'</span><span style="font-size:0.55rem;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.3px">'+item.label+'</span></div>';
+    });
+    starBreakdownHTML+='</div>';
+  }
+
+  var feedbackHTML='';
+  if(phase==='results-overall'||phase==='results-breakdown'||phase==='pause'){
+    var didWellPoints=['Clear situation context with specific details','Strong personal contribution ownership','Effective metrics to show impact','Logical narrative flow in responses'];
+    var focusPoints=['Quantify contributions with numbers','Expand on long-term business impact','Add stakeholder context in situations'];
+    var didWellDots='';didWellPoints.forEach(function(p){didWellDots+='<div style="display:flex;gap:6px;align-items:flex-start"><div style="width:4px;height:4px;border-radius:50%;background:#16a34a;flex-shrink:0;margin-top:6px"></div><span style="font-size:0.72rem;color:#374151;line-height:1.4">'+p+'</span></div>';});
+    var focusDots='';focusPoints.forEach(function(p){focusDots+='<div style="display:flex;gap:6px;align-items:flex-start"><div style="width:4px;height:4px;border-radius:50%;background:#7c3aed;flex-shrink:0;margin-top:6px"></div><span style="font-size:0.72rem;color:#374151;line-height:1.4">'+p+'</span></div>';});
+    feedbackHTML='<div style="display:flex;gap:8px;animation:iv-fade-in 0.4s ease both">'
+      +'<div style="flex:1;padding:10px 12px;border-radius:12px;background:#fff;border:1px solid #e2e8f0;box-shadow:0 1px 4px rgba(0,0,0,0.04)">'
+        +'<div style="display:flex;align-items:center;gap:5px;margin-bottom:8px"><div style="width:18px;height:18px;border-radius:5px;background:#dcfce7;display:flex;align-items:center;justify-content:center"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><span style="font-size:0.82rem;font-weight:700;color:#1e1b4b">Did Well</span></div>'
+        +'<div style="display:flex;flex-direction:column;gap:5px">'+didWellDots+'</div>'
+      +'</div>'
+      +'<div style="flex:1;padding:10px 12px;border-radius:12px;background:#fff;border:1px solid #e2e8f0;box-shadow:0 1px 4px rgba(0,0,0,0.04)">'
+        +'<div style="display:flex;align-items:center;gap:5px;margin-bottom:8px"><div style="width:18px;height:18px;border-radius:5px;background:#f3f0ff;display:flex;align-items:center;justify-content:center"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div><span style="font-size:0.82rem;font-weight:700;color:#1e1b4b">Focus Next</span></div>'
+        +'<div style="display:flex;flex-direction:column;gap:5px">'+focusDots+'</div>'
+      +'</div>'
+    +'</div>';
+  }
+
+  scale=getScale();
+  inner.innerHTML=
+    '<div style="border-radius:20px;padding:2px;background:linear-gradient(90deg,hsl(270,80%,55%) 0%,hsl(290,70%,50%) 25%,hsl(250,80%,60%) 50%,hsl(300,80%,70%) 60%,hsl(250,80%,60%) 70%,hsl(290,70%,50%) 85%,hsl(270,80%,55%) 100%);background-size:200% 100%;animation:shimmer-border 3s ease-in-out infinite;box-shadow:0 25px 50px rgba(91,33,182,0.2),0 12px 24px rgba(0,0,0,0.1);transform:scale('+scale+');transform-origin:center center;flex-shrink:0">'
+      +'<div style="width:'+DESIGN_W+'px;height:'+DESIGN_H+'px;border-radius:18px;overflow:hidden;background:#fff;display:flex;flex-direction:column;position:relative">'
+
+        +'<div style="background:linear-gradient(135deg,#6d28d9 0%,#4c1d95 50%,#1a0a3e 100%);padding:1rem 1.5rem;display:flex;align-items:center;gap:0.75rem;position:relative;overflow:hidden;flex-shrink:0">'
+          +'<div style="position:absolute;top:-60%;right:-20%;width:250px;height:250px;background:radial-gradient(circle,rgba(186,103,239,0.2) 0%,transparent 70%);pointer-events:none"></div>'
+          +'<div style="width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></div>'
+          +'<div style="position:relative;z-index:1"><h4 style="font-size:1.1rem;font-weight:700;color:#fff;margin:0">Interview Simulator</h4><p style="font-size:0.75rem;color:rgba(255,255,255,0.6);margin:0">'+phaseLabel()+'</p></div>'
+          +'<div style="margin-left:auto;display:flex;gap:4px;position:relative;z-index:1">'+phaseDotsHTML+'</div>'
+        +'</div>'
+
+        +'<div style="flex:1;position:relative;overflow:hidden">'
+
+          +'<div style="position:absolute;inset:0;padding:1rem 1.5rem;opacity:'+(isSetup()?1:0)+';transition:opacity 400ms ease;pointer-events:'+(isSetup()?'auto':'none')+'">'
+            +'<div style="text-align:center;margin-bottom:1rem"><h2 style="font-size:1.1rem;font-weight:800;color:#1e1b4b;margin:0 0 4px">Prepare for Your Interview</h2><p style="font-size:0.75rem;color:#6b7280;margin:0">Choose how you\'d like to practise</p></div>'
+            +'<div style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px">'+sourceCardsHTML+'</div>'
+            +pasteAreaHTML
+            +generatingHTML
+          +'</div>'
+
+          +'<div style="position:absolute;inset:0;padding:1.25rem 1.5rem;opacity:'+(isQuestions()?1:0)+';transition:opacity 400ms ease;pointer-events:'+(isQuestions()?'auto':'none')+';overflow:hidden">'
+            +'<div style="display:flex;align-items:center;gap:6px;margin-bottom:10px">'
+              +'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>'
+              +'<span style="font-size:0.85rem;font-weight:700;color:#1e1b4b">Your Questions</span>'
+              +'<span style="font-size:0.65rem;font-weight:600;padding:2px 8px;border-radius:1rem;background:#ede9fe;color:#7c3aed;margin-left:auto">'+checkedCount+' of '+QUESTIONS.length+' selected</span>'
+            +'</div>'
+            +'<div style="display:flex;flex-direction:column;gap:8px">'+questionsHTML+'</div>'
+            +startBtnHTML
+          +'</div>'
+
+          +'<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:'+(isInterview()?1:0)+';transition:opacity 400ms ease;pointer-events:'+(isInterview()?'auto':'none')+';background:linear-gradient(135deg,#1a0e2e,#0f0a1a);padding:1.5rem">'
+            +'<div style="width:80px;height:80px;border-radius:50%;overflow:hidden;margin-bottom:12px;box-shadow:0 8px 32px rgba(124,58,237,0.4);'+(phase==='interview-active'?'animation:iv-glow 2s ease-in-out infinite':'')+'"><img src="'+ELISE_AVATAR+'" alt="Elise AI" style="width:100%;height:100%;object-fit:cover"/></div>'
+            +'<h3 style="font-size:0.95rem;font-weight:700;color:#fff;margin:0 0 4px">Elise AI</h3>'
+            +'<p style="font-size:0.72rem;color:rgba(255,255,255,0.5);margin:0 0 16px">Interview Coach</p>'
+            +'<div style="height:64px;margin-bottom:16px;display:flex;align-items:center;justify-content:center;position:relative">'+interviewCenterHTML+'</div>'
+            +'<div style="background:rgba(255,255,255,0.06);border-radius:10px;padding:10px 14px;border:1px solid rgba(255,255,255,0.08);width:100%;max-width:320px"><p style="font-size:0.72rem;color:rgba(255,255,255,0.4);margin:0 0 4px;font-weight:600">Current Question</p><p style="font-size:0.78rem;color:rgba(255,255,255,0.8);margin:0;line-height:1.4">'+QUESTIONS[0].text+'</p></div>'
+            +'<div style="display:flex;align-items:center;gap:8px;margin-top:12px;width:100%;max-width:320px">'
+              +'<div style="padding:6px 12px;border-radius:8px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;gap:6px;flex:1"><span style="font-size:0.68rem;font-weight:600;color:#a78bfa">STAR Framework</span></div>'
+              +'<div style="padding:6px 10px;border-radius:8px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;gap:4px"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span style="font-size:0.68rem;font-weight:700;color:#a78bfa;font-variant-numeric:tabular-nums">'+timerStr+'</span></div>'
+            +'</div>'
+          +'</div>'
+
+          +'<div style="position:absolute;inset:0;opacity:'+(isResults()?1:0)+';transition:opacity 400ms ease;pointer-events:'+(isResults()?'auto':'none')+';padding:1rem 1.25rem;overflow:hidden;background:linear-gradient(180deg,#faf8ff 0%,#fff 100%)">'
+            +'<div style="text-align:center;margin-bottom:10px;animation:iv-score-pop 0.6s ease both">'
+              +'<div style="position:relative;width:110px;height:110px;margin:0 auto 8px">'
+                +'<svg width="110" height="110" viewBox="0 0 110 110" style="transform:rotate(-90deg)">'
+                  +'<circle cx="55" cy="55" r="48" fill="none" stroke="#ede9fe" stroke-width="6"/>'
+                  +'<circle cx="55" cy="55" r="48" fill="none" stroke="url(#ivScoreGrad)" stroke-width="6" stroke-linecap="round" stroke-dasharray="'+circ+'" stroke-dashoffset="'+dashOffset+'" style="animation:iv-ring-fill 1s ease both"/>'
+                  +'<defs><linearGradient id="ivScoreGrad" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">'
+                    +'<stop offset="0%" stop-color="#8b5cf6"><animate attributeName="stop-color" values="#8b5cf6;#d946ef;#a78bfa;#8b5cf6" dur="3s" repeatCount="indefinite"/></stop>'
+                    +'<stop offset="50%" stop-color="#d946ef"><animate attributeName="stop-color" values="#d946ef;#a78bfa;#8b5cf6;#d946ef" dur="3s" repeatCount="indefinite"/></stop>'
+                    +'<stop offset="100%" stop-color="#a78bfa"><animate attributeName="stop-color" values="#a78bfa;#8b5cf6;#d946ef;#a78bfa" dur="3s" repeatCount="indefinite"/></stop>'
+                  +'</linearGradient></defs>'
+                +'</svg>'
+                +'<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">'
+                  +'<span style="font-size:2.2rem;font-weight:900;line-height:1;background:linear-gradient(90deg,#8b5cf6,#d946ef,#a78bfa,#8b5cf6);background-size:300% 100%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:iv-score-shimmer 3s ease-in-out infinite">'+overallScore+'</span>'
+                  +'<span style="font-size:0.6rem;font-weight:700;color:#16a34a;margin-top:2px;padding:1px 6px;border-radius:4px;background:#dcfce7">Excellent</span>'
+                +'</div>'
+              +'</div>'
+              +'<h3 style="font-size:0.92rem;font-weight:800;color:#1e1b4b;margin:0 0 4px">Interview Score</h3>'
+              +'<div style="display:flex;align-items:center;justify-content:center;gap:8px">'
+                +'<div style="display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:6px;background:linear-gradient(135deg,#f5f3ff,#ede9fe);border:1px solid #ddd6fe"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg><span style="font-size:0.6rem;font-weight:700;color:#7c3aed">STAR</span></div>'
+                +'<span style="font-size:0.6rem;color:#9ca3af;font-weight:500">3 questions</span>'
+              +'</div>'
+            +'</div>'
+            +starBreakdownHTML
+            +feedbackHTML
+          +'</div>'
+
+        +'</div>'
+      +'</div>'
+    +'</div>';
+}
+
+function nextPhase(){
+  var timings={
+    'setup-idle':['setup-select',1200],
+    'setup-select':['setup-paste',1000],
+    'setup-generating':['questions-list',2400],
+    'questions-ready':['interview-active',1800],
+    'interview-thinking':['results-overall',2000],
+    'results-overall':['results-breakdown',1200],
+    'results-breakdown':['pause',3000]
+  };
+
+  if(phase==='setup-paste'){
+    if(typedChars<JD_TEXT.length){
+      var chars=Math.floor(Math.random()*3)+2;
+      typedChars=Math.min(typedChars+chars,JD_TEXT.length);
+      render();
+      setTimeout(nextPhase,25);
+    }else{
+      render();
+      setTimeout(function(){phase='setup-generating';render();nextPhase();},600);
+    }
+    return;
+  }
+
+  if(phase==='questions-list'){
+    if(visibleQuestions<QUESTIONS.length){
+      visibleQuestions++;
+      render();
+      setTimeout(nextPhase,350);
+    }else{
+      setTimeout(function(){phase='questions-ready';render();nextPhase();},800);
+    }
+    return;
+  }
+
+  if(phase==='questions-ready'&&checkedCount<3){
+    checkedCount++;
+    render();
+    setTimeout(nextPhase,300);
+    return;
+  }
+
+  if(phase==='interview-active'){
+    timerInterval=setInterval(function(){timerSec++;render();},1000);
+    setTimeout(function(){
+      clearInterval(timerInterval);timerInterval=null;
+      phase='interview-thinking';render();nextPhase();
+    },3500);
+    return;
+  }
+
+  if(phase==='pause'){
+    render();
+    setTimeout(function(){
+      phase='setup-idle';typedChars=0;visibleQuestions=0;checkedCount=0;timerSec=0;
+      render();nextPhase();
+    },2000);
+    return;
+  }
+
+  var next=timings[phase];
+  if(next){
+    setTimeout(function(){phase=next[0];render();nextPhase();},next[1]);
+  }
+}
+
+function init(){
+  container=document.getElementById('root');
+  container.style.cssText='width:100%;height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;background:linear-gradient(145deg,#f8f6ff 0%,#ede9fe 30%,#e8e0ff 60%,#f3eeff 100%);font-family:Inter,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;overflow:hidden';
+  inner=document.createElement('div');
+  inner.style.cssText='display:flex;align-items:center;justify-content:center;width:100%;height:100%';
+  container.appendChild(inner);
+  window.addEventListener('resize',function(){render();});
+  render();
+  nextPhase();
+}
+
+if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}else{init();}
+})();
+</script>
 </body>
 </html>
