@@ -245,10 +245,10 @@ function nextPhase(){
     setTimeout(function(){phase='row-added';render();nextPhase();},600);
     return;
   }
-  if(phase==='check-cv'){confettiIndex=0;}
-  if(phase==='check-applied'){confettiIndex=1;}
-  if(phase==='check-shortlisted'){confettiIndex=-1;}
-  if(phase==='check-interview'){confettiIndex=2;}
+  if(phase==='check-cv'){confettiIndex=0;render();}
+  if(phase==='check-applied'){confettiIndex=1;render();}
+  if(phase==='check-shortlisted'){confettiIndex=-1;render();}
+  if(phase==='check-interview'){confettiIndex=2;render();}
 
   if(phase==='pause'){
     render();
@@ -257,7 +257,13 @@ function nextPhase(){
   }
   var next=timings[phase];
   if(next){
-    setTimeout(function(){phase=next[0];render();nextPhase();},next[1]);
+    setTimeout(function(){phase=next[0];
+      if(next[0]==='check-cv')confettiIndex=0;
+      else if(next[0]==='check-applied')confettiIndex=1;
+      else if(next[0]==='check-shortlisted')confettiIndex=-1;
+      else if(next[0]==='check-interview')confettiIndex=2;
+      render();nextPhase();
+    },next[1]);
   }
 }
 
