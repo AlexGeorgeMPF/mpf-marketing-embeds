@@ -14,7 +14,7 @@
   | [Platform Hero](https://alexgeorgempf.github.io/mpf-marketing-embeds/platform-hero.html) | [View](https://alexgeorgempf.github.io/mpf-marketing-embeds/platform-hero.html) | 1100 x 680 |
   | [Interview Simulator](https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-interview-simulator.html) | [View](https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-interview-simulator.html) | 480 x 560 |
   | [Job Search Vibe](https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-job-search-vibe.html) | [View](https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-job-search-vibe.html) | 480 x 560 |
-  | [Application Tracker](https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-application-tracker.html) | [View](https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-application-tracker.html) | 650 x 415 |
+  | [Application Tracker](https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-application-tracker.html) | [View](https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-application-tracker.html) | 800 x 330 |
   | [CV Builder Mobile (Carousel)](https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-cv-builder-mobile.html) | [View](https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-cv-builder-mobile.html) | 480 x 560 |
 
   ## Embed Codes
