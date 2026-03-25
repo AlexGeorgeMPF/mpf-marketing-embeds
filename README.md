@@ -7,7 +7,7 @@
 
   | Animation | Live Preview | Dimensions |
   |-----------|-------------|------------|
-  | [High Vibe Job Card](https://alexgeorgempf.github.io/mpf-marketing-embeds/high-vibe-card.html) | [View](https://alexgeorgempf.github.io/mpf-marketing-embeds/high-vibe-card.html) | 420w auto |
+  | [High Vibe Job Card](https://alexgeorgempf.github.io/mpf-marketing-embeds/high-vibe-card.html) | [View](https://alexgeorgempf.github.io/mpf-marketing-embeds/high-vibe-card.html) | 470 x 220 |
   | [Vibe Setup Animation](https://alexgeorgempf.github.io/mpf-marketing-embeds/vibe-setup.html) | [View](https://alexgeorgempf.github.io/mpf-marketing-embeds/vibe-setup.html) | 440 x 580 |
   | [CV Builder Mobile](https://alexgeorgempf.github.io/mpf-marketing-embeds/cv-builder-mobile.html) | [View](https://alexgeorgempf.github.io/mpf-marketing-embeds/cv-builder-mobile.html) | 480 x 560 |
   | [CV Builder Desktop](https://alexgeorgempf.github.io/mpf-marketing-embeds/cv-desktop-improve.html) | [View](https://alexgeorgempf.github.io/mpf-marketing-embeds/cv-desktop-improve.html) | 900 x 680 |
@@ -22,7 +22,7 @@
 
   ### High Vibe Job Card
   ```html
-  <iframe src="https://alexgeorgempf.github.io/mpf-marketing-embeds/high-vibe-card.html" width="460" height="280" style="border:none;overflow:hidden" scrolling="no" loading="lazy"></iframe>
+  <iframe src="https://alexgeorgempf.github.io/mpf-marketing-embeds/high-vibe-card.html" width="470" height="220" style="border:none;overflow:hidden" scrolling="no" loading="lazy"></iframe>
   ```
 
   ### Vibe Setup Animation
