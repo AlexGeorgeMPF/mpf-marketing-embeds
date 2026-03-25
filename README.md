@@ -1,77 +1,77 @@
-# Marketing Animation Embeds
+# MyPathfinder Marketing Animation Embeds
 
-    Self-contained HTML animation files for the MyPathfinder marketing site.
-    Hosted on GitHub Pages and embedded in Webflow via iframes.
+  Self-contained HTML animation files for the MyPathfinder marketing site.
+  Hosted on GitHub Pages and embedded in Webflow via iframes.
 
-    ## GitHub Pages URLs
+  ## Animations
 
-    | File | GitHub Pages URL | Dimensions |
-    |------|-----------------|------------|
-    | `high-vibe-card.html` | https://alexgeorgempf.github.io/mpf-marketing-embeds/high-vibe-card.html | 420w auto |
-    | `vibe-setup.html` | https://alexgeorgempf.github.io/mpf-marketing-embeds/vibe-setup.html | 440x580 |
-    | `cv-builder-mobile.html` | https://alexgeorgempf.github.io/mpf-marketing-embeds/cv-builder-mobile.html | 480x560 |
-    | `cv-desktop-improve.html` | https://alexgeorgempf.github.io/mpf-marketing-embeds/cv-desktop-improve.html | 900x680 |
-    | `platform-hero.html` | https://alexgeorgempf.github.io/mpf-marketing-embeds/platform-hero.html | 1100x680 |
-    | `carousel-interview-simulator.html` | https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-interview-simulator.html | 480x560 |
-    | `carousel-job-search-vibe.html` | https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-job-search-vibe.html | 480x560 |
-    | `carousel-application-tracker.html` | https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-application-tracker.html | 480x560 |
-    | `carousel-cv-builder-mobile.html` | https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-cv-builder-mobile.html | 480x560 |
+  | Animation | Live Preview | Dimensions |
+  |-----------|-------------|------------|
+  | [High Vibe Job Card](https://alexgeorgempf.github.io/mpf-marketing-embeds/high-vibe-card.html) | [View](https://alexgeorgempf.github.io/mpf-marketing-embeds/high-vibe-card.html) | 420w auto |
+  | [Vibe Setup Animation](https://alexgeorgempf.github.io/mpf-marketing-embeds/vibe-setup.html) | [View](https://alexgeorgempf.github.io/mpf-marketing-embeds/vibe-setup.html) | 440 x 580 |
+  | [CV Builder Mobile](https://alexgeorgempf.github.io/mpf-marketing-embeds/cv-builder-mobile.html) | [View](https://alexgeorgempf.github.io/mpf-marketing-embeds/cv-builder-mobile.html) | 480 x 560 |
+  | [CV Builder Desktop](https://alexgeorgempf.github.io/mpf-marketing-embeds/cv-desktop-improve.html) | [View](https://alexgeorgempf.github.io/mpf-marketing-embeds/cv-desktop-improve.html) | 900 x 680 |
+  | [Platform Hero](https://alexgeorgempf.github.io/mpf-marketing-embeds/platform-hero.html) | [View](https://alexgeorgempf.github.io/mpf-marketing-embeds/platform-hero.html) | 1100 x 680 |
+  | [Interview Simulator](https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-interview-simulator.html) | [View](https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-interview-simulator.html) | 480 x 560 |
+  | [Job Search Vibe](https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-job-search-vibe.html) | [View](https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-job-search-vibe.html) | 480 x 560 |
+  | [Application Tracker](https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-application-tracker.html) | [View](https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-application-tracker.html) | 520 x 520 |
+  | [CV Builder Mobile (Carousel)](https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-cv-builder-mobile.html) | [View](https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-cv-builder-mobile.html) | 480 x 560 |
 
-    ## Webflow Iframe Embed Codes
+  ## Embed Codes
 
-    ### High Vibe Job Card
-    ```html
-    <iframe src="https://alexgeorgempf.github.io/mpf-marketing-embeds/high-vibe-card.html" width="460" height="280" style="border:none;overflow:hidden" scrolling="no" loading="lazy"></iframe>
-    ```
+  ### High Vibe Job Card
+  ```html
+  <iframe src="https://alexgeorgempf.github.io/mpf-marketing-embeds/high-vibe-card.html" width="460" height="280" style="border:none;overflow:hidden" scrolling="no" loading="lazy"></iframe>
+  ```
 
-    ### Vibe Setup Animation
-    ```html
-    <iframe src="https://alexgeorgempf.github.io/mpf-marketing-embeds/vibe-setup.html" width="440" height="620" style="border:none;overflow:hidden" scrolling="no" loading="lazy"></iframe>
-    ```
+  ### Vibe Setup Animation
+  ```html
+  <iframe src="https://alexgeorgempf.github.io/mpf-marketing-embeds/vibe-setup.html" width="440" height="620" style="border:none;overflow:hidden" scrolling="no" loading="lazy"></iframe>
+  ```
 
-    ### CV Builder Mobile
-    ```html
-    <iframe src="https://alexgeorgempf.github.io/mpf-marketing-embeds/cv-builder-mobile.html" width="480" height="600" style="border:none;overflow:hidden" scrolling="no" loading="lazy"></iframe>
-    ```
+  ### CV Builder Mobile
+  ```html
+  <iframe src="https://alexgeorgempf.github.io/mpf-marketing-embeds/cv-builder-mobile.html" width="480" height="600" style="border:none;overflow:hidden" scrolling="no" loading="lazy"></iframe>
+  ```
 
-    ### CV Desktop Improve
-    ```html
-    <iframe src="https://alexgeorgempf.github.io/mpf-marketing-embeds/cv-desktop-improve.html" width="900" height="720" style="border:none;overflow:hidden" scrolling="no" loading="lazy"></iframe>
-    ```
+  ### CV Builder Desktop
+  ```html
+  <iframe src="https://alexgeorgempf.github.io/mpf-marketing-embeds/cv-desktop-improve.html" width="900" height="720" style="border:none;overflow:hidden" scrolling="no" loading="lazy"></iframe>
+  ```
 
-    ### Platform Hero (Full Desktop)
-    ```html
-    <iframe src="https://alexgeorgempf.github.io/mpf-marketing-embeds/platform-hero.html" width="1100" height="720" style="border:none;overflow:hidden" scrolling="no" loading="lazy"></iframe>
-    ```
+  ### Platform Hero
+  ```html
+  <iframe src="https://alexgeorgempf.github.io/mpf-marketing-embeds/platform-hero.html" width="1100" height="720" style="border:none;overflow:hidden" scrolling="no" loading="lazy"></iframe>
+  ```
 
-    ### Carousel: Interview Simulator
-    ```html
-    <iframe src="https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-interview-simulator.html" width="480" height="600" style="border:none;overflow:hidden" scrolling="no" loading="lazy"></iframe>
-    ```
+  ### Interview Simulator
+  ```html
+  <iframe src="https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-interview-simulator.html" width="480" height="600" style="border:none;overflow:hidden" scrolling="no" loading="lazy"></iframe>
+  ```
 
-    ### Carousel: Job Search Vibe
-    ```html
-    <iframe src="https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-job-search-vibe.html" width="480" height="600" style="border:none;overflow:hidden" scrolling="no" loading="lazy"></iframe>
-    ```
+  ### Job Search Vibe
+  ```html
+  <iframe src="https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-job-search-vibe.html" width="480" height="600" style="border:none;overflow:hidden" scrolling="no" loading="lazy"></iframe>
+  ```
 
-    ### Carousel: Application Tracker
-    ```html
-    <iframe src="https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-application-tracker.html" width="480" height="600" style="border:none;overflow:hidden" scrolling="no" loading="lazy"></iframe>
-    ```
+  ### Application Tracker
+  ```html
+  <iframe src="https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-application-tracker.html" width="520" height="520" style="border:none;overflow:hidden" scrolling="no" loading="lazy"></iframe>
+  ```
 
-    ### Carousel: CV Builder Mobile
-    ```html
-    <iframe src="https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-cv-builder-mobile.html" width="480" height="600" style="border:none;overflow:hidden" scrolling="no" loading="lazy"></iframe>
-    ```
+  ### CV Builder Mobile (Carousel)
+  ```html
+  <iframe src="https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-cv-builder-mobile.html" width="480" height="600" style="border:none;overflow:hidden" scrolling="no" loading="lazy"></iframe>
+  ```
 
-    ## GitHub Repository
+  ## Repository
 
-    https://github.com/AlexGeorgeMPF/mpf-marketing-embeds
+  [github.com/alexgeorgempf/mpf-marketing-embeds](https://github.com/alexgeorgempf/mpf-marketing-embeds)
 
-    ## Updating Animations
+  ## Updating Animations
 
-    To update an animation:
-    1. Edit the HTML file in the repository root
-    2. Push the updated file to the GitHub repo
-    3. GitHub Pages will redeploy automatically within ~1 minute
+  1. Edit the source component in the Replit workspace
+  2. Run the standalone build script
+  3. Push the updated HTML file to this repository
+  4. GitHub Pages redeploys automatically within ~1 minute
   
