@@ -12,10 +12,10 @@
   | [CV Builder Mobile](https://alexgeorgempf.github.io/mpf-marketing-embeds/cv-builder-mobile.html) | [View](https://alexgeorgempf.github.io/mpf-marketing-embeds/cv-builder-mobile.html) | 480 x 560 |
   | [CV Builder Desktop](https://alexgeorgempf.github.io/mpf-marketing-embeds/cv-desktop-improve.html) | [View](https://alexgeorgempf.github.io/mpf-marketing-embeds/cv-desktop-improve.html) | 900 x 680 |
   | [Platform Hero](https://alexgeorgempf.github.io/mpf-marketing-embeds/platform-hero.html) | [View](https://alexgeorgempf.github.io/mpf-marketing-embeds/platform-hero.html) | 1100 x 680 |
-  | [Interview Simulator](https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-interview-simulator.html) | [View](https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-interview-simulator.html) | 480 x 560 |
-  | [Job Search Vibe](https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-job-search-vibe.html) | [View](https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-job-search-vibe.html) | 480 x 560 |
-  | [Application Tracker](https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-application-tracker.html) | [View](https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-application-tracker.html) | 520w auto-height |
-  | [CV Builder Mobile (Carousel)](https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-cv-builder-mobile.html) | [View](https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-cv-builder-mobile.html) | 480 x 560 |
+  | [Carousel: Interview Simulator](https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-interview-simulator.html) | [View](https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-interview-simulator.html) | 480 x 560 |
+  | [Carousel: Job Search Vibe](https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-job-search-vibe.html) | [View](https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-job-search-vibe.html) | 480 x 560 |
+  | [Carousel: Application Tracker](https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-application-tracker.html) | [View](https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-application-tracker.html) | 480 x 560 |
+  | [Carousel: CV Builder Mobile](https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-cv-builder-mobile.html) | [View](https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-cv-builder-mobile.html) | 480 x 560 |
 
   ## Embed Codes
 
@@ -44,22 +44,22 @@
   <iframe src="https://alexgeorgempf.github.io/mpf-marketing-embeds/platform-hero.html" width="1100" height="720" style="border:none;overflow:hidden" scrolling="no" loading="lazy"></iframe>
   ```
 
-  ### Interview Simulator
+  ### Carousel: Interview Simulator
   ```html
   <iframe src="https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-interview-simulator.html" width="480" height="600" style="border:none;overflow:hidden" scrolling="no" loading="lazy"></iframe>
   ```
 
-  ### Job Search Vibe
+  ### Carousel: Job Search Vibe
   ```html
   <iframe src="https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-job-search-vibe.html" width="480" height="600" style="border:none;overflow:hidden" scrolling="no" loading="lazy"></iframe>
   ```
 
-  ### Application Tracker
+  ### Carousel: Application Tracker
   ```html
-  <iframe src="https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-application-tracker.html" width="520" height="520" style="border:none;overflow:hidden" scrolling="no" loading="lazy"></iframe>
+  <iframe src="https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-application-tracker.html" width="480" height="600" style="border:none;overflow:hidden" scrolling="no" loading="lazy"></iframe>
   ```
 
-  ### CV Builder Mobile (Carousel)
+  ### Carousel: CV Builder Mobile
   ```html
   <iframe src="https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-cv-builder-mobile.html" width="480" height="600" style="border:none;overflow:hidden" scrolling="no" loading="lazy"></iframe>
   ```
