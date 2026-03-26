@@ -17,6 +17,7 @@
   | [Carousel: Job Search Vibe](https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-job-search-vibe.html) | [View](https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-job-search-vibe.html) | 480 x 560 |
   | [Carousel: Application Tracker](https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-application-tracker.html) | [View](https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-application-tracker.html) | 480 x 560 |
   | [Carousel: CV Builder Mobile](https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-cv-builder-mobile.html) | [View](https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-cv-builder-mobile.html) | 480 x 560 |
+  | [Job Card Fan](https://alexgeorgempf.github.io/mpf-marketing-embeds/job-card-fan.html) | [View](https://alexgeorgempf.github.io/mpf-marketing-embeds/job-card-fan.html) | 520 x 460 |
 
   ## Embed Codes
 
@@ -69,6 +70,11 @@
   ```html
   <iframe src="https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-cv-builder-mobile.html" width="480" height="600" style="border:none;overflow:hidden" scrolling="no" loading="lazy"></iframe>
   ```
+
+  ### Job Card Fan
+    ```html
+    <iframe src="https://alexgeorgempf.github.io/mpf-marketing-embeds/job-card-fan.html" width="520" height="500" style="border:none;overflow:hidden" scrolling="no" loading="lazy"></iframe>
+    ```
 
   ## Repository
 
