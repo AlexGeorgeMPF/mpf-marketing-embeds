@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+@keyframes cvs-fade-in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes cvs-fade-out{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-12px)}}
+@keyframes cvs-pop{0%{transform:scale(0.92);opacity:0}60%{transform:scale(1.04)}100%{transform:scale(1);opacity:1}}
+@keyframes cvs-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes cvs-score-pop{0%{transform:scale(0);opacity:0}50%{transform:scale(1.15)}100%{transform:scale(1);opacity:1}}
+@keyframes cvs-dot-pulse{0%,100%{opacity:0.3}50%{opacity:1}}
+@keyframes cvs-border-shimmer{0%{background-position:100% 50%}100%{background-position:-100% 50%}}
+@keyframes cvs-btn-click{0%{transform:scale(1)}15%{transform:scale(0.75)}45%{transform:scale(1.15)}65%{transform:scale(0.95)}85%{transform:scale(1.05)}100%{transform:scale(1)}}
+@keyframes cvs-btn-glow{0%{box-shadow:0 0 0 0 rgba(34,197,94,0)}30%{box-shadow:0 0 12px 4px rgba(34,197,94,0.5)}70%{box-shadow:0 0 18px 8px rgba(34,197,94,0.25)}100%{box-shadow:0 0 0 0 rgba(34,197,94,0)}}
+@keyframes cvs-ring-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes cvs-hot-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
+@keyframes cvs-hot-shimmer{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+@keyframes cvs-popup-in{0%{opacity:0;transform:translateY(12px) scale(0.92)}100%{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes cvs-row-select{0%{background:#f5f3ff}40%{background:#ede9fe}100%{background:#f5f3ff}}
+@keyframes cvs-check-in{0%{transform:scale(0);opacity:0}50%{transform:scale(1.3)}100%{transform:scale(1);opacity:1}}
+@keyframes cvs-btn-submit{0%{transform:scale(1)}30%{transform:scale(0.92)}60%{transform:scale(1.05)}100%{transform:scale(1)}}
+body{display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:transparent;padding:20px}
+.cvs-shimmer-wrap{border-radius:22px;padding:2px;background:linear-gradient(90deg,hsl(270,80%,55%) 0%,hsl(290,70%,50%) 25%,hsl(250,80%,60%) 50%,hsl(300,80%,70%) 60%,hsl(250,80%,60%) 70%,hsl(290,70%,50%) 85%,hsl(270,80%,55%) 100%);background-size:200% 100%;animation:cvs-border-shimmer 3s ease-in-out infinite}
+</style>
+</head><body>
+<div class="cvs-shimmer-wrap">
+<div id="cvsRoot" style="width:440px;height:580px;border-radius:20px;overflow:hidden;background:#fff;display:flex;flex-direction:column">
+  <div style="background:linear-gradient(135deg,#6d28d9 0%,#4c1d95 50%,#1a0a3e 100%);padding:1.15rem 1.75rem;text-align:center;position:relative;overflow:hidden;flex-shrink:0">
+    <div style="position:absolute;top:-60%;right:-20%;width:300px;height:300px;background:radial-gradient(circle,rgba(186,103,239,0.2) 0%,transparent 70%);pointer-events:none"></div>
+    <div style="display:flex;align-items:center;justify-content:center;gap:0.6rem;position:relative;z-index:1">
+      <div style="width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1rem;flex-shrink:0">📄</div>
+      <h4 style="font-size:1.2rem;font-weight:700;color:#fff;margin:0">CV Suitability Score</h4>
+    </div>
+  </div>
+  <div id="cvsBody" style="flex:1;overflow:hidden;position:relative"></div>
+</div>
+<script>
+(function(){
+var bodyEl=document.getElementById('cvsBody');
+
+var locSvg='<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>';
+var caseSvg='<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>';
+var starSvg='<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>';
+var clockSvg='<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>';
+var sparkSvg='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l1.09 3.26L16 6l-2.91.74L12 10l-1.09-3.26L8 6l2.91-.74L12 2z"/><path d="M5 15l.54 1.63L7 17.17l-1.46.37L5 19.17l-.54-1.63L3 17.17l1.46-.37L5 15z"/><path d="M19 11l.54 1.63L21 13.17l-1.46.37L19 15.17l-.54-1.63L17 13.17l1.46-.37L19 11z"/></svg>';
+var chevDownSvg='<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>';
+var checkSvg='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+
+var jobs=[
+  {company:'NHS England',title:'Clinical Operations Manager',vibeScore:93,vibeLabel:'Hot',location:'Manchester',type:'Full-Time',badge:'Hybrid',salary:'£52,000',posted:'1 day ago',verified:true,
+   cvScore:82,cvLabel:'Strong Match',matchPts:['Clinical management experience aligns strongly with role requirements','NHS sector knowledge and policy understanding demonstrated','Leadership of cross-functional teams matches seniority level'],tips:['Add specific NHS leadership qualifications','Quantify team sizes and budget responsibility'],cvNames:['Healthcare_Ops_CV.pdf','Clinical_Manager_CV.pdf']},
+  {company:'ITV',title:'Head of Content Strategy',vibeScore:94,vibeLabel:'Hot',location:'London (Hybrid)',type:'Full-Time',badge:'Remote',salary:'£78,000',posted:'4 hours ago',verified:false,
+   cvScore:88,cvLabel:'Excellent Match',matchPts:['Strong media strategy and editorial leadership background','Digital content portfolio demonstrates measurable impact','Multi-platform campaign experience is highly relevant','Audience growth metrics show commercial awareness'],tips:['Highlight broadcast-specific audience metrics','Add examples of cross-platform content syndication'],cvNames:['Content_Strategy_CV.pdf','Media_Director_CV.pdf']},
+  {company:'Rolls-Royce',title:'Senior Design Engineer',vibeScore:91,vibeLabel:'Hot',location:'Derby',type:'Full-Time',badge:'Hybrid',salary:'£68,000',posted:'1 day ago',verified:true,
+   cvScore:76,cvLabel:'Strong Match',matchPts:['Solid engineering background with CAD expertise','Systems design and project leadership skills match well','Manufacturing process knowledge aligns with role scope','Technical documentation and standards compliance evidenced'],tips:['Add Chartered Engineer status if applicable','Include specific CAD software proficiency levels'],cvNames:['Design_Engineer_CV.pdf','Engineering_Leadership_CV.pdf']},
+  {company:'Penguin Random House',title:'Editorial Director',vibeScore:87,vibeLabel:'Warm',location:'London',type:'Full-Time',badge:null,salary:'£62,000',posted:'3 days ago',verified:false,
+   cvScore:71,cvLabel:'Good Match',matchPts:['Editorial experience and commissioning background is relevant','Strong written communication clearly demonstrated','Publishing industry knowledge and market awareness shown'],tips:['Quantify titles managed and revenue driven','Add details on author acquisition and list building'],cvNames:['Editorial_Publishing_CV.pdf','Communications_CV.pdf']}
+];
+
+var extraCards=[
+  {company:'Oxfam',title:'Fundraising Coordinator',vibeScore:72,vibeLabel:'Cool',location:'Oxford',type:'Contract',badge:null,salary:'£32,000',posted:'5 days ago',verified:true},
+  {company:'John Lewis',title:'Retail Partnerships Lead',vibeScore:85,vibeLabel:'Warm',location:'London',type:'Full-Time',badge:null,salary:'£55,000',posted:'2 days ago',verified:true},
+  {company:'Barclays',title:'Risk & Compliance Analyst',vibeScore:69,vibeLabel:'Cool',location:'Canary Wharf',type:'Full-Time',badge:null,salary:'£42,000',posted:'1 week ago',verified:false}
+];
+
+var jobIdx=0;
+
+function vibeRingGradient(l){
+  if(l==='Hot') return 'conic-gradient(from 0deg,#f0abfc,#d946ef,#a855f7,#7c3aed,#a855f7,#d946ef,#f0abfc)';
+  if(l==='Warm') return 'conic-gradient(from 0deg,#c4b5fd,#a78bfa,#8b5cf6,#a78bfa,#c4b5fd)';
+  return 'conic-gradient(from 0deg,rgba(199,210,254,0.4),rgba(165,180,252,0.25),rgba(199,210,254,0.4))';
+}
+function vibeNumGrad(l){
+  if(l==='Hot') return 'linear-gradient(135deg,#fff,#f0abfc,#d946ef,#a855f7)';
+  if(l==='Warm') return 'linear-gradient(135deg,#c084fc,#a855f7,#8b5cf6)';
+  return 'linear-gradient(135deg,#a5b4fc,#c7d2fe)';
+}
+function vibeFilter(l){
+  if(l==='Hot') return 'drop-shadow(0 0 10px rgba(217,70,239,0.8)) drop-shadow(0 0 20px rgba(168,85,247,0.5))';
+  if(l==='Warm') return 'drop-shadow(0 0 6px rgba(168,85,247,0.5)) drop-shadow(0 0 12px rgba(139,92,246,0.2))';
+  return 'drop-shadow(0 0 2px rgba(165,180,252,0.2))';
+}
+function accentBar(l){
+  if(l==='Hot') return 'linear-gradient(90deg,#a855f7,#d946ef,#a855f7)';
+  if(l==='Warm') return 'linear-gradient(90deg,#8b5cf6,#a78bfa,#8b5cf6)';
+  return 'linear-gradient(90deg,#a5b4fc,#c7d2fe,#a5b4fc)';
+}
+function tag(icon,text,accent){
+  var ic=icon==='location'?locSvg:icon==='briefcase'?caseSvg:starSvg;
+  var bg=accent?'linear-gradient(135deg,#f5f3ff,#ede9fe)':'#f9fafb';
+  var bc=accent?'#ddd6fe':'#f3f4f6';
+  var col=accent?'#7c3aed':'#6b7280';
+  var fw=accent?'600':'500';
+  return '<span style="display:inline-flex;align-items:center;gap:3px;font-size:0.7rem;font-weight:'+fw+';color:'+col+';background:'+bg+';padding:4px 8px;border-radius:5px;border:1px solid '+bc+'">'+ic+text+'</span>';
+}
+
+function buildCardHtml(j,isFirst){
+  var isHot=j.vibeLabel==='Hot';
+  var ringSpeed=isHot?'1.5s':j.vibeLabel==='Warm'?'5s':'8s';
+  var ringPad=isHot?'2.5px':'2px';
+
+  var h='<div style="position:relative;margin-bottom:10px">';
+  h+='<div style="background:#fff;border-radius:14px;overflow:hidden;border:1px solid #e9e5f5;position:relative">';
+  h+='<div style="position:absolute;top:0;left:0;right:0;height:3px;background:'+accentBar(j.vibeLabel)+';border-radius:14px 14px 0 0"></div>';
+  h+='<div style="padding:14px 16px 12px">';
+
+  h+='<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">';
+  h+='<div style="flex:1;min-width:0">';
+  h+='<div style="display:flex;align-items:center;gap:5px;margin-bottom:3px;flex-wrap:wrap">';
+  h+='<span style="font-size:0.72rem;font-weight:600;color:#6b7280;letter-spacing:-0.01em">'+j.company+'</span>';
+  if(j.verified){
+    h+='<span style="font-size:0.45rem;font-weight:700;color:#7c3aed;background:linear-gradient(135deg,#ede9fe,#f3e8ff);padding:1px 4px;border-radius:3px;letter-spacing:0.02em;border:1px solid #ddd6fe;white-space:nowrap;line-height:1.4">MyPathfinder Verified</span>';
+  }
+  h+='</div>';
+  h+='<h3 style="font-size:0.88rem;font-weight:700;color:#1e1b4b;margin:0;letter-spacing:-0.02em;line-height:1.25">'+j.title+'</h3>';
+  h+='</div>';
+
+  h+='<div style="margin-left:8px;flex-shrink:0;display:flex;align-items:center;gap:6px">';
+
+  var btnId=isFirst?'cvsBtnRing':'';
+  h+='<div'+(btnId?' id="'+btnId+'"':'')+' style="width:38px;height:38px;border-radius:50%;position:relative;display:flex;align-items:center;justify-content:center;cursor:pointer">';
+  h+='<div style="position:absolute;inset:0;border-radius:50%;padding:2px;-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;background:conic-gradient(from 0deg,#86efac,#22c55e,#16a34a,#22c55e,#86efac);animation:cvs-ring-spin 3s linear infinite"></div>';
+  h+='<span style="font-size:0.5rem;font-weight:800;color:#16a34a;letter-spacing:0.02em;position:relative;z-index:1;line-height:1;text-align:center">CV</span>';
+  h+='</div>';
+
+  h+='<div style="width:38px;height:38px;border-radius:50%;position:relative;display:flex;align-items:center;justify-content:center'+(isHot?';animation:cvs-hot-pulse 1.8s ease-in-out infinite':'')+'">';
+  h+='<div style="position:absolute;inset:0;border-radius:50%;padding:'+ringPad+';-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;background:'+vibeRingGradient(j.vibeLabel)+';animation:cvs-ring-spin '+ringSpeed+' linear infinite"></div>';
+  h+='<span style="font-size:0.82rem;font-weight:900;line-height:1;letter-spacing:-0.5px;background-image:'+vibeNumGrad(j.vibeLabel)+';background-size:'+(isHot?'200% 200%':'100% 100%')+';background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent'+(isHot?';animation:cvs-hot-shimmer 2s ease-in-out infinite':'')+';filter:'+vibeFilter(j.vibeLabel)+';position:relative;z-index:1">'+j.vibeScore+'</span>';
+  h+='</div>';
+
+  h+='</div></div>';
+
+  h+='<div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px">';
+  h+=tag('location',j.location,false);
+  h+=tag('briefcase',j.type,false);
+  if(j.badge) h+=tag('star',j.badge,true);
+  h+='</div>';
+
+  h+='<div style="display:flex;justify-content:space-between;align-items:center;padding-top:8px;border-top:1px solid #f3f0fa">';
+  h+='<span style="font-size:0.85rem;font-weight:700;color:#1e1b4b;letter-spacing:-0.02em">'+j.salary+'<span style="font-weight:400;color:#94a3b8;font-size:0.7rem">/yr</span></span>';
+  h+='<span style="display:inline-flex;align-items:center;gap:3px;font-size:0.65rem;font-weight:500;color:#9ca3af">'+clockSvg+j.posted+'</span>';
+  h+='</div>';
+
+  h+='</div></div></div>';
+  return h;
+}
+
+function renderJobCards(j){
+  var extra1=extraCards[(jobIdx)%extraCards.length];
+  var extra2=extraCards[(jobIdx+1)%extraCards.length];
+  var extra3=extraCards[(jobIdx+2)%extraCards.length];
+
+  var h='<div style="padding:10px 14px;animation:cvs-fade-in 0.4s ease both">';
+  h+=buildCardHtml(j,true);
+  h+=buildCardHtml(extra1,false);
+  h+=buildCardHtml(extra2,false);
+  h+=buildCardHtml(extra3,false);
+  h+='</div>';
+  bodyEl.innerHTML=h;
+}
+
+function animateCvButton(){
+  var btn=document.getElementById('cvsBtnRing');
+  if(!btn) return;
+  btn.style.animation='cvs-btn-click 0.5s cubic-bezier(0.34,1.56,0.64,1) both';
+  btn.style.boxShadow='none';
+  requestAnimationFrame(function(){
+    btn.style.animation='cvs-btn-click 0.5s cubic-bezier(0.34,1.56,0.64,1) both, cvs-btn-glow 0.6s ease both';
+  });
+}
+
+function renderCvPicker(j){
+  var cv1=j.cvNames[0];
+  var cv2=j.cvNames[1];
+  var h='<div id="cvsPickerOverlay" style="position:absolute;inset:0;background:rgba(30,27,75,0.4);display:flex;align-items:center;justify-content:center;z-index:10;animation:cvs-fade-in 0.2s ease both">';
+  h+='<div style="background:#fff;border-radius:16px;padding:24px 28px;box-shadow:0 16px 48px rgba(124,58,237,0.25),0 0 0 1px rgba(124,58,237,0.08);width:340px;animation:cvs-popup-in 0.3s cubic-bezier(0.34,1.56,0.64,1) both">';
+
+  h+='<div style="margin-bottom:16px">';
+  h+='<div style="font-size:0.95rem;font-weight:700;color:#1e1b4b;margin-bottom:4px">Select your CV</div>';
+  h+='<div style="font-size:0.72rem;color:#6b7280;font-weight:400">Choose which CV to score against this role</div>';
+  h+='</div>';
+
+  h+='<div style="border:1.5px solid #ddd6fe;border-radius:10px;padding:11px 14px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(135deg,#faf8ff,#f5f3ff);cursor:pointer;margin-bottom:8px">';
+  h+='<div style="display:flex;align-items:center;gap:10px">';
+  h+='<div style="width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,#ede9fe,#ddd6fe);display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="font-size:0.8rem">📄</span></div>';
+  h+='<span style="font-size:0.82rem;font-weight:600;color:#1e1b4b">'+cv1+'</span>';
+  h+='</div>';
+  h+='<span style="color:#7c3aed">'+chevDownSvg+'</span>';
+  h+='</div>';
+
+  h+='<div style="border:1px solid #e9e5f5;border-radius:10px;overflow:hidden;background:#fff;box-shadow:0 4px 16px rgba(124,58,237,0.1);margin-bottom:20px">';
+  h+='<div id="cvsPickerRow1" style="padding:10px 14px;font-size:0.78rem;color:#1e1b4b;font-weight:500;background:#f5f3ff;border-bottom:1px solid #e9e5f5;display:flex;align-items:center;justify-content:space-between;transition:background 0.2s ease">';
+  h+='<div style="display:flex;align-items:center;gap:8px"><div style="width:24px;height:24px;border-radius:6px;background:linear-gradient(135deg,#ede9fe,#ddd6fe);display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="font-size:0.7rem">📄</span></div><span>'+cv1+'</span></div>';
+  h+='<span id="cvsCheckIcon" style="opacity:0;transform:scale(0)">'+checkSvg+'</span>';
+  h+='</div>';
+  h+='<div style="padding:10px 14px;font-size:0.78rem;color:#9ca3af;font-weight:500;display:flex;align-items:center;gap:8px"><div style="width:24px;height:24px;border-radius:6px;background:#f3f4f6;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="font-size:0.7rem">📄</span></div><span>'+cv2+'</span></div>';
+  h+='</div>';
+
+  h+='<button id="cvsScoreBtn" style="width:100%;padding:11px 0;border:none;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff;font-size:0.85rem;font-weight:700;cursor:pointer;letter-spacing:0.01em;box-shadow:0 4px 14px rgba(124,58,237,0.3);transition:transform 0.15s ease">Score my CV</button>';
+
+  h+='</div></div>';
+  bodyEl.insertAdjacentHTML('beforeend',h);
+}
+
+function animateCvSelection(){
+  var row=document.getElementById('cvsPickerRow1');
+  var check=document.getElementById('cvsCheckIcon');
+  if(row){
+    row.style.background='#ede9fe';
+    row.style.animation='cvs-row-select 0.4s ease both';
+  }
+  if(check){
+    check.style.opacity='1';
+    check.style.transform='scale(1)';
+    check.style.animation='cvs-check-in 0.35s cubic-bezier(0.34,1.56,0.64,1) both';
+  }
+}
+
+function animateScoreButton(){
+  var btn=document.getElementById('cvsScoreBtn');
+  if(btn){
+    btn.style.animation='cvs-btn-submit 0.35s cubic-bezier(0.34,1.56,0.64,1) both';
+    btn.style.background='linear-gradient(135deg,#6d28d9,#4c1d95)';
+  }
+}
+
+function renderAnalysing(){
+  bodyEl.innerHTML='<div style="padding:2.5rem 1.75rem;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;animation:cvs-fade-in 0.3s ease both"><div style="width:48px;height:48px;border-radius:50%;border:3px solid #dcfce7;border-top-color:#22c55e;animation:cvs-spin 0.6s linear infinite;margin-bottom:1rem"></div><p style="font-size:0.92rem;font-weight:700;color:#1e1b4b;margin:0 0 0.35rem">Analysing your CV</p><p style="font-size:0.8rem;color:#94a3b8;margin:0 0 0.6rem">Comparing against this role...</p><div style="display:flex;gap:4px;align-items:center"><span style="width:6px;height:6px;border-radius:50%;background:#22c55e;animation:cvs-dot-pulse 0.8s ease-in-out 0s infinite"></span><span style="width:6px;height:6px;border-radius:50%;background:#22c55e;animation:cvs-dot-pulse 0.8s ease-in-out 0.15s infinite"></span><span style="width:6px;height:6px;border-radius:50%;background:#22c55e;animation:cvs-dot-pulse 0.8s ease-in-out 0.3s infinite"></span></div></div>';
+}
+
+function renderScoreReveal(j){
+  var sc=j.cvScore;
+  var scoreCol=sc>=75?'#16a34a':sc>=55?'#7c3aed':sc>=35?'#d97706':'#dc2626';
+  var scoreBg=sc>=75?'linear-gradient(135deg,#f0fdf4,#dcfce7)':sc>=55?'linear-gradient(135deg,#f5f3ff,#ede9fe)':sc>=35?'linear-gradient(135deg,#fffbeb,#fef3c7)':'linear-gradient(135deg,#fef2f2,#fecaca)';
+  var scoreBorder=sc>=75?'#86efac':sc>=55?'#c4b5fd':sc>=35?'#fcd34d':'#fca5a5';
+  var scoreShadow=sc>=75?'rgba(22,163,74,0.15)':sc>=55?'rgba(124,58,237,0.15)':sc>=35?'rgba(217,119,6,0.15)':'rgba(220,38,38,0.15)';
+
+  var h='<div style="padding:12px 14px 8px;animation:cvs-fade-in 0.4s ease both;display:flex;flex-direction:column;height:100%">';
+
+  h+='<div style="background:#fff;border-radius:14px;border:1px solid #e9e5f5;box-shadow:0 8px 24px rgba(124,58,237,0.12);padding:18px 20px;flex:1;display:flex;flex-direction:column">';
+
+  h+='<div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid #f3f0fa">';
+  h+='<div style="width:74px;height:74px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:'+scoreBg+';border:2.5px solid '+scoreBorder+';box-shadow:0 0 16px '+scoreShadow+';flex-shrink:0;animation:cvs-score-pop 0.5s ease both">';
+  h+='<span style="font-size:1.7rem;font-weight:800;line-height:1;color:'+scoreCol+'">'+sc+'</span>';
+  h+='<span style="font-size:0.44rem;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;margin-top:2px;line-height:1;color:'+scoreCol+'">CV Score</span>';
+  h+='</div>';
+  h+='<div style="flex:1;min-width:0">';
+  h+='<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">';
+  h+='<span style="font-size:0.95rem;font-weight:700;color:#4c1d95;animation:cvs-pop 0.4s ease 0.2s both">'+j.cvLabel+'</span>';
+  h+='</div>';
+  h+='<p style="font-size:0.8rem;color:#6b7280;margin:0;line-height:1.4;animation:cvs-pop 0.4s ease 0.35s both">'+j.company+' &middot; '+j.title+'</p>';
+  h+='</div>';
+  h+='</div>';
+
+  h+='<div id="cvsFeedback" style="flex:1"></div>';
+
+  h+='</div></div>';
+  bodyEl.innerHTML=h;
+}
+
+function renderFeedbackItem(j,idx){
+  var fb=document.getElementById('cvsFeedback');
+  if(!fb) return;
+  var totalMatch=j.matchPts.length;
+  var totalTips=j.tips.length;
+  var isMatch=idx<totalMatch;
+  var sc=j.cvScore;
+  var bulletCol=sc>=75?'#16a34a':sc>=55?'#7c3aed':sc>=35?'#d97706':'#dc2626';
+
+  var container=document.createElement('div');
+  var html='';
+
+  if(isMatch){
+    if(idx===0){
+      html+='<div style="font-size:0.8rem;font-weight:800;color:#1e1b4b;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.05em;animation:cvs-pop 0.35s ease both">Match Points</div>';
+    }
+    var text=j.matchPts[idx];
+    html+='<div style="font-size:0.88rem;color:#1e1b4b;margin-bottom:6px;display:flex;align-items:baseline;gap:8px;line-height:1.55;animation:cvs-pop 0.35s ease both">';
+    html+='<span style="color:'+bulletCol+';flex-shrink:0;font-size:0.9rem;line-height:1">&bull;</span>';
+    html+='<span>'+text+'</span>';
+    html+='</div>';
+  } else if(idx===totalMatch){
+    html+='<div style="margin-top:12px;padding-top:12px;border-top:1px solid #f3f0fa;animation:cvs-pop 0.35s ease both">';
+    html+='<div style="background:linear-gradient(135deg,#f5f3ff,#ede9fe);border-radius:10px;padding:14px 16px;border:1px solid #e9e5f5">';
+    html+='<div style="font-size:0.8rem;font-weight:800;color:#7c3aed;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.05em">Tips to Improve</div>';
+    for(var t=0;t<totalTips;t++){
+      html+='<div style="font-size:0.86rem;color:#4c1d95;line-height:1.55;display:flex;gap:7px;margin-bottom:'+(t<totalTips-1?'5px':'0')+'">';
+      html+='<span style="flex-shrink:0;color:#7c3aed;font-weight:600">&rarr;</span>';
+      html+='<span>'+j.tips[t]+'</span>';
+      html+='</div>';
+    }
+    html+='</div></div>';
+  } else if(idx===totalMatch+1){
+    html+='<div style="font-size:0.84rem;color:#7c3aed;font-weight:600;cursor:pointer;margin-top:14px;text-align:center;animation:cvs-pop 0.35s ease both">Try a different CV</div>';
+  }
+
+  container.innerHTML=html;
+  while(container.firstChild){fb.appendChild(container.firstChild);}
+}
+
+function runAnimation(){
+  var j=jobs[jobIdx];
+  jobIdx=(jobIdx+1)%jobs.length;
+
+  renderJobCards(j);
+
+  setTimeout(function(){
+    animateCvButton();
+
+    setTimeout(function(){
+      renderCvPicker(j);
+
+      setTimeout(function(){
+        animateCvSelection();
+
+        setTimeout(function(){
+          animateScoreButton();
+
+          setTimeout(function(){
+            renderAnalysing();
+
+            setTimeout(function(){
+              renderScoreReveal(j);
+
+              var feedbackIdx=0;
+              var totalItems=j.matchPts.length+2;
+              function showNext(){
+                if(feedbackIdx<totalItems){
+                  renderFeedbackItem(j,feedbackIdx);
+                  feedbackIdx++;
+                  setTimeout(showNext,400);
+                } else {
+                  setTimeout(function(){
+                    bodyEl.style.animation='cvs-fade-out 0.4s ease both';
+                    setTimeout(function(){
+                      bodyEl.style.animation='';
+                      runAnimation();
+                    },500);
+                  },2000);
+                }
+              }
+              setTimeout(showNext,1500);
+            },700);
+          },400);
+        },550);
+      },500);
+    },500);
+  },1800);
+}
+
+runAnimation();
+})();
+</script>
+</div>
+</body></html>
