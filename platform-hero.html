@@ -1470,7 +1470,7 @@
       var cr = canvas.getBoundingClientRect();
       moveCursor(r.left - cr.left + r.width + 2, r.top - cr.top + r.height + 2, function() {
         schedule(function() {
-          moveCursor(500, 300, function() {
+          moveCursor(582, 318, function() {
             schedule(function() {
               transitionToScene(1);
             }, 600);
@@ -1727,7 +1727,7 @@
 
               videoPhase.style.opacity = '1';
               videoPhase.style.pointerEvents = 'auto';
-              moveCursor(550, 350, function() {
+              moveCursor(640, 371, function() {
                 schedule(function() {
                   videoPhase.style.opacity = '0';
                   videoPhase.style.pointerEvents = 'none';
@@ -1743,9 +1743,9 @@
                     });
                   }, 300);
 
-                  moveCursor(300, 500, function() {
+                  moveCursor(349, 530, function() {
                     schedule(function() {
-                      moveCursor(700, 500, function() {
+                      moveCursor(815, 530, function() {
                         schedule(function() {
                           var sb = sidebarIcons[4];
                           if (!sb) { transitionToScene(4); return; }
@@ -1772,15 +1772,15 @@
       } else {
         videoPhase.style.opacity = '1';
         videoPhase.style.pointerEvents = 'auto';
-        moveCursor(550, 350, function() {
+        moveCursor(640, 371, function() {
           schedule(function() {
             videoPhase.style.opacity = '0';
             videoPhase.style.pointerEvents = 'none';
             feedbackPhase.style.opacity = '1';
             feedbackPhase.style.pointerEvents = 'auto';
-            moveCursor(300, 500, function() {
+            moveCursor(349, 530, function() {
               schedule(function() {
-                moveCursor(700, 500, function() {
+                moveCursor(815, 530, function() {
                   schedule(function() {
                     var sb = sidebarIcons[4];
                     if (!sb) { transitionToScene(4); return; }
