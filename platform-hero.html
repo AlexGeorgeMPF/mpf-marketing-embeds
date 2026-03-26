@@ -22,8 +22,8 @@
   @keyframes ph-cards-scroll{0%{transform:translateY(0)}100%{transform:translateY(-50%)}}
   @keyframes ph-border-shimmer{0%{background-position:100% 50%}100%{background-position:-100% 50%}}
 
-  .ph-shimmer-wrap{border-radius:20px;padding:2px;background:linear-gradient(90deg,hsl(270,80%,55%) 0%,hsl(290,70%,50%) 25%,hsl(250,80%,60%) 50%,hsl(300,80%,70%) 60%,hsl(250,80%,60%) 70%,hsl(290,70%,50%) 85%,hsl(270,80%,55%) 100%);background-size:200% 100%;animation:ph-border-shimmer 3s ease-in-out infinite;box-shadow:0 25px 50px rgba(91,33,182,0.2),0 12px 24px rgba(0,0,0,0.1)}
-  .ph-canvas{width:1100px;height:680px;border-radius:18px;overflow:hidden;background:#f8f7fc;font-family:'Inter',sans-serif;position:relative;display:flex;flex-direction:column}
+  .ph-shimmer-wrap{border-radius:20px;padding:2px;background:linear-gradient(90deg,hsl(270,80%,55%) 0%,hsl(290,70%,50%) 25%,hsl(250,80%,60%) 50%,hsl(300,80%,70%) 60%,hsl(250,80%,60%) 70%,hsl(290,70%,50%) 85%,hsl(270,80%,55%) 100%);background-size:200% 100%;animation:ph-border-shimmer 3s ease-in-out infinite}
+  .ph-canvas{width:1280px;height:720px;border-radius:18px;overflow:hidden;background:#f8f7fc;font-family:'Inter',sans-serif;position:relative;display:flex;flex-direction:column}
   .ph-top-bar{height:48px;background:#fff;border-bottom:1px solid #e9e5f5;display:flex;align-items:center;padding:0 16px;flex-shrink:0;z-index:10}
   .ph-logo{width:120px;height:auto;margin-right:12px}
   .ph-top-nav{display:flex;gap:2px;margin-left:auto}
@@ -135,21 +135,21 @@
   .ph-improve-btn.active{background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff;border-color:transparent;animation:ph-pulse-glow 2s ease-in-out infinite}
   .ph-improve-banner{display:flex;align-items:center;gap:5px;padding:5px 14px;background:linear-gradient(135deg,#f5f0ff,#ede5ff);border-bottom:1px solid #ddd6fe;font-size:0.62rem;font-weight:500;color:#5b21b6}
   .ph-cv-preview-body{flex:1;overflow:hidden;background:inherit;padding:6px;position:relative;display:flex;justify-content:center}
-  .ph-cv-doc{background:#fff;width:100%;max-width:480px;padding:10px 18px 8px;border-radius:2px;box-shadow:0 1px 4px rgba(0,0,0,0.08);position:relative;font-family:'Arial','Helvetica',sans-serif;font-size:8px;color:#2d2d2d;line-height:1.4;min-height:100%;display:flex;flex-direction:column}
-  .ph-cv-name{font-size:13px;font-weight:700;color:#1a1a1a;text-transform:uppercase;letter-spacing:0.3px;margin-bottom:0;font-family:'Arial','Helvetica',sans-serif}
-  .ph-cv-headline{font-size:8px;font-weight:400;color:#555;margin:0 0 3px}
-  .ph-cv-contact{display:flex;flex-wrap:wrap;gap:2px 8px;font-size:7.5px;color:#444;margin-bottom:4px;padding-bottom:4px;border-bottom:1.5px solid #1a1a1a}
-  .ph-cv-section{margin-bottom:1px}
+  .ph-cv-doc{background:#fff;width:100%;max-width:480px;padding:14px 20px 12px;border-radius:2px;box-shadow:0 1px 4px rgba(0,0,0,0.08);position:relative;font-family:'Arial','Helvetica',sans-serif;font-size:9px;color:#2d2d2d;line-height:1.5;min-height:100%;display:flex;flex-direction:column}
+  .ph-cv-name{font-size:14.5px;font-weight:700;color:#1a1a1a;text-transform:uppercase;letter-spacing:0.3px;margin-bottom:1px;font-family:'Arial','Helvetica',sans-serif}
+  .ph-cv-headline{font-size:9px;font-weight:400;color:#555;margin:0 0 4px}
+  .ph-cv-contact{display:flex;flex-wrap:wrap;gap:3px 10px;font-size:8.5px;color:#444;margin-bottom:6px;padding-bottom:5px;border-bottom:1.5px solid #1a1a1a}
+  .ph-cv-section{margin-bottom:3px}
   .ph-cv-section:last-child{margin-top:0}
-  .ph-cv-section-title{font-size:8px;font-weight:700;color:#1a1a1a;text-transform:uppercase;letter-spacing:0.4px;margin:4px 0 2px;padding-bottom:1px;border-bottom:1px solid #d0d0d0}
-  .ph-cv-entry{margin-bottom:2px}
-  .ph-cv-entry-header{display:flex;justify-content:space-between;align-items:baseline;margin:1px 0 0}
-  .ph-cv-job-title{font-size:8px;font-weight:700;color:#1a1a1a;margin:0}
-  .ph-cv-dates{font-size:7.5px;color:#666;white-space:nowrap;font-weight:400}
-  .ph-cv-company{font-size:8px;font-weight:600;color:#444;font-style:italic;margin:0}
-  .ph-cv-bullets{margin:0 0 2px;padding-left:11px;list-style:disc}
-  .ph-cv-bullets li{font-size:7.5px;line-height:1.35;margin-bottom:0;color:#333}
-  .ph-cv-skills-text{font-size:8px;color:#333;line-height:1.5;margin-top:1px}
+  .ph-cv-section-title{font-size:9px;font-weight:700;color:#1a1a1a;text-transform:uppercase;letter-spacing:0.4px;margin:5px 0 3px;padding-bottom:1px;border-bottom:1px solid #d0d0d0}
+  .ph-cv-entry{margin-bottom:4px}
+  .ph-cv-entry-header{display:flex;justify-content:space-between;align-items:baseline;margin:2px 0 0}
+  .ph-cv-job-title{font-size:9px;font-weight:700;color:#1a1a1a;margin:0}
+  .ph-cv-dates{font-size:8.5px;color:#666;white-space:nowrap;font-weight:400}
+  .ph-cv-company{font-size:9px;font-weight:600;color:#444;font-style:italic;margin:0}
+  .ph-cv-bullets{margin:1px 0 3px;padding-left:13px;list-style:disc}
+  .ph-cv-bullets li{font-size:8.5px;line-height:1.45;margin-bottom:1px;color:#333}
+  .ph-cv-skills-text{font-size:9px;color:#333;line-height:1.6;margin-top:1px}
   .ph-cv-highlight{background:transparent;padding:1px 2px;border-radius:2px;transition:background 0.4s ease}
 
   /* SUGGESTION POPOVER */
@@ -331,7 +331,7 @@
   .ph-iv-typing-cursor{display:inline-block;width:2px;height:1em;background:#a78bfa;animation:ph-blink 0.8s step-end infinite;vertical-align:text-bottom;margin-left:1px}
   .ph-iv-typing-hint{font-size:0.64rem;color:rgba(255,255,255,0.4);margin-top:10px;text-align:center}
   .ph-iv-cards-bg{position:absolute;inset:0;overflow:hidden;opacity:0.20;pointer-events:none}
-  .ph-iv-cards-scroll{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:12px;animation:ph-cards-scroll 18s linear infinite}
+  .ph-iv-cards-scroll{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:12px;animation:ph-cards-scroll 18s linear infinite;will-change:transform;transform:translateZ(0);backface-visibility:hidden}
   .ph-iv-qcard{background:#fff;border:1px solid #e9e5f5;border-radius:1rem;padding:10px 12px;display:flex;flex-direction:column}
   .ph-iv-qcard-badges{display:flex;gap:4px;align-items:center;margin-bottom:6px}
   .ph-iv-qcard-cat{display:inline-flex;align-items:center;gap:3px;padding:2px 6px;border-radius:5px;font-size:0.58rem;font-weight:600;background:#ede9fe;color:#5b21b6}
@@ -418,7 +418,7 @@
   .ph-tracker-table th.center,.ph-tracker-table td.center{text-align:center}
   .ph-tracker-toggle{display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform 0.15s ease}
   .ph-tracker-toggle svg{display:block}
-  .ph-scale-wrap{width:100%;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;background:transparent}
+  .ph-scale-wrap{width:100%;height:100vh;display:flex;align-items:center;justify-content:center;background:transparent;padding:16px;box-sizing:border-box}
   </style>
   </head>
   <body style="margin:0;background:transparent;overflow:hidden">
@@ -757,7 +757,7 @@
             </div>
             <div class="ph-cv-section">
               <div class="ph-cv-section-title">Professional Profile</div>
-              <div style="font-size:7.5px;color:#333;line-height:1.35;margin-top:1px">Results-driven frontend developer with 5+ years of experience building <span class="ph-cv-highlight">scalable web applications using React and TypeScript</span>. Passionate about creating intuitive user experiences and mentoring junior developers.</div>
+              <div style="font-size:8.5px;color:#333;line-height:1.45;margin-top:1px">Results-driven frontend developer with 5+ years of experience building <span class="ph-cv-highlight">scalable web applications using React and TypeScript</span>. Passionate about creating intuitive user experiences and mentoring junior developers.</div>
             </div>
             <div class="ph-cv-section">
               <div class="ph-cv-section-title">Career History</div>
@@ -767,7 +767,7 @@
                   <span class="ph-cv-dates">Jan 2022 – Present</span>
                 </div>
                 <p class="ph-cv-company">TechCorp Ltd</p>
-                <div style="font-size:7.5px;color:#333;line-height:1.35;margin-bottom:1px">Leading frontend architecture and team development for a high-traffic SaaS platform, overseeing migration strategies and component design systems.</div>
+                <div style="font-size:8.5px;color:#333;line-height:1.45;margin-bottom:1px">Leading frontend architecture and team development for a high-traffic SaaS platform, overseeing migration strategies and component design systems.</div>
                 <ul class="ph-cv-bullets">
                   <li>Led migration of legacy jQuery codebase to React 18, improving performance by 40%</li>
                   <li>Mentored 4 junior developers through code reviews and pair programming</li>
@@ -780,7 +780,7 @@
                   <span class="ph-cv-dates">Mar 2019 – Dec 2021</span>
                 </div>
                 <p class="ph-cv-company">StartupHub</p>
-                <div style="font-size:7.5px;color:#333;line-height:1.35;margin-bottom:1px">Delivering user-facing features for a fast-growing fintech startup, focusing on responsive design, payment integrations, and deployment automation.</div>
+                <div style="font-size:8.5px;color:#333;line-height:1.45;margin-bottom:1px">Delivering user-facing features for a fast-growing fintech startup, focusing on responsive design, payment integrations, and deployment automation.</div>
                 <ul class="ph-cv-bullets">
                   <li>Built responsive dashboards serving 50k+ monthly active users</li>
                   <li>Integrated Stripe payments, reducing checkout abandonment by 18%</li>
@@ -793,7 +793,7 @@
                   <span class="ph-cv-dates">Sep 2017 – Feb 2019</span>
                 </div>
                 <p class="ph-cv-company">Digital Agency Co</p>
-                <div style="font-size:7.5px;color:#333;line-height:1.35;margin-bottom:1px">Building bespoke web solutions for SME clients across various sectors, collaborating closely with designers to deliver polished, responsive interfaces.</div>
+                <div style="font-size:8.5px;color:#333;line-height:1.45;margin-bottom:1px">Building bespoke web solutions for SME clients across various sectors, collaborating closely with designers to deliver polished, responsive interfaces.</div>
                 <ul class="ph-cv-bullets">
                   <li>Developed client-facing web apps for 12+ SME clients</li>
                   <li>Collaborated with design team to deliver pixel-perfect UIs</li>
@@ -808,12 +808,12 @@
                   <span class="ph-cv-dates">2015 – 2019</span>
                 </div>
                 <p class="ph-cv-company">University of Manchester</p>
-                <div style="font-size:7.5px;color:#333">First Class Honours</div>
+                <div style="font-size:8.5px;color:#333">First Class Honours</div>
               </div>
             </div>
             <div class="ph-cv-section">
               <div class="ph-cv-section-title">Key Skills</div>
-              <div class="ph-cv-skills-text" id="cv-skills-display">React.js &nbsp;•&nbsp; TypeScript &nbsp;•&nbsp; Node.js &nbsp;•&nbsp; PostgreSQL &nbsp;•&nbsp; Figma &nbsp;•&nbsp; REST APIs &nbsp;•&nbsp; Git</div>
+              <div class="ph-cv-skills-text" id="cv-skills-display" style="visibility:hidden">React.js &nbsp;•&nbsp; TypeScript &nbsp;•&nbsp; Node.js &nbsp;•&nbsp; PostgreSQL &nbsp;•&nbsp; Figma &nbsp;•&nbsp; REST APIs &nbsp;•&nbsp; Git</div>
             </div>
           </div>
 
@@ -1391,7 +1391,7 @@
       if (pop) { pop.style.display = 'none'; pop.style.opacity = '0'; pop.style.animation = ''; }
       if (hl) { hl.style.background = 'transparent'; hl.textContent = originalCvText; }
       var skillsDisp = document.getElementById('cv-skills-display');
-      if (skillsDisp) { skillsDisp.textContent = ''; skillsDisp.innerHTML = originalSkillsText; }
+      if (skillsDisp) { skillsDisp.textContent = ''; skillsDisp.innerHTML = originalSkillsText; skillsDisp.style.visibility = 'hidden'; }
       var suggested = document.querySelectorAll('.ph-cvb-tag.selected');
       suggested.forEach(function(tag) {
         if (tag.textContent.replace('\u00d7','').trim() === 'GraphQL') {
@@ -1620,6 +1620,7 @@
                                   suggested[0].style.border = 'none';
                                   var skillsDisp = document.getElementById('cv-skills-display');
                                   if (skillsDisp) {
+                                    skillsDisp.style.visibility = 'visible';
                                     skillsDisp.innerHTML = originalSkillsText + ' \u00a0\u2022\u00a0 <span style="animation:ph-pop 0.5s cubic-bezier(0.34,1.56,0.64,1) both;display:inline-block">GraphQL</span>';
                                   }
                                   schedule(function() { transitionToScene(2); }, 1500);
@@ -1857,13 +1858,18 @@
   </div>
   <script>
   (function() {
-    var DESIGN_W = 1100;
-    var DESIGN_H = 680;
+    var DESIGN_W = 1280;
+    var DESIGN_H = 720;
+    var SHIMMER_BORDER = 4;
+    var CONTAINER_PAD = 16;
     var wrap = document.getElementById('ph-scale-wrap');
     var shimmer = document.getElementById('ph-shimmer-wrap');
     function applyScale() {
       var ww = wrap.clientWidth;
-      var s = Math.min(ww / (DESIGN_W + 4), 1);
+      var wh = wrap.clientHeight;
+      var sW = (ww - 2 * CONTAINER_PAD) / (DESIGN_W + SHIMMER_BORDER);
+      var sH = wh > 0 ? (wh - 2 * CONTAINER_PAD) / (DESIGN_H + SHIMMER_BORDER) : sW;
+      var s = Math.max(0.1, Math.min(sW, sH));
       shimmer.style.transform = 'scale(' + s + ')';
       shimmer.style.transformOrigin = 'center center';
       shimmer.style.flexShrink = '0';
