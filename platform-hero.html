@@ -22,8 +22,8 @@
   @keyframes ph-cards-scroll{0%{transform:translateY(0)}100%{transform:translateY(-50%)}}
   @keyframes ph-border-shimmer{0%{background-position:100% 50%}100%{background-position:-100% 50%}}
 
-  .ph-shimmer-wrap{border-radius:20px;padding:2px;background:linear-gradient(90deg,hsl(270,80%,55%) 0%,hsl(290,70%,50%) 25%,hsl(250,80%,60%) 50%,hsl(300,80%,70%) 60%,hsl(250,80%,60%) 70%,hsl(290,70%,50%) 85%,hsl(270,80%,55%) 100%);background-size:200% 100%;animation:ph-border-shimmer 3s ease-in-out infinite}
-  .ph-canvas{width:1280px;height:720px;border-radius:18px;overflow:hidden;background:#f8f7fc;font-family:'Inter',sans-serif;position:relative;display:flex;flex-direction:column}
+  .ph-shimmer-wrap{border-radius:20px;padding:2px;background:linear-gradient(90deg,hsl(270,80%,55%) 0%,hsl(290,70%,50%) 25%,hsl(250,80%,60%) 50%,hsl(300,80%,70%) 60%,hsl(250,80%,60%) 70%,hsl(290,70%,50%) 85%,hsl(270,80%,55%) 100%);background-size:200% 100%;animation:ph-border-shimmer 3s ease-in-out infinite;will-change:transform;backface-visibility:hidden;-webkit-backface-visibility:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+  .ph-canvas{width:1280px;height:720px;border-radius:18px;overflow:hidden;background:#f8f7fc;font-family:'Inter',sans-serif;position:relative;display:flex;flex-direction:column;text-rendering:geometricPrecision;image-rendering:-webkit-optimize-contrast;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
   .ph-top-bar{height:48px;background:#fff;border-bottom:1px solid #e9e5f5;display:flex;align-items:center;padding:0 16px;flex-shrink:0;z-index:10}
   .ph-logo{width:120px;height:auto;margin-right:12px}
   .ph-top-nav{display:flex;gap:2px;margin-left:auto}
@@ -1342,6 +1342,8 @@
       pendingTimers = [];
     }
 
+    function s2c(v) { return v / (window.__phScale || 1); }
+
     function moveCursor(x, y, cb) {
       cursor.style.left = x + 'px';
       cursor.style.top = y + 'px';
@@ -1468,9 +1470,9 @@
       if (!sb) return;
       var r = sb.getBoundingClientRect();
       var cr = canvas.getBoundingClientRect();
-      moveCursor(r.left - cr.left + r.width + 2, r.top - cr.top + r.height + 2, function() {
+      moveCursor(s2c(r.left - cr.left + r.width + 2), s2c(r.top - cr.top + r.height + 2), function() {
         schedule(function() {
-          moveCursor(582, 318, function() {
+          moveCursor(640, 360, function() {
             schedule(function() {
               transitionToScene(1);
             }, 600);
@@ -1479,35 +1481,41 @@
       });
     }
 
-    function burstConfetti(x, y) {
-      var colors = ['#8b5cf6', '#a78bfa', '#7c3aed', '#6d28d9', '#c4b5fd'];
-      var count = 14;
-      var cr = canvas.getBoundingClientRect();
-      var px = cr.left + x;
-      var py = cr.top + y;
-      var container = document.createElement('div');
-      container.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:99999;overflow:hidden';
-      document.body.appendChild(container);
+    var confettiLayer = document.createElement('div');
+    confettiLayer.style.cssText = 'position:absolute;top:0;left:0;width:1280px;height:720px;pointer-events:none;z-index:99999;overflow:visible';
+    canvas.appendChild(confettiLayer);
+
+    function burstConfetti(cx, cy) {
+      var colors = ['#8b5cf6', '#a78bfa', '#7c3aed', '#6d28d9', '#c4b5fd', '#fbbf24', '#34d399'];
+      var count = 18;
+      var particles = [];
       for (var i = 0; i < count; i++) {
         var particle = document.createElement('div');
-        var size = Math.random() * 4 + 3;
+        var size = Math.random() * 5 + 4;
         var color = colors[Math.floor(Math.random() * colors.length)];
         var angle = (Math.PI * 2 * i) / count;
-        var velocity = Math.random() * 40 + 30;
+        var velocity = Math.random() * 50 + 35;
         var dx = Math.cos(angle) * velocity;
-        var dy = Math.sin(angle) * velocity - 15;
+        var dy = Math.sin(angle) * velocity - 20;
         var rotation = Math.random() * 360 - 180;
-        particle.style.cssText = 'position:absolute;left:' + px + 'px;top:' + py + 'px;width:' + size + 'px;height:' + size + 'px;background:' + color + ';border-radius:50%;pointer-events:none;opacity:1;transform:translate(0,0) rotate(0deg) scale(1);transition:none';
-        container.appendChild(particle);
-        (function(p, pdx, pdy, prot) {
-          requestAnimationFrame(function() {
-            p.style.transition = 'transform 1s cubic-bezier(.2,.9,.3,1), opacity 1s ease-out';
-            p.style.transform = 'translate(' + pdx + 'px, ' + (pdy + 30) + 'px) rotate(' + prot + 'deg) scale(0)';
-            p.style.opacity = '0';
-          });
-        })(particle, dx, dy, rotation);
+        particle.style.cssText = 'position:absolute;left:' + cx + 'px;top:' + cy + 'px;width:' + size + 'px;height:' + size + 'px;background:' + color + ';border-radius:50%;pointer-events:none;opacity:1;transform:translate(0,0) rotate(0deg) scale(1);transition:none';
+        confettiLayer.appendChild(particle);
+        particles.push({el: particle, dx: dx, dy: dy, rot: rotation});
       }
-      schedule(function() { if (container.parentNode) container.parentNode.removeChild(container); }, 1100);
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          particles.forEach(function(p) {
+            p.el.style.transition = 'transform 0.9s cubic-bezier(.2,.9,.3,1), opacity 0.9s ease-out';
+            p.el.style.transform = 'translate(' + p.dx + 'px, ' + (p.dy + 35) + 'px) rotate(' + p.rot + 'deg) scale(0)';
+            p.el.style.opacity = '0';
+          });
+        });
+      });
+      setTimeout(function() {
+        particles.forEach(function(p) {
+          if (p.el.parentNode) p.el.parentNode.removeChild(p.el);
+        });
+      }, 1200);
     }
 
     function activateToggle(id, cb) {
@@ -1515,9 +1523,11 @@
       if (!el) { if (cb) cb(); return; }
       var cr = canvas.getBoundingClientRect();
       var r = el.getBoundingClientRect();
-      moveCursor(r.left - cr.left + r.width / 2, r.top - cr.top + r.height / 2, function() {
+      var canvasX = s2c(r.left - cr.left + r.width / 2);
+      var canvasY = s2c(r.top - cr.top + r.height / 2);
+      moveCursor(canvasX, canvasY, function() {
         el.innerHTML = toggleCheckedSvg;
-        burstConfetti(r.left - cr.left + r.width / 2, r.top - cr.top + r.height / 2);
+        burstConfetti(canvasX, canvasY);
         if (cb) schedule(cb, 250);
       });
     }
@@ -1567,12 +1577,12 @@
       schedule(function() {
         if (!tabSkills) return;
         var tr = tabSkills.getBoundingClientRect();
-        moveThenClick(tr.left - cr.left + tr.width / 2, tr.top - cr.top + tr.height / 2, function() {
+        moveThenClick(s2c(tr.left - cr.left + tr.width / 2), s2c(tr.top - cr.top + tr.height / 2), function() {
           switchToSkillsTab();
           schedule(function() {
             var br = improveBtn.getBoundingClientRect();
             schedule(function() {
-              moveCursor(br.left - cr.left + br.width / 2, br.top - cr.top + br.height + 4, function() {
+              moveCursor(s2c(br.left - cr.left + br.width / 2), s2c(br.top - cr.top + br.height + 4), function() {
                 improveBtn.classList.add('active');
                 improveBtn.classList.remove('ph-improve-click');
                 void improveBtn.offsetWidth;
@@ -1582,8 +1592,8 @@
                   var hl = document.querySelector('.ph-cv-highlight');
                   if (!hl) return;
                   var hlr = hl.getBoundingClientRect();
-                  var scalableX = hlr.left - cr.left + 30;
-                  var scalableY = hlr.top - cr.top + hlr.height / 2;
+                  var scalableX = s2c(hlr.left - cr.left + 30);
+                  var scalableY = s2c(hlr.top - cr.top + hlr.height / 2);
                   moveCursor(scalableX, scalableY, function() {
                     schedule(function() {
                       hl.style.background = 'rgba(250,204,21,0.6)';
@@ -1599,7 +1609,7 @@
                           var addBtn = document.querySelector('.ph-sp-add');
                           if (!addBtn) return;
                           var abr = addBtn.getBoundingClientRect();
-                          moveThenClick(abr.left - cr.left + abr.width / 2, abr.top - cr.top + abr.height / 2, function() {
+                          moveThenClick(s2c(abr.left - cr.left + abr.width / 2), s2c(abr.top - cr.top + abr.height / 2), function() {
                             schedule(function() {
                               pop.style.opacity = '0';
                               schedule(function() { pop.style.display = 'none'; }, 300);
@@ -1611,7 +1621,7 @@
                               if (suggested.length > 0) {
                                 schedule(function() {
                                 var sr = suggested[0].getBoundingClientRect();
-                                moveThenClick(sr.left - cr.left + 15, sr.top - cr.top + 8, function() {
+                                moveThenClick(s2c(sr.left - cr.left + 15), s2c(sr.top - cr.top + 8), function() {
                                   suggested[0].classList.remove('suggested');
                                   suggested[0].classList.add('selected');
                                   suggested[0].innerHTML = suggested[0].textContent.replace('+ ','').trim() + ' <span class="x">\u00d7</span>';
@@ -1656,7 +1666,7 @@
         var cards = document.querySelectorAll('.ph-jcard');
         if (cards.length === 0) { schedule(function() { transitionToScene(3); }, 1500); return; }
         var jcr = cards[0].getBoundingClientRect();
-        moveCursor(jcr.left - cr.left + 80, jcr.top - cr.top + 40, function() {
+        moveCursor(s2c(jcr.left - cr.left + 80), s2c(jcr.top - cr.top + 40), function() {
           schedule(function() {
             clickEffect(cards[0]);
             if (!overlay) { schedule(function() { transitionToScene(3); }, 1500); return; }
@@ -1670,7 +1680,7 @@
               if (!cvMatchBtn) { schedule(function() { transitionToScene(3); }, 1500); return; }
               var btnR = cvMatchBtn.getBoundingClientRect();
               var crNow = canvas.getBoundingClientRect();
-              moveThenClick(btnR.left - crNow.left + 40, btnR.top - crNow.top + 10, function() {
+              moveThenClick(s2c(btnR.left - crNow.left + 40), s2c(btnR.top - crNow.top + 10), function() {
                 if (matchResult) matchResult.classList.add('visible');
                 schedule(function() {
                   if (matchLoading) matchLoading.style.display = 'none';
@@ -1727,7 +1737,7 @@
 
               videoPhase.style.opacity = '1';
               videoPhase.style.pointerEvents = 'auto';
-              moveCursor(640, 371, function() {
+              moveCursor(640, 360, function() {
                 schedule(function() {
                   videoPhase.style.opacity = '0';
                   videoPhase.style.pointerEvents = 'none';
@@ -1743,15 +1753,15 @@
                     });
                   }, 300);
 
-                  moveCursor(349, 530, function() {
+                  moveCursor(350, 500, function() {
                     schedule(function() {
-                      moveCursor(815, 530, function() {
+                      moveCursor(900, 500, function() {
                         schedule(function() {
                           var sb = sidebarIcons[4];
                           if (!sb) { transitionToScene(4); return; }
                           var cr2 = canvas.getBoundingClientRect();
                           var sr2 = sb.getBoundingClientRect();
-                          moveThenClick(sr2.left - cr2.left + sr2.width + 2, sr2.top - cr2.top + sr2.height + 2, function() {
+                          moveThenClick(s2c(sr2.left - cr2.left + sr2.width + 2), s2c(sr2.top - cr2.top + sr2.height + 2), function() {
                             cancelAllTimers();
                             resetInterviewScene();
                             resetJobsScene();
@@ -1772,21 +1782,21 @@
       } else {
         videoPhase.style.opacity = '1';
         videoPhase.style.pointerEvents = 'auto';
-        moveCursor(640, 371, function() {
+        moveCursor(640, 360, function() {
           schedule(function() {
             videoPhase.style.opacity = '0';
             videoPhase.style.pointerEvents = 'none';
             feedbackPhase.style.opacity = '1';
             feedbackPhase.style.pointerEvents = 'auto';
-            moveCursor(349, 530, function() {
+            moveCursor(350, 500, function() {
               schedule(function() {
-                moveCursor(815, 530, function() {
+                moveCursor(900, 500, function() {
                   schedule(function() {
                     var sb = sidebarIcons[4];
                     if (!sb) { transitionToScene(4); return; }
                     var cr2 = canvas.getBoundingClientRect();
                     var sr2 = sb.getBoundingClientRect();
-                    moveThenClick(sr2.left - cr2.left + sr2.width + 2, sr2.top - cr2.top + sr2.height + 2, function() {
+                    moveThenClick(s2c(sr2.left - cr2.left + sr2.width + 2), s2c(sr2.top - cr2.top + sr2.height + 2), function() {
                       cancelAllTimers();
                       resetInterviewScene();
                       resetJobsScene();
@@ -1818,7 +1828,7 @@
       if (!sb) return;
       var cr = canvas.getBoundingClientRect();
       var sr = sb.getBoundingClientRect();
-      moveThenClick(sr.left - cr.left + sr.width + 2, sr.top - cr.top + sr.height + 2, function() {
+      moveThenClick(s2c(sr.left - cr.left + sr.width + 2), s2c(sr.top - cr.top + sr.height + 2), function() {
         resetJobsScene();
         resetInterviewScene();
         resetTrackerScene();
@@ -1857,6 +1867,7 @@
   </div>
   </div>
   <script>
+  window.__phScale = 1;
   (function() {
     var DESIGN_W = 1280;
     var DESIGN_H = 720;
@@ -1870,6 +1881,8 @@
       var sW = (ww - 2 * CONTAINER_PAD) / (DESIGN_W + SHIMMER_BORDER);
       var sH = wh > 0 ? (wh - 2 * CONTAINER_PAD) / (DESIGN_H + SHIMMER_BORDER) : sW;
       var s = Math.max(0.1, Math.min(sW, sH));
+      s = Math.round(s * 200) / 200;
+      window.__phScale = s;
       shimmer.style.transform = 'scale(' + s + ')';
       shimmer.style.transformOrigin = 'center center';
       shimmer.style.flexShrink = '0';
