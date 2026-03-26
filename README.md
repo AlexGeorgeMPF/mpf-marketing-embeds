@@ -77,7 +77,12 @@
     <iframe src="https://alexgeorgempf.github.io/mpf-marketing-embeds/job-card-fan.html" width="520" height="500" style="border:none;overflow:hidden" scrolling="no" loading="lazy"></iframe>
     ```
 
-  ## Repository
+  ### CV Suitability Score
+    ```html
+    <iframe src="https://alexgeorgempf.github.io/mpf-marketing-embeds/cv-scoring.html" width="440" height="620" style="border:none;overflow:hidden" scrolling="no" loading="lazy"></iframe>
+    ```
+
+    ## Repository
 
   [github.com/alexgeorgempf/mpf-marketing-embeds](https://github.com/alexgeorgempf/mpf-marketing-embeds)
 
