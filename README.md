@@ -18,6 +18,7 @@
   | [Carousel: Application Tracker](https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-application-tracker.html) | [View](https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-application-tracker.html) | 480 x 560 |
   | [Carousel: CV Builder Mobile](https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-cv-builder-mobile.html) | [View](https://alexgeorgempf.github.io/mpf-marketing-embeds/carousel-cv-builder-mobile.html) | 480 x 560 |
   | [Job Card Fan](https://alexgeorgempf.github.io/mpf-marketing-embeds/job-card-fan.html) | [View](https://alexgeorgempf.github.io/mpf-marketing-embeds/job-card-fan.html) | 520 x 460 |
+  | [CV Suitability Score](https://alexgeorgempf.github.io/mpf-marketing-embeds/cv-scoring.html) | [View](https://alexgeorgempf.github.io/mpf-marketing-embeds/cv-scoring.html) | 440 x 580 |
 
   ## Embed Codes
 
